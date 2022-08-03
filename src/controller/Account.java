@@ -66,7 +66,7 @@ public class Account {
                 lines++;
             }
             reader.close();
-            String data = ++id + "," + userName + "," + password + "," + fullName + "," + phoneNumber;
+            String data = ++id + "," + userName + "," + password + "," + fullName + "," + phoneNumber + "," + new DateAndTime().getDateAndTime();
 
             try {
                 /*
@@ -119,38 +119,6 @@ public class Account {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        return false;
-    }
-
-    public boolean write(){
-        try {
-            /*
-             * @param userName: to check the duplicate userName because userName is only unique */
-            ArrayList<String> readUserNames = new ArrayList<>();
-            ArrayList<String> db = new ArrayList<>();
-            FileWriter csvFile = new FileWriter("users.txt", true);
-
-            db.add(this.toString());
-
-            String[] data = Read.readSpecificColumn(1, "users.txt", ",");
-
-            for(int i = 0; i < data.length; i++){
-                readUserNames.add(data[i]);
-            }
-            for(int i = 0; i < db.size(); i++){
-                // Check the duplicated of userName
-                if(!readUserNames.contains(userName)){
-                    csvFile.append(String.valueOf(db.get(i)));
-                    csvFile.append("\n");
-
-                    return true;
-                }
-            }
-            csvFile.close();
-        }catch (Exception e){
-            e.getStackTrace();
-        }
-
         return false;
     }
 
