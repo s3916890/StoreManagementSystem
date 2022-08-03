@@ -5,7 +5,6 @@ import lib.OptionInput;
 import lib.crud.read.Read;
 
 import java.io.IOException;
-import java.util.Scanner;
 
 public class Menu {
     public void view() throws IOException {
@@ -48,5 +47,4 @@ public class Menu {
             }
         }
     }
-
 }
