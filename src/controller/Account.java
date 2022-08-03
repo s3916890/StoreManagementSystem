@@ -1,6 +1,5 @@
 package controller;
 
-import lib.counting.Counting;
 import lib.crud.read.ReadSpecificColumn;
 import lib.hashing.Hashing;
 import lib.time.DateAndTime;
@@ -37,36 +36,55 @@ public class Account {
 
     /** This method is to view the register form after receiving the result from model*/
     public void register(String userName, String password, String fullName, String phoneNumber) throws IOException {
-        Account account = new Account(userName, password, fullName, phoneNumber);
-        System.out.println(account.getUserName());
-        System.out.println(account.getPassword());
-        System.out.println(account.getFullName());
-        System.out.println(account.getPhoneNumber());
-
 //        System.out.println("===================================================================== User Registration Form =====================================================================");
-//        app.model.register.Model user = new app.model.register.Model();
-//        user.register();
+
         BufferedReader reader = new BufferedReader(new FileReader("users.txt"));
         int lines = 0;
         while (reader.readLine() != null){
             if(lines == 0){
-                Counting.increment(id);
+                ++id;
                 lines++;
             }
             else{
-                Counting.increment(id);
+                ++id;
             }
             lines++;
         }
         reader.close();
+        String data = ++id + "," + userName + "," + password + "," + fullName + "," + phoneNumber;
 
+        try {
+            /*
+             * @param userName: to check the duplicate userName because userName is only unique */
+            ArrayList<String> readUserNames = new ArrayList<>();
+            ArrayList<String> db = new ArrayList<>();
+            FileWriter csvFile = new FileWriter("users.txt", true);
 
-        this.write();
+            db.add(data);
 
-//        this.write();
+            String[] userNameData = ReadSpecificColumn.readSpecificColumn(1, "users.txt", ",");
+
+            for(int i = 0; i < userNameData.length; i++){
+                readUserNames.add(userNameData[i]);
+            }
+
+            String attributes = "ID,Username,Password,FullName,PhoneNumber";
+            csvFile.append(String.valueOf(attributes));
+            csvFile.append("\n");
+            for(int i = 0; i < db.size(); i++){
+                // Check the duplicated of userName
+                if(!readUserNames.contains(userName)){
+                    csvFile.append(String.valueOf(db.get(i)));
+                    csvFile.append("\n");
+                }
+            }
+            csvFile.close();
+        }catch (Exception e){
+            e.getStackTrace();
+        }
     }
 
-    public void write(){
+    public boolean write(){
         try {
             /*
              * @param userName: to check the duplicate userName because userName is only unique */
@@ -83,15 +101,19 @@ public class Account {
             }
             for(int i = 0; i < db.size(); i++){
                 // Check the duplicated of userName
-                if(!userName.contains(this.getUserName())){
+                if(!readUserNames.contains(userName)){
                     csvFile.append(String.valueOf(db.get(i)));
                     csvFile.append("\n");
+
+                    return true;
                 }
             }
             csvFile.close();
         }catch (Exception e){
             e.getStackTrace();
         }
+
+        return false;
     }
 
     public String userNameInput(){
@@ -113,7 +135,6 @@ public class Account {
         System.out.print("Password: ");
         String password = sc.nextLine();
         String hashingPassword = Hashing.hashing(password);
-        System.out.println(hashingPassword);
 
         while(!this.validatePassword(password)){
             System.out.println("Invalid password, try again !!!!");
