@@ -1,10 +1,12 @@
 package controller;
 
 import lib.crud.read.ReadSpecificColumn;
-import lib.hashing.Hashing;
+import lib.crud.read.ReadSpecificLine;
 import lib.time.DateAndTime;
 
 import java.io.*;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.regex.Matcher;
@@ -35,14 +37,16 @@ public class Account {
     }
 
     /** This method is to view the register form after receiving the result from model*/
-    public void register(String userName, String password, String fullName, String phoneNumber) throws IOException {
+    public boolean register(String userName, String password, String fullName, String phoneNumber) throws IOException {
 //        System.out.println("===================================================================== User Registration Form =====================================================================");
-
+        String attributes = "ID,Username,Password,FullName,PhoneNumber";
         BufferedReader reader = new BufferedReader(new FileReader("users.txt"));
+        FileWriter csvFile = new FileWriter("users.txt", true);
         int lines = 0;
         while (reader.readLine() != null){
             if(lines == 0){
-                ++id;
+                csvFile.append(attributes);
+                csvFile.append("\n");
                 lines++;
             }
             else{
@@ -58,7 +62,6 @@ public class Account {
              * @param userName: to check the duplicate userName because userName is only unique */
             ArrayList<String> readUserNames = new ArrayList<>();
             ArrayList<String> db = new ArrayList<>();
-            FileWriter csvFile = new FileWriter("users.txt", true);
 
             db.add(data);
 
@@ -67,10 +70,6 @@ public class Account {
             for(int i = 0; i < userNameData.length; i++){
                 readUserNames.add(userNameData[i]);
             }
-
-            String attributes = "ID,Username,Password,FullName,PhoneNumber";
-            csvFile.append(String.valueOf(attributes));
-            csvFile.append("\n");
             for(int i = 0; i < db.size(); i++){
                 // Check the duplicated of userName
                 if(!readUserNames.contains(userName)){
@@ -82,6 +81,32 @@ public class Account {
         }catch (Exception e){
             e.getStackTrace();
         }
+
+        return false;
+    }
+
+    public void login(String userName, String password) throws IOException {
+
+    }
+
+    public boolean verifyLogin(String userName, String password, String filePath, String delimiter){
+        String hashing = this.hashing(password);
+        String currentLine;
+        String data[];
+        try{
+            FileReader fr = new FileReader(filePath);
+            BufferedReader br = new BufferedReader(fr);
+
+            while((currentLine = br.readLine()) != null){
+                data = currentLine.split(delimiter);
+                if(data[1].equals(userName) && data[2].equals(hashing)){
+                    return true;
+                }
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return false;
     }
 
     public boolean write(){
@@ -134,7 +159,7 @@ public class Account {
         Scanner sc = new Scanner(System.in);
         System.out.print("Password: ");
         String password = sc.nextLine();
-        String hashingPassword = Hashing.hashing(password);
+        String hashingPassword = this.hashing(password);
 
         while(!this.validatePassword(password)){
             System.out.println("Invalid password, try again !!!!");
@@ -142,6 +167,23 @@ public class Account {
             password = sc.nextLine();
         }
         return hashingPassword;
+    }
+
+    public String hashing(String data){
+        try{
+            MessageDigest messageDigest = MessageDigest.getInstance("MD5");
+            messageDigest.update(data.getBytes());
+            byte[] resultByteArr = messageDigest.digest();
+            StringBuilder sb = new StringBuilder();
+
+            for(byte b: resultByteArr){
+                sb.append(String.format("%02x", b));
+            }
+            return sb.toString();
+        }catch (NoSuchAlgorithmException e){
+            e.printStackTrace();
+        }
+        return "";
     }
 
     public String fullNameInput(){
