@@ -42,11 +42,16 @@ public class Account {
         String attributes = "ID,Username,Password,FullName,PhoneNumber";
         BufferedReader reader = new BufferedReader(new FileReader("users.txt"));
         FileWriter csvFile = new FileWriter("users.txt", true);
+
+        if(reader.readLine() == null){
+            csvFile.append(attributes);
+            csvFile.append("\n");
+        }
+
         int lines = 0;
         while (reader.readLine() != null){
             if(lines == 0){
-                csvFile.append(attributes);
-                csvFile.append("\n");
+                ++id;
                 lines++;
             }
             else{
