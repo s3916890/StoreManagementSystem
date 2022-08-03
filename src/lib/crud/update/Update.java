@@ -1,6 +1,6 @@
 package lib.crud.update;
 
-import lib.crud.read.ReadAllLine;
+import lib.crud.read.Read;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -12,7 +12,7 @@ public class Update {
     private static Scanner x;
 
     public void updatePrice(String filePath, int productID, String data, String newData) throws IOException{
-        ReadAllLine line = new ReadAllLine();
+        Read line = new Read();
         ArrayList<String[]> Product = line.read(filePath);
         FileWriter csvFile = new FileWriter(filePath, true);
 

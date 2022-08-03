@@ -1,8 +1,8 @@
 package controller;
 
-import lib.crud.read.ReadSpecificColumn;
-import lib.crud.read.ReadSpecificLine;
+import lib.crud.read.Read;
 import lib.time.DateAndTime;
+import view.Menu;
 
 import java.io.*;
 import java.security.MessageDigest;
@@ -70,7 +70,7 @@ public class Account {
 
             db.add(data);
 
-            String[] userNameData = ReadSpecificColumn.readSpecificColumn(1, "users.txt", ",");
+            String[] userNameData = Read.readSpecificColumn(1, "users.txt", ",");
 
             for(int i = 0; i < userNameData.length; i++){
                 readUserNames.add(userNameData[i]);
@@ -124,7 +124,7 @@ public class Account {
 
             db.add(this.toString());
 
-            String[] data = ReadSpecificColumn.readSpecificColumn(1, "users.txt", ",");
+            String[] data = Read.readSpecificColumn(1, "users.txt", ",");
 
             for(int i = 0; i < data.length; i++){
                 readUserNames.add(data[i]);
@@ -146,7 +146,7 @@ public class Account {
         return false;
     }
 
-    public String userNameInput(){
+    public String userNameRegisterInput(){
         ArrayList<String> userNameDB = this.getAllUserName();
         Scanner sc = new Scanner(System.in);
         System.out.print("Username: ");
@@ -160,7 +160,24 @@ public class Account {
         return userName;
     }
 
-    public String passwordInput(){
+    public String userNameLoginInput() throws IOException {
+        ArrayList<String> userNameDB = this.getAllUserName();
+        Menu menu = new Menu();
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Username: ");
+        String userName = sc.nextLine();
+
+
+        while(!this.validateUserName(userName) || !userNameDB.contains(userName)){
+            System.out.println("The username does not exist, please sign up !!!!");
+            menu.view();
+        }
+        this.setUserName(userName);
+
+        return userName;
+    }
+
+    public String passwordRegisterInput(){
         Scanner sc = new Scanner(System.in);
         System.out.print("Password: ");
         String password = sc.nextLine();
@@ -172,6 +189,14 @@ public class Account {
             password = sc.nextLine();
         }
         return hashingPassword;
+    }
+
+    public String passwordLoginInput(){
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Password: ");
+        String password = sc.nextLine();
+        this.setPassword(password);
+        return password;
     }
 
     public String hashing(String data){
@@ -218,7 +243,7 @@ public class Account {
     }
 
     public static ArrayList<String> getAllUserName(){
-        String[] readUserName = ReadSpecificColumn.readSpecificColumn(1, "users.txt", ",");
+        String[] readUserName = Read.readSpecificColumn(1, "users.txt", ",");
         ArrayList<String> checkUserName = new ArrayList<>();
 
         for(int i = 0; i < readUserName.length; i++){
@@ -229,7 +254,7 @@ public class Account {
     }
 
     public static ArrayList<String> getAllFullName(){
-        String[] readFullName = ReadSpecificColumn.readSpecificColumn(3, "users.txt", ",");
+        String[] readFullName = Read.readSpecificColumn(3, "users.txt", ",");
         ArrayList<String> checkFullName = new ArrayList<>();
 
         for(int i = 0; i < readFullName.length; i++){
@@ -240,7 +265,7 @@ public class Account {
     }
 
     public static ArrayList<String> getAllPhoneNumber(){
-        String[] readPhoneNumber = ReadSpecificColumn.readSpecificColumn(4, "users.txt", ",");
+        String[] readPhoneNumber = Read.readSpecificColumn(4, "users.txt", ",");
         ArrayList<String> checkPhoneNumber = new ArrayList<>();
 
         for(int i = 0; i < readPhoneNumber.length; i++){
@@ -295,6 +320,26 @@ public class Account {
     }
 
     public String getPhoneNumber() {return phoneNumber;}
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public static void setId(int id) {
+        Account.id = id;
+    }
 
     @Override
     public String toString() {

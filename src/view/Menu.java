@@ -2,7 +2,7 @@ package view;
 
 import controller.Account;
 import lib.OptionInput;
-import lib.crud.read.ReadSpecificLine;
+import lib.crud.read.Read;
 
 import java.io.IOException;
 import java.util.Scanner;
@@ -21,20 +21,20 @@ public class Menu {
 
         switch (option) {
             case "1" -> {
-                user.register(user.userNameInput(), user.passwordInput(), user.fullNameInput(), user.phoneNumberInput());
+                user.register(user.userNameRegisterInput(), user.passwordRegisterInput(), user.fullNameInput(), user.phoneNumberInput());
                 new VisitOrNot().view();
             }
             case "2" -> {
                 boolean isLogged = false;
                 System.out.println("Login Status: "+ isLogged);
-                if(user.verifyLogin(user.userNameInput(), user.passwordInput(), "users.txt", ",")){
-                    String[] data = ReadSpecificLine.getSpecificLine(user.userNameInput(), 1, "users.txt", ",");
+                if(user.verifyLogin(user.userNameLoginInput(), user.passwordLoginInput(), "users.txt", ",")){
+                    String[] data = Read.getSpecificLine(user.getUserName(), 1, "users.txt", ",");
                     System.out.println("\nUsername: " + data[1] + "\nFull name: " + data[3] + "\nPhone-number: " + data[4]);
                     isLogged = true;
                 }
                 else{
                     System.out.println("Wrong password, try again bro !!!!");
-                    user.login(user.userNameInput(), user.passwordInput());
+                    user.login(user.userNameLoginInput(), user.passwordLoginInput());
                 }
                 System.out.println("Login Status: " + isLogged);
             }
