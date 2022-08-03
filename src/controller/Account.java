@@ -2,6 +2,7 @@ package controller;
 
 import lib.crud.read.Read;
 import lib.time.DateAndTime;
+
 import view.Menu;
 
 import java.io.*;
@@ -13,14 +14,19 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Account {
+
     public enum MembershipCategories{
         Silver,
         Gold,
         Platinum;
     }
+
     private String userName;
+
     private String password;
+
     private String fullName;
+
     private String phoneNumber;
 
     public Account(String userName, String password, String fullName, String phoneNumber) {
@@ -39,53 +45,55 @@ public class Account {
     /** This method is to view the register form after receiving the result from model*/
     public boolean register(String userName, String password, String fullName, String phoneNumber) throws IOException {
 //        System.out.println("===================================================================== User Registration Form =====================================================================");
-        String attributes = "ID,Username,Password,FullName,PhoneNumber";
-        BufferedReader reader = new BufferedReader(new FileReader("users.txt"));
-        FileWriter csvFile = new FileWriter("users.txt", true);
+            String attributes = "ID,Username,Password,FullName,PhoneNumber";
+            BufferedReader reader = new BufferedReader(new FileReader("users.txt"));
+            FileWriter csvFile = new FileWriter("users.txt", true);
 
-        if(reader.readLine() == null){
-            csvFile.append(attributes);
-            csvFile.append("\n");
-        }
+            if(reader.readLine() == null){
+                csvFile.append(attributes);
+                csvFile.append("\n");
+            }
 
-        int lines = 0;
-        while (reader.readLine() != null){
-            if(lines == 0){
-                ++id;
+            int lines = 0;
+            while (reader.readLine() != null){
+                if(lines == 0){
+                    ++id;
+                    lines++;
+                }
+                else{
+                    ++id;
+                }
                 lines++;
             }
-            else{
-                ++id;
-            }
-            lines++;
-        }
-        reader.close();
-        String data = ++id + "," + userName + "," + password + "," + fullName + "," + phoneNumber;
+            reader.close();
+            String data = ++id + "," + userName + "," + password + "," + fullName + "," + phoneNumber;
 
-        try {
-            /*
-             * @param userName: to check the duplicate userName because userName is only unique */
-            ArrayList<String> readUserNames = new ArrayList<>();
-            ArrayList<String> db = new ArrayList<>();
+            try {
+                /*
+                 * @param userName: to check the duplicate userName because userName is only unique */
+                ArrayList<String> readUserNames = new ArrayList<>();
+                ArrayList<String> db = new ArrayList<>();
 
-            db.add(data);
+                db.add(data);
 
-            String[] userNameData = Read.readSpecificColumn(1, "users.txt", ",");
+                String[] userNameData = Read.readSpecificColumn(1, "users.txt", ",");
 
-            for(int i = 0; i < userNameData.length; i++){
-                readUserNames.add(userNameData[i]);
-            }
-            for(int i = 0; i < db.size(); i++){
-                // Check the duplicated of userName
-                if(!readUserNames.contains(userName)){
-                    csvFile.append(String.valueOf(db.get(i)));
-                    csvFile.append("\n");
+                for(int i = 0; i < userNameData.length; i++){
+                    readUserNames.add(userNameData[i]);
                 }
+
+                for(int i = 0; i < db.size(); i++){
+                    // Check the duplicated of userName
+                    if(!readUserNames.contains(userName)){
+                        csvFile.append(String.valueOf(db.get(i)));
+                        csvFile.append("\n");
+                    }
+                }
+
+                csvFile.close();
+            }catch (Exception e){
+                e.getStackTrace();
             }
-            csvFile.close();
-        }catch (Exception e){
-            e.getStackTrace();
-        }
 
         return false;
     }
@@ -149,6 +157,7 @@ public class Account {
     public String userNameRegisterInput(){
         ArrayList<String> userNameDB = this.getAllUserName();
         Scanner sc = new Scanner(System.in);
+
         System.out.print("Username: ");
         String userName = sc.nextLine();
 
@@ -157,6 +166,7 @@ public class Account {
             System.out.print("Username: ");
             userName = sc.nextLine();
         }
+
         return userName;
     }
 
@@ -167,11 +177,11 @@ public class Account {
         System.out.print("Username: ");
         String userName = sc.nextLine();
 
-
         while(!this.validateUserName(userName) || !userNameDB.contains(userName)){
             System.out.println("The username does not exist, please sign up !!!!");
             menu.view();
         }
+
         this.setUserName(userName);
 
         return userName;
@@ -311,16 +321,6 @@ public class Account {
         return userName;
     }
 
-    public String getPassword() {
-        return this.password;
-    }
-
-    public String getFullName() {
-        return fullName;
-    }
-
-    public String getPhoneNumber() {return phoneNumber;}
-
     public void setUserName(String userName) {
         this.userName = userName;
     }
@@ -329,25 +329,4 @@ public class Account {
         this.password = password;
     }
 
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public static void setId(int id) {
-        Account.id = id;
-    }
-
-    @Override
-    public String toString() {
-        return  ++id + "," +
-                this.getUserName() + "," +
-                this.getPassword() + "," +
-                this.getFullName() + "," +
-                this.getPhoneNumber() + "," +
-                new DateAndTime().getDateAndTime();
-    }
 }
