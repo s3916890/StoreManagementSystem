@@ -1,2 +1,0 @@
-ID,Username,Password,FullName,PhoneNumber
-1,test123,e8997d60e4498dfe198665fe8344abbd,Phuc,0909150472,14:42 (04-08-2022)
