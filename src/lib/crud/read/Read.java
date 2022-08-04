@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class Read {
-    public static ArrayList<String[]> read(String filePath) throws IOException {
+    public static ArrayList<String[]> readAllLine(String filePath) throws IOException {
         FileReader fr = new FileReader(filePath);
         BufferedReader br = new BufferedReader(fr);
         String currentLine;

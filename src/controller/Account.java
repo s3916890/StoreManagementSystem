@@ -65,8 +65,8 @@ public class Account {
                 }
                 lines++;
             }
-            reader.close();
-            String data = ++id + "," + userName + "," + password + "," + fullName + "," + phoneNumber + "," + new DateAndTime().getDateAndTime();
+        String data = ++id + "," + userName + "," + password + "," + fullName + "," + phoneNumber + "," + new DateAndTime().getDateAndTime();
+        reader.close();
 
             try {
                 /*
@@ -89,7 +89,6 @@ public class Account {
                         csvFile.append("\n");
                     }
                 }
-
                 csvFile.close();
             }catch (Exception e){
                 e.getStackTrace();

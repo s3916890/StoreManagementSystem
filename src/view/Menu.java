@@ -21,7 +21,11 @@ public class Menu {
         switch (option) {
             case "1" -> {
                 user.register(user.userNameRegisterInput(), user.passwordRegisterInput(), user.fullNameInput(), user.phoneNumberInput());
-                new VisitOrNot().view();
+                if(user.verifyLogin(user.userNameLoginInput(), user.passwordLoginInput(),"users.txt", ",")){
+                    String[] data = Read.getSpecificLine(user.getUserName(), 1, "users.txt", ",");
+                    System.out.println("\nUsername: " + data[1] + "\nFull name: " + data[3] + "\nPhone-number: " + data[4]);
+                    System.out.println("Login Status: "+ true);
+                }
             }
             case "2" -> {
                 boolean isLogged = false;
