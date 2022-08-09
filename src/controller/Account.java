@@ -4,6 +4,7 @@ import lib.crud.CreateFileTxt;
 import lib.crud.Read;
 import lib.DateAndTime;
 
+import lib.crud.Write;
 import view.Menu;
 
 import java.io.*;
@@ -48,22 +49,22 @@ public class Account{
 
     /** This method is to view the register form after receiving the result from model*/
     public void register(String userName, String password, String fullName, String phoneNumber, Long totalSpending) throws IOException {
-        BufferedReader reader = new BufferedReader(new FileReader("users.txt"));
         String attributes = "ID,Username,Password,FullName,PhoneNumber,TotalSpending,TypeOfMemberShip,Date&Time";
-
         FileWriter csvFile = new FileWriter("users.txt", true);
-
-        int lines = 0;
+        int lines = 1;
+        BufferedReader reader = new BufferedReader(new FileReader("users.txt"));
 
         if(reader.readLine() == null){
+            csvFile.append("\n");
             csvFile.append(attributes);
             csvFile.append("\n");
+            lines++;
         }
 
         while (reader.readLine() != null){
-            if(lines == 0){
-                ++id;
+            if(lines == 1){
                 lines++;
+                id = lines;
             }
             else{
                 ++id;
@@ -154,12 +155,12 @@ public class Account{
     }
 
     public String userNameRegisterInput() throws IOException {
-        ArrayList<String> userNameDB = this.getAllUserName();
         Scanner sc = new Scanner(System.in);
 
         System.out.print("Username: ");
         String userName = sc.nextLine();
 
+        ArrayList<String> userNameDB = this.getAllUserName();
         while(!this.validateUserName(userName) || userNameDB.contains(userName)){
             System.out.println("This username is already exist or invalid username, try again !!!!");
             System.out.print("Username: ");
@@ -170,11 +171,12 @@ public class Account{
     }
 
     public String userNameLoginInput() throws IOException {
-        ArrayList<String> userNameDB = this.getAllUserName();
         Menu menu = new Menu();
         Scanner sc = new Scanner(System.in);
         System.out.print("Username: ");
         String userName = sc.nextLine();
+
+        ArrayList<String> userNameDB = this.getAllUserName();
 
         while(!this.validateUserName(userName) || !userNameDB.contains(userName)){
             System.out.println("The username does not exist, please sign up !!!!");
@@ -265,24 +267,24 @@ public class Account{
     }
 
     public static ArrayList<String> getAllUserName() throws IOException {
-
         File file = new File("users.txt");
         if(!file.exists()){
             file.createNewFile();
+            String attributes = "ID,Username,Password,FullName,PhoneNumber,TotalSpending,TypeOfMemberShip,Date&Time";
+            FileWriter csvFile = new FileWriter(file.getName(), true);
+            BufferedReader reader = new BufferedReader(new FileReader(file.getName()));
+
+            if(reader.readLine() == null){
+                csvFile.append(attributes);
+                csvFile.append("\n");
+            }
+            reader.close();
+            csvFile.close();
         }
-
-        BufferedReader reader = new BufferedReader(new FileReader("users.txt"));
-
-
-        if(reader.readLine() == null){
-            return new ArrayList<String>();
-        }
-
-
-        String[] readUserName = Read.readSpecificColumn(1, "users.txt", ",");
         ArrayList<String> checkUserName = new ArrayList<>();
+        String[] readUserName = Read.readSpecificColumn(1, file.getName(), ",");
 
-        if(readUserName.length == 0) {
+        if(file.length() == 0) {
             return new ArrayList<String>();
         }
 
@@ -290,7 +292,6 @@ public class Account{
             checkUserName.add(readUserName[i]);
         }
 
-        reader.close();
         return checkUserName;
     }
 

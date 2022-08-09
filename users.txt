@@ -1,0 +1,3 @@
+ID,Username,Password,FullName,PhoneNumber,TotalSpending,TypeOfMemberShip,Date&Time
+1,40.karma,e8997d60e4498dfe198665fe8344abbd,Phuc,0909150472,5000000000,Platinum,16:35 (09-08-2022)
+2,40.son,e8997d60e4498dfe198665fe8344abbd,Phuc,0909150472,5000000000,Platinum,16:35 (09-08-2022)
