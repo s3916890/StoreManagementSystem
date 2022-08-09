@@ -1,10 +1,4 @@
-import controller.Account;
-import lib.crud.Write;
 import view.Menu;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 
 public class Main {
