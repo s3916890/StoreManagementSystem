@@ -51,18 +51,11 @@ public class Account{
     public void register(String userName, String password, String fullName, String phoneNumber, Long totalSpending) throws IOException {
         String attributes = "ID,Username,Password,FullName,PhoneNumber,TotalSpending,TypeOfMemberShip,Date&Time";
         FileWriter csvFile = new FileWriter("users.txt", true);
-        int lines = 1;
+        int lines = 0;
         BufferedReader reader = new BufferedReader(new FileReader("users.txt"));
 
-        if(reader.readLine() == null){
-            csvFile.append("\n");
-            csvFile.append(attributes);
-            csvFile.append("\n");
-            lines++;
-        }
-
         while (reader.readLine() != null){
-            if(lines == 1){
+            if(lines == 0){
                 lines++;
                 id = lines;
             }
@@ -71,6 +64,7 @@ public class Account{
             }
             lines++;
         }
+
         String typeOfMemberShip = getTypeOfMemberShip(totalSpending);
         String registerTime = new DateAndTime().getDateAndTime();
 
