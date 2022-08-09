@@ -49,7 +49,6 @@ public class Account{
 
     /** This method is to view the register form after receiving the result from model*/
     public void register(String userName, String password, String fullName, String phoneNumber, Long totalSpending) throws IOException {
-        String attributes = "ID,Username,Password,FullName,PhoneNumber,TotalSpending,TypeOfMemberShip,Date&Time";
         FileWriter csvFile = new FileWriter("users.txt", true);
         int lines = 0;
         BufferedReader reader = new BufferedReader(new FileReader("users.txt"));
