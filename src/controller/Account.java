@@ -1,5 +1,6 @@
 package controller;
 
+import lib.crud.CreateFileTxt;
 import lib.crud.Read;
 import lib.DateAndTime;
 
@@ -47,14 +48,13 @@ public class Account{
 
     /** This method is to view the register form after receiving the result from model*/
     public void register(String userName, String password, String fullName, String phoneNumber, Long totalSpending) throws IOException {
+        BufferedReader reader = new BufferedReader(new FileReader("users.txt"));
         String attributes = "ID,Username,Password,FullName,PhoneNumber,TotalSpending,TypeOfMemberShip,Date&Time";
 
         FileWriter csvFile = new FileWriter("users.txt", true);
 
         int lines = 0;
-        BufferedReader reader = new BufferedReader(new FileReader("users.txt"));
 
-        System.out.println(reader.readLine());
         if(reader.readLine() == null){
             csvFile.append(attributes);
             csvFile.append("\n");
@@ -153,14 +153,14 @@ public class Account{
         return false;
     }
 
-    public String userNameRegisterInput(){
+    public String userNameRegisterInput() throws IOException {
+        ArrayList<String> userNameDB = this.getAllUserName();
         Scanner sc = new Scanner(System.in);
 
         System.out.print("Username: ");
         String userName = sc.nextLine();
 
-        ArrayList<String> userNameDB = this.getAllUserName();
-        while(!this.validateUserName(userName)){
+        while(!this.validateUserName(userName) || userNameDB.contains(userName)){
             System.out.println("This username is already exist or invalid username, try again !!!!");
             System.out.print("Username: ");
             userName = sc.nextLine();
@@ -264,17 +264,33 @@ public class Account{
         return totalSpending;
     }
 
-    public static ArrayList<String> getAllUserName(){
+    public static ArrayList<String> getAllUserName() throws IOException {
+
+        File file = new File("users.txt");
+        if(!file.exists()){
+            file.createNewFile();
+        }
+
+        BufferedReader reader = new BufferedReader(new FileReader("users.txt"));
+
+
+        if(reader.readLine() == null){
+            return new ArrayList<String>();
+        }
+
+
         String[] readUserName = Read.readSpecificColumn(1, "users.txt", ",");
         ArrayList<String> checkUserName = new ArrayList<>();
 
-        if(readUserName.length == 0)
+        if(readUserName.length == 0) {
             return new ArrayList<String>();
+        }
 
         for(int i = 0; i < readUserName.length; i++){
             checkUserName.add(readUserName[i]);
         }
 
+        reader.close();
         return checkUserName;
     }
 

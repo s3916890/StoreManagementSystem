@@ -3,7 +3,7 @@ package lib.crud;
 import java.io.File;
 
 public class CreateFileTxt{
-    public File path(String direct)  {
+    public static File path(String direct)  {
 
         boolean success = false;
 
