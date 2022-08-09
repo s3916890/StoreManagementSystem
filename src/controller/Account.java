@@ -259,20 +259,11 @@ public class Account{
         return totalSpending;
     }
 
-    public static ArrayList<String> getAllUserName() throws IOException {
+    public ArrayList<String> getAllUserName() throws IOException {
         File file = new File("users.txt");
         if(!file.exists()){
             file.createNewFile();
-            String attributes = "ID,Username,Password,FullName,PhoneNumber,TotalSpending,TypeOfMemberShip,Date&Time";
-            FileWriter csvFile = new FileWriter(file.getName(), true);
-            BufferedReader reader = new BufferedReader(new FileReader(file.getName()));
-
-            if(reader.readLine() == null){
-                csvFile.append(attributes);
-                csvFile.append("\n");
-            }
-            reader.close();
-            csvFile.close();
+            this.appendAttributesToFile();
         }
         ArrayList<String> checkUserName = new ArrayList<>();
         String[] readUserName = Read.readSpecificColumn(1, file.getName(), ",");
@@ -288,7 +279,21 @@ public class Account{
         return checkUserName;
     }
 
-    public static ArrayList<String> getAllFullName(){
+    public void appendAttributesToFile() throws IOException {
+        File file = new File("users.txt");
+        String attributes = "ID,Username,Password,FullName,PhoneNumber,TotalSpending,TypeOfMemberShip,Date&Time";
+        FileWriter csvFile = new FileWriter(file.getName(), true);
+        BufferedReader reader = new BufferedReader(new FileReader(file.getName()));
+
+        if(reader.readLine() == null){
+            csvFile.append(attributes);
+            csvFile.append("\n");
+        }
+        reader.close();
+        csvFile.close();
+    }
+
+    public ArrayList<String> getAllFullName(){
         String[] readFullName = Read.readSpecificColumn(3, "users.txt", ",");
         ArrayList<String> checkFullName = new ArrayList<>();
 
@@ -302,7 +307,7 @@ public class Account{
         return checkFullName;
     }
 
-    public static ArrayList<String> getAllPhoneNumber(){
+    public ArrayList<String> getAllPhoneNumber(){
         String[] readPhoneNumber = Read.readSpecificColumn(4, "users.txt", ",");
         ArrayList<String> checkPhoneNumber = new ArrayList<>();
 
