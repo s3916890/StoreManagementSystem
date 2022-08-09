@@ -12,8 +12,7 @@ public class Update {
     private static Scanner x;
 
     public void updatePrice(String filePath, int productID, String data, String newData) throws IOException{
-        Read line = new Read();
-        ArrayList<String[]> Product = line.read(filePath);
+        ArrayList<String[]> Product = Read.readAllLine(filePath);
         FileWriter csvFile = new FileWriter(filePath, true);
 
         for (int i = 0; i < Product.size(); i++) {
