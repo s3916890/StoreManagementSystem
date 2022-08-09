@@ -1,7 +1,10 @@
 package controller;
 
-import lib.crud.read.Read;
-import lib.time.DateAndTime;
+import lib.OptionInput;
+import lib.algorithm.search.BoyerMoore;
+import lib.crud.CreateFileTxt;
+import lib.crud.Read;
+import lib.DateAndTime;
 
 import view.Menu;
 
@@ -9,11 +12,12 @@ import java.io.*;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Account {
+public class Account{
 
     public enum MembershipCategories{
         Silver,
@@ -29,72 +33,104 @@ public class Account {
 
     private String phoneNumber;
 
-    public Account(String userName, String password, String fullName, String phoneNumber) {
+    private Long totalSpending;
+
+    public Account(String userName, String password, String fullName, String phoneNumber, Long totalSpending) {
         this.userName = userName;
         this.password = password;
         this.fullName = fullName;
         this.phoneNumber = phoneNumber;
+        this.totalSpending = totalSpending;
     }
 
-    private static int id = 0;
+    private static int id = 1;
 
     public Account() {
 
     }
 
     /** This method is to view the register form after receiving the result from model*/
-    public boolean register(String userName, String password, String fullName, String phoneNumber) throws IOException {
-//        System.out.println("===================================================================== User Registration Form =====================================================================");
-            String attributes = "ID,Username,Password,FullName,PhoneNumber";
-            BufferedReader reader = new BufferedReader(new FileReader("users.txt"));
-            FileWriter csvFile = new FileWriter("users.txt", true);
+    public void register(String userName, String password, String fullName, String phoneNumber, Long totalSpending) throws IOException {
+        String attributes = "ID,Username,Password,FullName,PhoneNumber,TotalSpending,TypeOfMemberShip,Date&Time";
 
-            if(reader.readLine() == null){
-                csvFile.append(attributes);
-                csvFile.append("\n");
-            }
+        FileWriter csvFile = new FileWriter("users.csv", true);
 
-            int lines = 0;
-            while (reader.readLine() != null){
-                if(lines == 0){
-                    ++id;
-                    lines++;
-                }
-                else{
-                    ++id;
-                }
+        int lines = 0;
+        BufferedReader reader = new BufferedReader(new FileReader("users.csv"));
+
+        System.out.println(reader.readLine());
+        if(reader.readLine() == null){
+            csvFile.append(attributes);
+            csvFile.append("\n");
+        }
+
+        while (reader.readLine() != null){
+            if(lines == 0){
+                ++id;
                 lines++;
             }
-        String data = ++id + "," + userName + "," + password + "," + fullName + "," + phoneNumber + "," + new DateAndTime().getDateAndTime();
+            else{
+                ++id;
+            }
+            lines++;
+        }
+        String typeOfMemberShip = getTypeOfMemberShip(totalSpending);
+        String registerTime = new DateAndTime().getDateAndTime();
+
+        String obj =
+                id + "," +
+                        userName + "," +
+                        password + "," +
+                        fullName + "," +
+                        phoneNumber + "," +
+                        totalSpending + "," +
+                        typeOfMemberShip + "," +
+                        registerTime;
         reader.close();
 
-            try {
-                /*
-                 * @param userName: to check the duplicate userName because userName is only unique */
-                ArrayList<String> readUserNames = new ArrayList<>();
-                ArrayList<String> db = new ArrayList<>();
+        try {
+            /*
+             * @param userName: to check the duplicate userName because userName is only unique */
+            ArrayList<String> readUserNames = new ArrayList<>();
+            ArrayList<String> db = new ArrayList<>();
 
-                db.add(data);
+            db.add(obj);
 
-                String[] userNameData = Read.readSpecificColumn(1, "users.txt", ",");
+            String[] userNameData = Read.readSpecificColumn(1, "users.txt", ",");
 
-                for(int i = 0; i < userNameData.length; i++){
-                    readUserNames.add(userNameData[i]);
-                }
-
-                for(int i = 0; i < db.size(); i++){
-                    // Check the duplicated of userName
-                    if(!readUserNames.contains(userName)){
-                        csvFile.append(String.valueOf(db.get(i)));
-                        csvFile.append("\n");
-                    }
-                }
-                csvFile.close();
-            }catch (Exception e){
-                e.getStackTrace();
+            for(int i = 0; i < userNameData.length; i++){
+                readUserNames.add(userNameData[i]);
             }
 
-        return false;
+            for(int i = 0; i < db.size(); i++){
+                // Check the duplicated of userName
+                if(!readUserNames.contains(userName)){
+                    csvFile.append(String.valueOf(db.get(i)));
+                    csvFile.append("\n");
+                }
+            }
+            csvFile.close();
+        }catch (Exception e){
+            e.getStackTrace();
+        }
+    }
+
+    public String getTypeOfMemberShip(Long totalSpending){
+        String typeOfMemberShip = "";
+
+        if (totalSpending > 5000000) {
+            typeOfMemberShip = MembershipCategories.Silver.name();
+        }
+        if(totalSpending > 10000000){
+            typeOfMemberShip = MembershipCategories.Gold.name();
+        }
+        if(totalSpending > 25000000){
+            typeOfMemberShip = MembershipCategories.Platinum.name();
+        }
+        else{
+            typeOfMemberShip = "Trial";
+        }
+        return typeOfMemberShip;
     }
 
     public void login(String userName, String password) throws IOException {
@@ -219,9 +255,25 @@ public class Account {
         return phoneNumber;
     }
 
+    public Long totalSpendingInput(){
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Total spending: ");
+        Long totalSpending = sc.nextLong();
+
+        while(!this.validateNumber(totalSpending)){
+            System.out.println("Invalid number, try again !!!!");
+                System.out.print("Total spending: ");
+            totalSpending = sc.nextLong();
+        }
+        return totalSpending;
+    }
+
     public static ArrayList<String> getAllUserName(){
         String[] readUserName = Read.readSpecificColumn(1, "users.txt", ",");
         ArrayList<String> checkUserName = new ArrayList<>();
+
+        if(readUserName.length == 0)
+            return new ArrayList<String>();
 
         for(int i = 0; i < readUserName.length; i++){
             checkUserName.add(readUserName[i]);
@@ -234,6 +286,9 @@ public class Account {
         String[] readFullName = Read.readSpecificColumn(3, "users.txt", ",");
         ArrayList<String> checkFullName = new ArrayList<>();
 
+        if(readFullName.length == 0)
+            return new ArrayList<String>();
+
         for(int i = 0; i < readFullName.length; i++){
             checkFullName.add(readFullName[i]);
         }
@@ -244,6 +299,9 @@ public class Account {
     public static ArrayList<String> getAllPhoneNumber(){
         String[] readPhoneNumber = Read.readSpecificColumn(4, "users.txt", ",");
         ArrayList<String> checkPhoneNumber = new ArrayList<>();
+
+        if(readPhoneNumber.length == 0)
+            return new ArrayList<String>();
 
         for(int i = 0; i < readPhoneNumber.length; i++){
             checkPhoneNumber.add(readPhoneNumber[i]);
@@ -282,6 +340,135 @@ public class Account {
         Pattern pattern = Pattern.compile(CONFIG_RULE);
         Matcher matcher = pattern.matcher(phoneNumber);
         return matcher.matches();
+    }
+
+    public boolean validateNumber(final Long number) {
+        String CONFIG_RULE =
+                "[0-9]+";
+        Pattern pattern = Pattern.compile(CONFIG_RULE);
+        Matcher matcher = pattern.matcher(number.toString());
+        return matcher.matches();
+    }
+
+    public void viewMemberSearchingResult(String userCookies) throws IOException {
+        String[] category = Read.readSpecificColumn(1, "products.txt", ",");
+        Menu homepage = new Menu();
+        category =  Arrays.stream(category).distinct().toArray(String[]::new);
+
+        String option= OptionInput.input();
+
+        ArrayList<String[]> matchResult = new ArrayList<>(this.getMatchResult(category[0]).size());
+
+
+        switch (option){
+            case "1" -> {
+                matchResult = this.getMatchResult(category[0]);
+            }
+            case "2" -> {
+                matchResult = this.getMatchResult(category[1]);
+            }
+            case "3" -> {
+                matchResult = this.getMatchResult(category[2]);
+            }
+            case "4" -> {
+                matchResult = this.getMatchResult(category[3]);
+            }
+            case "5" -> {
+                matchResult = this.getMatchResult(category[4]);
+            }
+            case "6" -> {
+                matchResult = this.getMatchResult(category[5]);
+            }
+            case "7" -> {
+                homepage.viewHomepage(userCookies);
+            }
+            case "8" -> {
+                System.exit(1);
+            }
+        }
+        if(matchResult.size() == 0){
+            System.out.println("Sorry, there is no found result");
+        }
+
+        if(matchResult.size() > 0){
+            System.out.println("\n===================================================================== Available Searching Products !!! =====================================================================");
+            System.out.printf("%30s %30s %40s %25s %40s%n", "Item", "|", "Color", "|", "Price($)");
+            System.out.printf("%s%n", "----------------------------------------------------------------------------------------------------------------------------------------------------------");
+
+            for(int i = 0; i < matchResult.size(); i++){
+                System.out.printf("%30s %25s %10s %25s %10s%n",matchResult.get(i)[2], "|", matchResult.get(i)[3], "|",matchResult.get(i)[4]);
+            }
+        }
+    }
+
+    public void viewUserSearchingResult() throws IOException {
+        String[] category = Read.readSpecificColumn(1, "products.txt", ",");
+        Menu menu = new Menu();
+        category =  Arrays.stream(category).distinct().toArray(String[]::new);
+
+        System.out.println(Arrays.toString(category));
+
+        String option= OptionInput.input();
+
+        ArrayList<String[]> matchResult = new ArrayList<>(this.getMatchResult(category[0]).size());
+
+
+        switch (option){
+            case "1" -> {
+                matchResult = this.getMatchResult(category[0]);
+            }
+            case "2" -> {
+                matchResult = this.getMatchResult(category[1]);
+            }
+            case "3" -> {
+                matchResult = this.getMatchResult(category[2]);
+            }
+            case "4" -> {
+                matchResult = this.getMatchResult(category[3]);
+            }
+            case "5" -> {
+                matchResult = this.getMatchResult(category[4]);
+            }
+            case "6" -> {
+                matchResult = this.getMatchResult(category[5]);
+            }
+            case "7" -> {
+                menu.view();
+            }
+        }
+        if(matchResult.size() == 0){
+            System.out.println("Sorry, there is no found result");
+        }
+
+        if(matchResult.size() > 0){
+            System.out.println("\n===================================================================== Available Searching Products !!! =====================================================================");
+            System.out.printf("%30s %30s %40s %25s %40s%n", "Item", "|", "Color", "|", "Price($)");
+            System.out.printf("%s%n", "----------------------------------------------------------------------------------------------------------------------------------------------------------");
+
+            for(int i = 0; i < matchResult.size(); i++){
+                System.out.printf("%30s %25s %10s %25s %10s%n",matchResult.get(i)[2], "|", matchResult.get(i)[3], "|",matchResult.get(i)[4]);
+            }
+        }
+    }
+
+    public ArrayList<String[]> getMatchResult(String data) throws IOException {
+        String[] category = Read.readSpecificColumn(1, "products.txt", ",");
+        String[] productsName = Read.readSpecificColumn(2, "products.txt", ",");
+
+        ArrayList<String[]> matchResult = new ArrayList<>();
+
+        for (int i = 0; i < productsName.length; i++){
+            // Implement Boyer Moore Searching Algorithm
+            BoyerMoore text = new BoyerMoore(data);
+            boolean isFound = text.boyerMooreSearch(category[i], data);
+
+            if(isFound){
+                String[] specificLine = Read.getSpecificLine(productsName[i], 2, "products.txt", ",");
+                matchResult.add(specificLine);
+            }
+        }
+
+        return matchResult;
     }
 
     public String getUserName() {
