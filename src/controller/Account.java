@@ -67,15 +67,23 @@ public class Account{
         String typeOfMemberShip = getTypeOfMemberShip(totalSpending);
         String registerTime = new DateAndTime().getDateAndTime();
 
-        String obj =
-                id + "," +
-                        userName + "," +
-                        password + "," +
-                        fullName + "," +
-                        phoneNumber + "," +
-                        totalSpending + "," +
-                        typeOfMemberShip + "," +
-                        registerTime;
+        StringBuilder data = new StringBuilder("");
+        data.append(Integer.toString(id))
+                .append(",")
+                .append(userName)
+                .append(",")
+                .append(password)
+                .append( ",")
+                .append(fullName)
+                .append(",")
+                .append(phoneNumber)
+                .append(",")
+                .append(totalSpending)
+                .append(",")
+                .append(typeOfMemberShip)
+                .append(",")
+                .append(registerTime);
+        String obj = data.toString();
         reader.close();
 
         try {

@@ -1,4 +1,4 @@
-package lib.order;
+package controller;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -8,8 +8,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
-import lib.order.Users;
-import lib.order.Product;
 
 public class Order {
     private int id;
