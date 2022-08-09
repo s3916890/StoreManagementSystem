@@ -1,4 +1,4 @@
-package lib.crud.read;
+package lib.crud;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -17,6 +17,8 @@ public class Read {
             data = currentLine.split(",");
             products.add(data);
         }
+
+        products.remove(0);
 
         return products;
     }
@@ -38,6 +40,9 @@ public class Read {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
+        colData.remove(0);
+
         return colData.toArray(new String[0]);
     }
 

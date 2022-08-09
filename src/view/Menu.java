@@ -2,7 +2,7 @@ package view;
 
 import controller.Account;
 import lib.OptionInput;
-import lib.crud.read.Read;
+import lib.crud.Read;
 
 import java.io.IOException;
 
@@ -20,12 +20,7 @@ public class Menu {
 
         switch (option) {
             case "1" -> {
-                user.register(user.userNameRegisterInput(), user.passwordRegisterInput(), user.fullNameInput(), user.phoneNumberInput());
-                if(user.verifyLogin(user.userNameLoginInput(), user.passwordLoginInput(),"users.txt", ",")){
-                    String[] data = Read.getSpecificLine(user.getUserName(), 1, "users.txt", ",");
-                    System.out.println("\nUsername: " + data[1] + "\nFull name: " + data[3] + "\nPhone-number: " + data[4]);
-                    System.out.println("Login Status: "+ true);
-                }
+                user.register(user.userNameRegisterInput(), user.passwordRegisterInput(), user.fullNameInput(), user.phoneNumberInput(), user.totalSpendingInput());
             }
             case "2" -> {
                 boolean isLogged = false;

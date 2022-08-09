@@ -1,6 +1,4 @@
-package lib.crud.update;
-
-import lib.crud.read.Read;
+package lib.crud;
 
 import java.io.FileWriter;
 import java.io.IOException;
