@@ -1,7 +1,5 @@
 package controller;
 
-import lib.OptionInput;
-import lib.algorithm.search.BoyerMoore;
 import lib.crud.Read;
 import lib.DateAndTime;
 
@@ -11,7 +9,6 @@ import java.io.*;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -52,10 +49,10 @@ public class Account{
     public void register(String userName, String password, String fullName, String phoneNumber, Long totalSpending) throws IOException {
         String attributes = "ID,Username,Password,FullName,PhoneNumber,TotalSpending,TypeOfMemberShip,Date&Time";
 
-        FileWriter csvFile = new FileWriter("users.csv", true);
+        FileWriter csvFile = new FileWriter("users.txt", true);
 
         int lines = 0;
-        BufferedReader reader = new BufferedReader(new FileReader("users.csv"));
+        BufferedReader reader = new BufferedReader(new FileReader("users.txt"));
 
         System.out.println(reader.readLine());
         if(reader.readLine() == null){
@@ -157,13 +154,13 @@ public class Account{
     }
 
     public String userNameRegisterInput(){
-        ArrayList<String> userNameDB = this.getAllUserName();
         Scanner sc = new Scanner(System.in);
 
         System.out.print("Username: ");
         String userName = sc.nextLine();
 
-        while(!this.validateUserName(userName) || userNameDB.contains(userName)){
+        ArrayList<String> userNameDB = this.getAllUserName();
+        while(!this.validateUserName(userName)){
             System.out.println("This username is already exist or invalid username, try again !!!!");
             System.out.print("Username: ");
             userName = sc.nextLine();
@@ -360,4 +357,9 @@ public class Account{
         this.password = password;
     }
 
+    public static void main(String[] args) throws IOException {
+//        Account account = new Account();
+//
+//        account.register("loi", "123456", "Nguyen", "0909150472", Long.parseLong("50000000"));
+    }
 }
