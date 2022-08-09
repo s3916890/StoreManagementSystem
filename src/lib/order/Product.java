@@ -10,6 +10,8 @@ public class Product {
     private Long price;
     private String category;
 
+    private String
+
     public Product(){
 
     }
