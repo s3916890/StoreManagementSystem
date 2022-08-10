@@ -95,12 +95,15 @@ public class Account{
             db.add(obj);
 
             String[] userNameData = Read.readSpecificColumn(1, "users.txt", ",");
+            int listUserNameSize =  userNameData.length;
 
-            for(int i = 0; i < userNameData.length; i++){
+            for(int i = 0; i < listUserNameSize; i++){
                 readUserNames.add(userNameData[i]);
             }
 
-            for(int i = 0; i < db.size(); i++){
+            int dbLength = db.size();
+
+            for(int i = 0; i < dbLength; i++){
                 // Check the duplicated of userName
                 if(!readUserNames.contains(userName)){
                     csvFile.append(String.valueOf(db.get(i)));
