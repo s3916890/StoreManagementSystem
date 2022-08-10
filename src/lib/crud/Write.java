@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public class Write {
     private static int id = 1;
 
-    public void write(String filePath, String delimiter, String attributes, String obj) throws IOException {
+    public static void write(String filePath, String delimiter, String attributes, String obj) throws IOException {
         File file = new File(filePath);
         FileWriter csvFile = new FileWriter(file, true);
         int lines = 0;

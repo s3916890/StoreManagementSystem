@@ -1,20 +1,16 @@
 package controller;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
-import java.util.UUID;
 
 public class Order {
-    private String id;
+    private int id;
     private Users user;
     private Product product;
     private Date date;
-    private String orderDetails;
     // private Map<Integer, String> orderInfo;
     private ArrayList<String> orderInfo;
     final String outputFilePath = "StoreManagementSystem/src/orders";
@@ -22,19 +18,21 @@ public class Order {
     public Order() {
     }
 
-    public Order(Users user, Product goods) {
+    public Order(int id, Users user, Product goods) {
+        this.id = id;
         this.user = user;
         this.product = goods;
+
         orderInfo = new ArrayList<>();
         date = new Date();
     }
 
     public String detail(Users user, Product product) {
-        return " Name: " + user.getName() + " Product: " + product.getName();
+        return user.getName() + " " + product.getName();
     }
 
-    public String generateID() {
-        return UUID.randomUUID().toString();
+    public int generateID() {
+        return (int) (Math.random() * 100 + 1);
     }
     public void printOrder(){
         for (String name : orderInfo) {
@@ -42,29 +40,28 @@ public class Order {
         }
     }
 
-    public String createNewOrder(Users user, Product product) {
-        this.id = generateID();
-        String details = detail(user, product);
-        String orderDetail = "Id" + this.id + details;
+    public void createNewOrder(Users user, Product product) {
+        this.id = 0;
+        String orderDetail = detail(user, product);
         orderInfo.add(orderDetail);
-        System.out.println("Your order id: " + this.id);
-        System.out.println("Your order detail: " + details);
-        return this.orderDetails = orderDetail;
+        for (int i = 0; i < orderInfo.size(); i++) {
+            if (orderInfo.get(i).contains(orderDetail))
+                this.id = i;
+            System.out.println("Your order id: " + this.id);
+        }
     }
 
-    public void searchOrder() throws FileNotFoundException {
-        File file = new File("orders.txt");
+    public void searchOrder(){
         Scanner s = new Scanner(System.in);
-        Scanner s2 = new Scanner(file);
         int value = 0;
-        while (value != 1) {
-            System.out.print("Your order id: ");
-            String id = s.nextLine();
-            while (s2.hasNextLine()){
-                String lineFromFile = s2.nextLine();
-                if (lineFromFile.contains(id)){
-                    System.out.println(this.orderDetails);
-                }value = 1;
+        while (value != 1){
+            System.out.print("Id search: ");
+            int id = s.nextInt();
+            if(id >= orderInfo.size() || id < 0){
+                System.out.println("Invalid id");
+            }else{
+                System.out.println("Your order is: "+ id + " " + orderInfo.get(id));
+                value = 1;
             }
         }
     }
@@ -81,7 +78,7 @@ public class Order {
 
 
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
