@@ -1,30 +1,34 @@
-package lib.order;
+package controller;
 
 import lib.crud.Read;
 import java.io.IOException;
 import java.util.ArrayList;
 
 public class Product {
-    private String id;
-    private String name;
-    private Long price;
+    // ID,Category,Name,Color,Price
+    private int id;
     private String category;
+    private String name;
+    private String color;
+    private Long price;
+
 
     public Product(){
 
     }
-    public Product(String id, String name, Long price, String category) {
+    public Product(int id, String category, String name, String color, Long price) {
         this.id = id;
-        this.name = name;
-        this.price = price;
         this.category = category;
+        this.name = name;
+        this.color = color;
+        this.price = price;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -50,6 +54,14 @@ public class Product {
 
     public void setCategory(String category) {
         this.category = category;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
     }
 
     public void add(){

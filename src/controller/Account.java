@@ -67,15 +67,23 @@ public class Account{
         String typeOfMemberShip = getTypeOfMemberShip(totalSpending);
         String registerTime = new DateAndTime().getDateAndTime();
 
-        String obj =
-                id + "," +
-                        userName + "," +
-                        password + "," +
-                        fullName + "," +
-                        phoneNumber + "," +
-                        totalSpending + "," +
-                        typeOfMemberShip + "," +
-                        registerTime;
+        StringBuilder data = new StringBuilder("");
+        data.append(Integer.toString(id))
+                .append(",")
+                .append(userName)
+                .append(",")
+                .append(password)
+                .append( ",")
+                .append(fullName)
+                .append(",")
+                .append(phoneNumber)
+                .append(",")
+                .append(totalSpending)
+                .append(",")
+                .append(typeOfMemberShip)
+                .append(",")
+                .append(registerTime);
+        String obj = data.toString();
         reader.close();
 
         try {
@@ -360,6 +368,7 @@ public class Account{
         Matcher matcher = pattern.matcher(number.toString());
         return matcher.matches();
     }
+
     public String getUserName() {
         return userName;
     }
@@ -370,11 +379,5 @@ public class Account{
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public static void main(String[] args) throws IOException {
-//        Account account = new Account();
-//
-//        account.register("loi", "123456", "Nguyen", "0909150472", Long.parseLong("50000000"));
     }
 }
