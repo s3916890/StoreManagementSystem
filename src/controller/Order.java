@@ -1,12 +1,9 @@
 package controller;
 
-import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Scanner;
 
 public class Order {
@@ -14,8 +11,8 @@ public class Order {
     private Users user;
     private Product product;
     private Date date;
-    private Map<Integer, String> orderInfo;
-    // private ArrayList<> detail;
+    // private Map<Integer, String> orderInfo;
+    private ArrayList<String> orderInfo;
     final String outputFilePath = "StoreManagementSystem/src/orders";
 
     public Order() {
@@ -26,7 +23,7 @@ public class Order {
         this.user = user;
         this.product = goods;
 
-        orderInfo = new HashMap<>();
+        orderInfo = new ArrayList<>();
         date = new Date();
     }
 
@@ -38,23 +35,20 @@ public class Order {
         return (int) (Math.random() * 100 + 1);
     }
     public void printOrder(){
-        for (Integer name : orderInfo.keySet()) {
-            String key = name.toString();
-            String value = orderInfo.get(name);
-            System.out.println(key + " " + value);
+        for (String name : orderInfo) {
+            System.out.println(name);
         }
     }
 
     public void createNewOrder(Users user, Product product) {
-        int id = generateID();
+        this.id = 0;
         String orderDetail = detail(user, product);
-        for (Map.Entry<Integer, String> list : orderInfo.entrySet()) {
-            int key = list.getKey();
-            if (key == id) {
-                id = generateID();
-            }
-        }orderInfo.put(id, orderDetail);
-        System.out.println("Your order id: " + id);
+        orderInfo.add(orderDetail);
+        for (int i = 0; i < orderInfo.size(); i++) {
+            if (orderInfo.get(i).contains(orderDetail))
+                this.id = i;
+            System.out.println("Your order id: " + this.id);
+        }
     }
 
     public void searchOrder(){
@@ -63,33 +57,21 @@ public class Order {
         while (value != 1){
             System.out.print("Id search: ");
             int id = s.nextInt();
-            for (Map.Entry<Integer, String> list : orderInfo.entrySet()) {
-                if (list.getKey() == id){
-                    System.out.println("Your order is: "+ id + " " + list.getValue());
-                    value = 1;
-                }
+            if(id >= orderInfo.size() || id < 0){
+                System.out.println("Invalid id");
+            }else{
+                System.out.println("Your order is: "+ id + " " + orderInfo.get(id));
+                value = 1;
             }
         }
     }
 
-    public void writeFile(){
-        File file = new File(outputFilePath);
-        try (BufferedWriter bf = new BufferedWriter(new FileWriter("orders.txt"))) {
-            for (Map.Entry<Integer, String> entry :
-                    orderInfo.entrySet()) {
-
-                // put key and value separated by a colon
-                bf.write(entry.getKey() + ":"
-                        + entry.getValue());
-
-                // new line
-                bf.newLine();
-            }
-
-            bf.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
+    public void writeFile() throws IOException {
+        FileWriter file = new FileWriter("orders.txt");
+        for (String list : orderInfo) {
+            file.write(list + System.lineSeparator());
         }
+        file.close();
 
         // always close the writer
     }
@@ -112,7 +94,7 @@ public class Order {
         return date;
     }
 
-    public Map<Integer, String> getOrderInfo() {
+    public ArrayList<String> getOrderInfo() {
         return orderInfo;
     }
 
