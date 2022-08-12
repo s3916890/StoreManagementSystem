@@ -1,0 +1,195 @@
+package app.view.order.product;
+
+import app.lib.crud.read.ReadAllLine;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+package app.view.order;
+import app.view.order.user.Users;
+
+import java.util.HashMap;
+import java.util.Scanner;
+
+
+//*PARENT CLASS**
+public class Product {
+    private String id;
+    private String name;
+    private Long price;
+    private String color;
+    private String productType;
+
+    public Product(){
+
+    }
+    public Product(String id, String name, Long price, String productType, String color) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+        this.productType = productType;
+        this.color = color;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Long getPrice() {
+        return price;
+    }
+
+    public void setPrice(Long price) {
+        this.price = price;
+    }
+
+    public String getProductType() {
+        return productType;
+    }
+
+    public void setProductType(String productType) {
+        this.productType = productType;
+    }
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public void add(){
+
+    }
+
+    public void remove(){
+
+    }
+    //** Child class**
+// creates the comparator for comparing price value
+    private static class PriceComparator implements Comparator<Product> {
+
+        // Function to compare
+        public int compare(Product p1, Product p2)
+        {
+            if (p1.price == p2.price)
+                return 0;
+            else if (p1.price > p2.price)
+                return 1;
+            else
+                return -1;
+        }
+    }
+//--------LIST PRODUCT N VIEW PRODUCT DETAILS-------
+    public void view() throws IOException {
+        ReadAllLine line = new ReadAllLine();
+
+        ArrayList<String[]> Products = line.read("products.txt");
+
+        for(int i = 0; i < Products.size() - 1; i++){
+            System.out.println("\nID: " + Products.get(i)[0] + ", Category:" + Products.get(i)[1] + ", Name:" +
+                    Products.get(i)[2] + ", Color:" + Products.get(i)[3] + ", Price:" + Products.get(i)[4] + " VND");
+        }
+    }
+//-------SORT ALL OF THE PRODUCTS BY PRICE (ASCENDING OR DESCENDING)------
+//Main driver method
+public void view() throws IOException {
+    ReadAllLine line = new ReadAllLine();
+    Scanner s = new Scanner(System.in);
+    ArrayList<String[]> Products = line.read("products.txt");
+    //****** USER INPUT VALIDATOR*******
+    ???
+    System.out.println("Press 1 if you want to sort by price in ascending order or press 2 if you want to sort by price in descending order")
+    //----Sorting Arraylist in Java on ASCENDING order defined by Comparator----
+            while input == 1
+                 Collections.sort(Products,new PriceComparator());
+                System.out.println("Products sorted by price in ascending order: "Products);
+    //----Sorting Arraylist in Java on DESCENDING order defined by Comparator----
+            if input == 2
+                  Collections.sort(Products, Collections.reverseOrder());
+                 System.out.println("Products sorted by price in descending order: " + unsortedList);
+
+    }
+}
+
+//--------SEARCH FOR ALL AVAILABLE PRODUCTS FOR A PARTICULAR CATEGOPRY--------
+public void view() throws IOException {
+    ReadAllLine line = new ReadAllLine();
+    Scanner s = new Scanner(System.in);
+    int number;
+    ArrayList<String[]> Products = line.read("products.txt");
+    //-User input Validator--
+    do {
+        System.out.println("Please enter a number 1-6 for a specific ctaegory that you want to sewe");
+
+        System.out.println("""
+                1. iphone
+                2. ipad
+                3. iMac
+                4. Macbook
+                5.iWatch
+                6.airpods""");
+
+        while (!s.hasNextInt()) {
+            System.out.println("Please enter a number from 1-6 only!");
+            s.next();
+        }
+        number = s.nextInt();
+    } while ( 1<= number <= 6);
+    System.out.println("Thank you! Got " + number);
+}
+  //---FILTER PRODUCT BY TYPE USING FOREACH---
+  ArrayList<String[]> Products = line.read("products.txt");
+
+        for(int i = 0; i < Products.size() - 1; i++){
+        if(Products.get(i)[1]==("some String")){
+        filteredProducts.add(p);
+          }
+        }
+  //--FILTER PRODUCTS BY TYPE USING HASHMAP--
+    //ArrayList of Products, and each Product has a productType as its property
+    //products are categorized according to the productType property
+    //a HashMap is used
+    //use the productType as the key and the ArrayList of products as the value
+  public static class sortProductsByProductType;
+     private static HashMap<String, ArrayList<Product>> sortProductsByProductType(ArrayList<Products> arrayList)
+    {
+
+        HashMap<String, ArrayList<Products>> map = new HashMap<String, ArrayList<Product>>();
+
+        for (int i = 0; i < Products.size() - 1; i++) {
+           
+
+                // If the key does not exist in the hashmap
+                if (!map.containsKey(product.getProductType().getName())) {
+                    ArrayList<Product> listInHash = new ArrayList<Product>();
+                    listInHash.add(product);
+                    map.put(product.getProductType().getName(), listInHash);
+                } else {
+                    // add the product to the arraylist that corresponds to the key
+                    ArrayList<Product> listInHash = map.get(product.getProductType().getName());
+                    listInHash.add(product);
+
+                }
+
+            }
+
+            return map;
+
+        }
+    }
+
+//https://www.geeksforgeeks.org/how-to-sort-an-arraylist-of-objects-by-property-in-java/
+
