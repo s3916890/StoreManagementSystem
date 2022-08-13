@@ -14,6 +14,10 @@ public class Read {
         ArrayList<String[]> products = new ArrayList<String[]>();
         String[] data;
 
+        if(br.readLine() == null){
+            return new ArrayList<String[]>();
+        }
+
         while((currentLine = br.readLine()) != null){
             data = currentLine.split(",");
             products.add(data);
