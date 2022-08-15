@@ -1,5 +1,7 @@
 package controller;
 
+import lib.OptionInput;
+import lib.algorithm.search.BoyerMoore;
 import lib.crud.Read;
 import lib.DateAndTime;
 
@@ -255,7 +257,7 @@ public class Account{
         File file = new File("users.txt");
         if(!file.exists()){
             file.createNewFile();
-            this.appendAttributesToFile();
+            this.appendAttributesTitleToFile();
         }
         ArrayList<String> checkUserName = new ArrayList<>();
         String[] readUserName = Read.readSpecificColumn(1, file.getName(), ",");
@@ -271,7 +273,7 @@ public class Account{
         return checkUserName;
     }
 
-    public void appendAttributesToFile() throws IOException {
+    public void appendAttributesTitleToFile() throws IOException {
         File file = new File("users.txt");
         String attributes = "ID,Username,Password,FullName,PhoneNumber,TotalSpending,TypeOfMemberShip,Date&Time";
         FileWriter csvFile = new FileWriter(file.getName(), true);
@@ -342,14 +344,6 @@ public class Account{
                 "\\d{10}|(?:\\d{3}-){2}\\d{4}|\\(\\d{3}\\)\\d{3}-?\\d{4}";
         Pattern pattern = Pattern.compile(CONFIG_RULE);
         Matcher matcher = pattern.matcher(phoneNumber);
-        return matcher.matches();
-    }
-
-    public boolean validateNumber(final Long number) {
-        String CONFIG_RULE =
-                "[0-9]+";
-        Pattern pattern = Pattern.compile(CONFIG_RULE);
-        Matcher matcher = pattern.matcher(number.toString());
         return matcher.matches();
     }
 
