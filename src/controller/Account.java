@@ -1,7 +1,5 @@
 package controller;
 
-import lib.OptionInput;
-import lib.algorithm.search.BoyerMoore;
 import lib.crud.Read;
 import lib.DateAndTime;
 
@@ -11,7 +9,6 @@ import java.io.*;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -275,7 +272,7 @@ public class Account{
 
     public void appendAttributesTitleToFile() throws IOException {
         File file = new File("users.txt");
-        String attributes = "ID,Username,Password,FullName,TotalSpending,PhoneNumber,TypeOfMemberShip,Date&Time";
+        String attributes = "ID,Username,Password,FullName,TotalSpending,PhoneNumber,registerTime";
         FileWriter csvFile = new FileWriter(file.getName(), true);
         BufferedReader reader = new BufferedReader(new FileReader(file.getName()));
 

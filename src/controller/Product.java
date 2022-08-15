@@ -77,14 +77,6 @@ public class Product {
         return priceList;
     }
 
-    public void add(){
-
-    }
-
-    public void remove(){
-
-    }
-
     public void view() throws IOException, InterruptedException {
         ArrayList<String[]> products = Read.readAllLine("products.txt");
 

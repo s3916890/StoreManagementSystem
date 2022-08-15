@@ -6,14 +6,12 @@ import controller.Order;
 import controller.Product;
 
 import lib.CheckVisitStatus;
-import lib.DateAndTime;
 import lib.OptionInput;
 import lib.algorithm.sort.ArrayListSorting;
 import lib.crud.Read;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
@@ -43,6 +41,7 @@ public class Menu {
                 System.out.println("\nSuccessfully Registering");
                 menu.view();
             }
+                                                                                // SIGN IN
             case "2" -> {
                 System.out.println("\n================================================= Member Login Form =================================================");
                 this.cookies = false;
@@ -51,20 +50,14 @@ public class Menu {
                 String password = user.passwordLoginInput();
 
                 while(!user.verifyLogin(userName, password, "users.txt", ",")){
-                    System.out.println("Wrong password, try again bro");
+                    System.out.println("Wrong password, try again !!!!");
                     userName = user.userNameLoginInput();
                     password = user.passwordLoginInput();
-
-                    if(user.verifyLogin(userName, password, "users.txt", ",")){
-                        break;
-                    }
                 }
-
                 this.cookies = true;
                 this.viewHomepage(userName);
             }
             case "3" -> {
-                System.out.println("\n================================================= Available Products =================================================");
                 Product products = new Product();
                 products.view();
                 CheckVisitStatus.checkVisitOrExit();
@@ -74,15 +67,17 @@ public class Menu {
                 System.out.println("""
                     1. Laptop
                     2. Iphone
-                    3. Watch
+                    3. Watch 
                     4. Airpods
                     5. Ipad
                     6. Desktop
                     7. Move back to the main menu
                     8. Exit""");
+
                 Product availableProduct = new Product();
 
                 availableProduct.viewUserSearchingResult();
+
                 CheckVisitStatus.checkVisitOrExit();
             }
             case "5" -> {
@@ -94,11 +89,14 @@ public class Menu {
                         4. Exit""");
 
                 option = OptionInput.input();
+
                 int priceASCLength, priceDSCLength;
+
                 switch (option) {
                     case "1" -> {
                         ArrayList<Long> priceASC = ArrayListSorting.sortAscending(prices);
                         priceASCLength = priceASC.size();
+
                         for (int i = 0; i < priceASCLength; i++) {
                             String[] sortProductsASC = Read.getSpecificLine(Long.toString(priceASC.get(i)), 4, "products.txt", ",");
                             System.out.println("\nName: " + sortProductsASC[2] +
@@ -106,8 +104,10 @@ public class Menu {
                                     ", Color: " + sortProductsASC[3] +
                                     ", Price: " + sortProductsASC[4] + " VND");
                         }
+
                         menu.view();
                     }
+
                     case "2" -> {
                         ArrayList<Long> priceDSC = ArrayListSorting.sortDescending(prices);
                         priceDSCLength = priceDSC.size();
@@ -119,6 +119,7 @@ public class Menu {
                                     ", Color: " + sortProductsDSC[3] +
                                     ", Price: " + sortProductsDSC[4] + " VND");
                         }
+
                         menu.view();
                     }
                     case "3" -> {
@@ -141,7 +142,8 @@ public class Menu {
     }
 
     public void viewHomepage(String userName) throws IOException, InterruptedException {
-        System.out.println("\n================================================= Homepage  =================================================");
+        System.out.println();
+        System.out.println("\n===================================================================== Homepage  =====================================================================");
         System.out.println("\nCookie (Login Status): " + this.cookies);
         String[] data = Read.getSpecificLine(userName, 1, "users.txt", ",");
         System.out.println("\nUsername: " + data[1] + ", \sFull name: " + data[3] + ", \sPhone-number: " + data[5]);
@@ -190,42 +192,18 @@ public class Menu {
                         switch (option){
                             case "1" -> {
                                 order.createNewOrder(member, new Product(Integer.parseInt(productOptions.get(0)[0]), productOptions.get(0)[1], productOptions.get(0)[2], productOptions.get(0)[3], Long.parseLong(productOptions.get(0)[4])));
-                                System.out.println("\nPayment Successfully");
-                                System.out.println("\nOrder Detailed Information");
-                                System.out.println("\nName: " + productOptions.get(0)[2]);
-                                System.out.println("Category: " + productOptions.get(0)[1]);
-                                System.out.println("Price: " + productOptions.get(0)[4] + " VND");
-                                System.out.println("Order time: " + new DateAndTime().getDateAndTime());
                                 this.viewHomepage(userName);
                             }
                             case "2" -> {
                                 order.createNewOrder(member, new Product(Integer.parseInt(productOptions.get(1)[0]), productOptions.get(1)[1], productOptions.get(1)[2], productOptions.get(1)[3], Long.parseLong(productOptions.get(1)[4])));
-                                System.out.println("\nPayment Successfully");
-                                System.out.println("\nOrder Detailed Information");
-                                System.out.println("\nName: " + productOptions.get(1)[2]);
-                                System.out.println("Category: " + productOptions.get(1)[1]);
-                                System.out.println("Price: " + productOptions.get(1)[4] + " VND");
-                                System.out.println("Order time: " + new DateAndTime().getDateAndTime());
                                 this.viewHomepage(userName);
                             }
                             case "3" -> {
                                 order.createNewOrder(member, new Product(Integer.parseInt(productOptions.get(2)[0]), productOptions.get(2)[1], productOptions.get(2)[2], productOptions.get(2)[3], Long.parseLong(productOptions.get(2)[4])));
-                                System.out.println("\nPayment Successfully");
-                                System.out.println("\nOrder Detailed Information");
-                                System.out.println("\nName: " + productOptions.get(2)[2]);
-                                System.out.println("Category: " + productOptions.get(2)[1]);
-                                System.out.println("Price: " + productOptions.get(2)[4] + " VND");
-                                System.out.println("Order time: " + new DateAndTime().getDateAndTime());
                                 this.viewHomepage(userName);
                             }
                             case "4" -> {
                                 order.createNewOrder(member, new Product(Integer.parseInt(productOptions.get(3)[0]), productOptions.get(3)[1], productOptions.get(3)[2], productOptions.get(3)[3], Long.parseLong(productOptions.get(3)[4])));
-                                System.out.println("\nPayment Successfully");
-                                System.out.println("\nOrder Detailed Information");
-                                System.out.println("\nName: " + productOptions.get(3)[2]);
-                                System.out.println("Category: " + productOptions.get(3)[1]);
-                                System.out.println("Price: " + productOptions.get(3)[4] + " VND");
-                                System.out.println("Order time: " + new DateAndTime().getDateAndTime());
                                 this.viewHomepage(userName);
                             }
                             default -> {
@@ -246,32 +224,14 @@ public class Menu {
                         switch (option){
                             case "1" -> {
                                 order.createNewOrder(member, new Product(Integer.parseInt(productOptions.get(4)[0]), productOptions.get(4)[1], productOptions.get(4)[2], productOptions.get(4)[3], Long.parseLong(productOptions.get(4)[4])));
-                                System.out.println("\nPayment Successfully");
-                                System.out.println("\nOrder Detailed Information");
-                                System.out.println("\nName: " + productOptions.get(4)[2]);
-                                System.out.println("Category: " + productOptions.get(4)[1]);
-                                System.out.println("Price: " + productOptions.get(4)[4] + " VND");
-                                System.out.println("Order time: " + new DateAndTime().getDateAndTime());
                                 this.viewHomepage(userName);
                             }
                             case "2" -> {
                                 order.createNewOrder(member, new Product(Integer.parseInt(productOptions.get(5)[0]), productOptions.get(5)[1], productOptions.get(5)[2], productOptions.get(5)[3], Long.parseLong(productOptions.get(5)[4])));
-                                System.out.println("\nPayment Successfully");
-                                System.out.println("\nOrder Detailed Information");
-                                System.out.println("\nName: " + productOptions.get(5)[2]);
-                                System.out.println("Category: " + productOptions.get(5)[1]);
-                                System.out.println("Price: " + productOptions.get(5)[4] + " VND");
-                                System.out.println("Order time: " + new DateAndTime().getDateAndTime());
                                 this.viewHomepage(userName);
                             }
                             case "3" -> {
                                 order.createNewOrder(member, new Product(Integer.parseInt(productOptions.get(6)[0]), productOptions.get(6)[1], productOptions.get(6)[2], productOptions.get(6)[3], Long.parseLong(productOptions.get(6)[4])));
-                                System.out.println("\nPayment Successfully");
-                                System.out.println("\nOrder Detailed Information");
-                                System.out.println("\nName: " + productOptions.get(6)[2]);
-                                System.out.println("Category: " + productOptions.get(6)[1]);
-                                System.out.println("Price: " + productOptions.get(6)[4] + " VND");
-                                System.out.println("Order time: " + new DateAndTime().getDateAndTime());
                                 this.viewHomepage(userName);
                             }
                             default -> {
@@ -291,22 +251,10 @@ public class Menu {
                         switch (option){
                             case "1" -> {
                                 order.createNewOrder(member, new Product(Integer.parseInt(productOptions.get(7)[0]), productOptions.get(7)[1], productOptions.get(7)[2], productOptions.get(7)[3], Long.parseLong(productOptions.get(7)[4])));
-                                System.out.println("\nPayment Successfully");
-                                System.out.println("\nOrder Detailed Information");
-                                System.out.println("\nName: " + productOptions.get(7)[2]);
-                                System.out.println("Category: " + productOptions.get(7)[1]);
-                                System.out.println("Price: " + productOptions.get(7)[4] + " VND");
-                                System.out.println("Order time: " + new DateAndTime().getDateAndTime());
                                 this.viewHomepage(userName);
                             }
                             case "2" -> {
                                 order.createNewOrder(member, new Product(Integer.parseInt(productOptions.get(8)[0]), productOptions.get(8)[1], productOptions.get(8)[2], productOptions.get(8)[3], Long.parseLong(productOptions.get(8)[4])));
-                                System.out.println("\nPayment Successfully");
-                                System.out.println("\nOrder Detailed Information");
-                                System.out.println("\nName: " + productOptions.get(8)[2]);
-                                System.out.println("Category: " + productOptions.get(8)[1]);
-                                System.out.println("Price: " + productOptions.get(8)[4] + " VND");
-                                System.out.println("Order time: " + new DateAndTime().getDateAndTime());
                                 this.viewHomepage(userName);
                             }
                             default -> {
@@ -326,32 +274,14 @@ public class Menu {
                         switch (option){
                             case "1" -> {
                                 order.createNewOrder(member, new Product(Integer.parseInt(productOptions.get(9)[0]), productOptions.get(9)[1], productOptions.get(9)[2], productOptions.get(9)[3], Long.parseLong(productOptions.get(9)[4])));
-                                System.out.println("\nPayment Successfully");
-                                System.out.println("\nOrder Detailed Information");
-                                System.out.println("\nName: " + productOptions.get(9)[2]);
-                                System.out.println("Category: " + productOptions.get(9)[1]);
-                                System.out.println("Price: " + productOptions.get(9)[4] + " VND");
-                                System.out.println("Order time: " + new DateAndTime().getDateAndTime());
                                 this.viewHomepage(userName);
                             }
                             case "2" -> {
                                 order.createNewOrder(member, new Product(Integer.parseInt(productOptions.get(10)[0]), productOptions.get(10)[1], productOptions.get(10)[2], productOptions.get(10)[3], Long.parseLong(productOptions.get(10)[4])));
-                                System.out.println("\nPayment Successfully");
-                                System.out.println("\nOrder Detailed Information");
-                                System.out.println("\nName: " + productOptions.get(10)[2]);
-                                System.out.println("Category: " + productOptions.get(10)[1]);
-                                System.out.println("Price: " + productOptions.get(10)[4] + " VND");
-                                System.out.println("Order time: " + new DateAndTime().getDateAndTime());
                                 this.viewHomepage(userName);
                             }
                             case "3" -> {
                                 order.createNewOrder(member, new Product(Integer.parseInt(productOptions.get(11)[0]), productOptions.get(11)[1], productOptions.get(11)[2], productOptions.get(11)[3], Long.parseLong(productOptions.get(11)[4])));
-                                System.out.println("\nPayment Successfully");
-                                System.out.println("\nOrder Detailed Information");
-                                System.out.println("\nName: " + productOptions.get(11)[2]);
-                                System.out.println("Category: " + productOptions.get(11)[1]);
-                                System.out.println("Price: " + productOptions.get(11)[4] + " VND");
-                                System.out.println("Order time: " + new DateAndTime().getDateAndTime());
                                 this.viewHomepage(userName);
                             }
                             default -> {
@@ -371,32 +301,14 @@ public class Menu {
                         switch (option){
                             case "1" -> {
                                 order.createNewOrder(member, new Product(Integer.parseInt(productOptions.get(12)[0]), productOptions.get(12)[1], productOptions.get(12)[2], productOptions.get(12)[3], Long.parseLong(productOptions.get(12)[4])));
-                                System.out.println("\nPayment Successfully");
-                                System.out.println("\nOrder Detailed Information");
-                                System.out.println("\nName: " + productOptions.get(12)[2]);
-                                System.out.println("Category: " + productOptions.get(12)[1]);
-                                System.out.println("Price: " + productOptions.get(12)[4] + " VND");
-                                System.out.println("Order time: " + new DateAndTime().getDateAndTime());
                                 this.viewHomepage(userName);
                             }
                             case "2" -> {
                                 order.createNewOrder(member, new Product(Integer.parseInt(productOptions.get(13)[0]), productOptions.get(13)[1], productOptions.get(13)[2], productOptions.get(13)[3], Long.parseLong(productOptions.get(13)[4])));
-                                System.out.println("\nPayment Successfully");
-                                System.out.println("\nOrder Detailed Information");
-                                System.out.println("\nName: " + productOptions.get(13)[2]);
-                                System.out.println("Category: " + productOptions.get(13)[1]);
-                                System.out.println("Price: " + productOptions.get(13)[4] + " VND");
-                                System.out.println("Order time: " + new DateAndTime().getDateAndTime());
                                 this.viewHomepage(userName);
                             }
                             case "3" -> {
                                 order.createNewOrder(member, new Product(Integer.parseInt(productOptions.get(14)[0]), productOptions.get(14)[1], productOptions.get(14)[2], productOptions.get(14)[3], Long.parseLong(productOptions.get(14)[4])));
-                                System.out.println("\nPayment Successfully");
-                                System.out.println("\nOrder Detailed Information");
-                                System.out.println("\nName: " + productOptions.get(14)[2]);
-                                System.out.println("Category: " + productOptions.get(14)[1]);
-                                System.out.println("Price: " + productOptions.get(14)[4] + " VND");
-                                System.out.println("Order time: " + new DateAndTime().getDateAndTime());
                                 this.viewHomepage(userName);
                             }
                             default -> {
@@ -417,22 +329,10 @@ public class Menu {
                         switch (option){
                             case "1" -> {
                                 order.createNewOrder(member, new Product(Integer.parseInt(productOptions.get(15)[0]), productOptions.get(15)[1], productOptions.get(15)[2], productOptions.get(15)[3], Long.parseLong(productOptions.get(15)[4])));
-                                System.out.println("\nPayment Successfully");
-                                System.out.println("\nOrder Detailed Information");
-                                System.out.println("\nName: " + productOptions.get(15)[2]);
-                                System.out.println("Category: " + productOptions.get(15)[1]);
-                                System.out.println("Price: " + productOptions.get(15)[4] + " VND");
-                                System.out.println("Order time: " + new DateAndTime().getDateAndTime());
                                 this.viewHomepage(userName);
                             }
                             case "2" -> {
                                 order.createNewOrder(member, new Product(Integer.parseInt(productOptions.get(15)[0]), productOptions.get(16)[1], productOptions.get(16)[2], productOptions.get(16)[3], Long.parseLong(productOptions.get(16)[4])));
-                                System.out.println("\nPayment Successfully");
-                                System.out.println("\nOrder Detailed Information");
-                                System.out.println("\nName: " + productOptions.get(16)[2]);
-                                System.out.println("Category: " + productOptions.get(16)[1]);
-                                System.out.println("Price: " + productOptions.get(16)[4] + " VND");
-                                System.out.println("Order time: " + new DateAndTime().getDateAndTime());
                                 this.viewHomepage(userName);
                             }
                             default -> {
@@ -513,12 +413,9 @@ public class Menu {
             }
             case "6" -> {
                 this.cookies = false;
-                // Reset the order DB
                 File file = new File("orders.txt");
-                PrintWriter writer = new PrintWriter(file.getName());
-                writer.write("");
-                writer.flush();
-                writer.close();
+                file.delete();
+                TimeUnit.SECONDS.sleep(1);
                 menu.view();
             }
             case "7" -> {

@@ -64,7 +64,7 @@ public class Order {
             file.createNewFile();
         }
         BufferedReader reader = new BufferedReader(new FileReader(file.getName()));
-        String attributes = "orderID,userName,order,color,price,orderTime";
+        String attributes = "orderID,userName,order,color,price,membership,totalPayment,orderTime";
         int lines = 0;
 
         ArrayList<String[]> orderHistory = Read.readAllLine("orders.txt");
@@ -113,8 +113,30 @@ public class Order {
         }
 
         String obj = detail(this.id, user, product).toString();
+        String[] castObj = obj.split(",");
         orderInfo.add(obj);
         Write.write("orders.txt", attributes, obj);
+
+//        System.out.println("\n");
+//        System.out.println("\s\s\s\s\s\s\s\s\s\s\s\sOrder Payment Invoice");
+//        System.out.println("Order ID: " + castObj[0]);
+//        System.out.println("Username: " + castObj[1]);
+//        System.out.println("Item: " + castObj[2]);
+//        System.out.println("Color: " + castObj[3]);
+//        System.out.println("Order Price: " + castObj[4] + " VND");
+//        System.out.println("Total Payment: " + castObj[6] + " VND");
+//        System.out.println("Membership: " + castObj[5]);
+//        System.out.println("Order Time: " + castObj[7]);
+
+        System.out.println("\n===================================================================== Order Payment Invoice !!! ===========================================================================================");
+        System.out. printf("\n%12s %14s %22s %27s %24s %24s %24s %20s", "OrderID", "Username", "Item", "Color", "Price(VND)", "TotalPayment", "Membership", "OrderTime");
+        System.out.println();
+        System.out.println("\n============================================================================================================================================================================================");
+
+        System.out.printf("\n%8s %18s %30s %20s %20s VND %21s VND %23s %24s", castObj[0], castObj[1], castObj[2], castObj[3], castObj[4], castObj[6], castObj[5], castObj[7]);
+        System.out.println();
+        System.out.println("\n===========================================================================================================================================================================================");
+
     }
 
     public void searchOrder() throws IOException, InterruptedException {
@@ -129,10 +151,14 @@ public class Order {
 
         ArrayList<String> listOrderID = new ArrayList<>(Arrays.asList(orderIDs));
 
-        while(!listOrderID.contains(orderID)){
+        BufferedReader br = new BufferedReader(new FileReader(file));
+
+        while(!listOrderID.contains(orderID) || br.readLine() == null){
             System.out.println("Sorry, order was not found");
             orderID = this.orderIDInput();
         }
+
+        br.close();
 
         String[] matchingResult = Read.getSpecificLine(orderID, 0, file.getName(), ",");
 
@@ -143,6 +169,7 @@ public class Order {
         System.out.println("Order name: " + matchingResult[2]);
         System.out.println("Color: " + matchingResult[3]);
         System.out.println("Price: " + matchingResult[4] + " VND");
+        System.out.println("Total payment: " + matchingResult[5] + " VND");
         System.out.println("Order time: " + matchingResult[7]);
     }
 
