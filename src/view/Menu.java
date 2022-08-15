@@ -446,6 +446,7 @@ public class Menu {
             }
             case "2" -> {
                 order.searchOrder();
+                TimeUnit.SECONDS.sleep(1);
                 this.viewHomepage(userName);
             }
             case "3" -> {

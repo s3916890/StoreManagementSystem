@@ -6,10 +6,7 @@ import lib.crud.Write;
 import view.Menu;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.Scanner;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -62,7 +59,11 @@ public class Order {
 
     public void createNewOrder(Customer user, Product product) throws IOException {
         File file = new File("orders.txt");
-        BufferedReader reader = new BufferedReader(new FileReader(file.getPath()));
+
+        if(!file.exists()){
+            file.createNewFile();
+        }
+        BufferedReader reader = new BufferedReader(new FileReader(file.getName()));
         String attributes = "orderID,userName,order,color,price,orderTime";
         int lines = 0;
 
@@ -124,26 +125,25 @@ public class Order {
             file.createNewFile();
         }
 
-        String[] matchingResult = Read.getSpecificLine(orderID, 0, file.getName(), ",");
+        String[] orderIDs = Read.readSpecificColumn(0, file.getName(), ",");
 
-        BufferedReader br = new BufferedReader(new FileReader(file));
+        ArrayList<String> listOrderID = new ArrayList<>(Arrays.asList(orderIDs));
 
-        while(Arrays.toString(matchingResult).equals("[]")){
+        while(!listOrderID.contains(orderID)){
             System.out.println("Sorry, order was not found");
             orderID = this.orderIDInput();
-
-            if(orderID.equals(matchingResult[0])){
-                break;
-            }
         }
 
-        System.out.println("\nYour order history: ");
-        System.out.println("\nOrder ID: " + matchingResult[0]);
-        System.out.println("\nUsername: " + matchingResult[1]);
-        System.out.println("\nOrder name: " + matchingResult[2]);
-        System.out.println("\nColor: " + matchingResult[3]);
-        System.out.println("\nPrice: " + matchingResult[4]);
-        System.out.println("\nOrder time: " + matchingResult[5]);
+        String[] matchingResult = Read.getSpecificLine(orderID, 0, file.getName(), ",");
+
+        System.out.println("\n");
+        System.out.println("\s\s\s\s\s\s\s\s\s\s\s\sYour order history");
+        System.out.println("Order ID: " + matchingResult[0]);
+        System.out.println("Username: " + matchingResult[1]);
+        System.out.println("Order name: " + matchingResult[2]);
+        System.out.println("Color: " + matchingResult[3]);
+        System.out.println("Price: " + matchingResult[4] + " VND");
+        System.out.println("Order time: " + matchingResult[7]);
     }
 
     public String orderIDInput(){

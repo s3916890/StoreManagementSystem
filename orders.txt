@@ -1,3 +1,0 @@
-orderID,userName,order,color,price,orderTime
-1,40.karma,Macbook Pro 13 inch 2016,gold,19900000,Member,19900000,21:37(15-08-2022)
-2,40.karma,airpods 2nd Generation,white,3999000,Member,23899000,21:37(15-08-2022)
