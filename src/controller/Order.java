@@ -1,18 +1,24 @@
 package controller;
 
+import lib.DateAndTime;
+import lib.crud.Write;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Scanner;
 
 public class Order {
-    private int id;
+    private int id = 1;
     private Users user;
     private Product product;
     private Date date;
     // private Map<Integer, String> orderInfo;
-    private ArrayList<String> orderInfo;
+    private ArrayList<String> orderInfo = new ArrayList<>();
     final String outputFilePath = "StoreManagementSystem/src/orders";
 
     public Order() {
@@ -27,8 +33,19 @@ public class Order {
         date = new Date();
     }
 
-    public String detail(Users user, Product product) {
-        return user.getName() + " " + product.getName();
+    public StringBuilder detail(int id, Users user, Product product) {
+        return new StringBuilder()
+                .append(this.id)
+                .append(",")
+                .append(user.getName())
+                .append(",")
+                .append(product.getName())
+                .append(",")
+                .append(product.getColor())
+                .append(",")
+                .append(product.getPrice())
+                .append(",")
+                .append(new DateAndTime().getDateAndTime());
     }
 
     public int generateID() {
@@ -40,20 +57,35 @@ public class Order {
         }
     }
 
-    public void createNewOrder(Users user, Product product) {
-        this.id = 0;
-        String orderDetail = detail(user, product);
-        orderInfo.add(orderDetail);
-        for (int i = 0; i < orderInfo.size(); i++) {
-            if (orderInfo.get(i).contains(orderDetail))
-                this.id = i;
-            System.out.println("Your order id: " + this.id);
+    public void createNewOrder(Users user, Product product) throws IOException {
+        String attributes = "orderID,userName,order,color,price,orderTime";
+        BufferedReader reader = new BufferedReader(new FileReader("orders.txt"));
+        int lines = 0;
+
+        // Check lines (size of file)
+        while (reader.readLine() != null){
+            if(lines == 0){
+                lines++;
+                id = lines;
+            }
+            else{
+                ++id;
+            }
+            lines++;
         }
+        StringBuilder orderDetail = detail(this.id, user, product);
+        // Convert to the string
+        String obj = orderDetail.toString();
+        orderInfo.add(obj);
+        Write.write("orders.txt", ",", attributes, obj);
+
+        System.out.println("Your order id: " + this.id);
     }
 
     public void searchOrder(){
         Scanner s = new Scanner(System.in);
         int value = 0;
+
         while (value != 1){
             System.out.print("Id search: ");
             int id = s.nextInt();
