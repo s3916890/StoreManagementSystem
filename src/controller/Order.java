@@ -1,43 +1,51 @@
 package controller;
 
 import lib.DateAndTime;
+import lib.crud.Read;
 import lib.crud.Write;
+import view.Menu;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Order {
     private int id = 1;
-    private Users user;
+    private Customer customer;
     private Product product;
     private Date date;
-    // private Map<Integer, String> orderInfo;
+    private long totalSpendingResult;
     private ArrayList<String> orderInfo = new ArrayList<>();
-    final String outputFilePath = "StoreManagementSystem/src/orders";
+
+    public enum MembershipCategories{
+        MEMBER,
+        SILVER,
+        GOLD,
+        PLATINUM
+    }
 
     public Order() {
     }
 
-    public Order(int id, Users user, Product goods) {
+    public Order(int id, Customer customer, Product goods, long totalSpendingResult) {
         this.id = id;
-        this.user = user;
+        this.customer = customer;
         this.product = goods;
+        this.totalSpendingResult = 0;
 
         orderInfo = new ArrayList<>();
         date = new Date();
     }
 
-    public StringBuilder detail(int id, Users user, Product product) {
+    public StringBuilder detail(int id, Customer customer, Product product) {
         return new StringBuilder()
                 .append(this.id)
                 .append(",")
-                .append(user.getName())
+                .append(customer.getName())
                 .append(",")
                 .append(product.getName())
                 .append(",")
@@ -45,77 +53,136 @@ public class Order {
                 .append(",")
                 .append(product.getPrice())
                 .append(",")
+                .append(this.getTypeOfMemberShip(this.totalSpendingResult))
+                .append(",")
+                .append(this.totalSpendingResult)
+                .append(",")
                 .append(new DateAndTime().getDateAndTime());
     }
 
-    public int generateID() {
-        return (int) (Math.random() * 100 + 1);
-    }
-    public void printOrder(){
-        for (String name : orderInfo) {
-            System.out.println(name);
-        }
-    }
-
-    public void createNewOrder(Users user, Product product) throws IOException {
+    public void createNewOrder(Customer user, Product product) throws IOException {
+        File file = new File("orders.txt");
+        BufferedReader reader = new BufferedReader(new FileReader(file.getPath()));
         String attributes = "orderID,userName,order,color,price,orderTime";
-        BufferedReader reader = new BufferedReader(new FileReader("orders.txt"));
         int lines = 0;
 
-        // Check lines (size of file)
-        while (reader.readLine() != null){
-            if(lines == 0){
+        ArrayList<String[]> orderHistory = Read.readAllLine("orders.txt");
+        long paymentPrice = product.getPrice();
+
+        if (orderHistory.equals(new ArrayList<String[]>())){
+            String[] userInfo = Read.getSpecificLine(user.getName(), 1, "users.txt", ",");
+            long currentTotalSpending = Long.parseLong(userInfo[4]);
+            currentTotalSpending += paymentPrice;
+            this.totalSpendingResult = currentTotalSpending;
+        }
+        else{
+            String currentLine = "";
+            String currentData = "";
+
+            while((currentLine = reader.readLine()) != null){
+                currentData = currentLine;
+            }
+            String[] data = currentData.split(",");
+            long totalSpendingHistory = Long.parseLong(data[6]);
+            totalSpendingHistory += paymentPrice;
+            this.totalSpendingResult = totalSpendingHistory;
+        }
+
+        if(this.getTypeOfMemberShip(this.totalSpendingResult).equals(MembershipCategories.SILVER.name())){
+            this.totalSpendingResult = (long)(this.totalSpendingResult * (1 - 0.05));
+        }
+        if(this.getTypeOfMemberShip(this.totalSpendingResult).equals(MembershipCategories.GOLD.name())){
+            this.totalSpendingResult = (long)(this.totalSpendingResult * (1 - 0.1));
+        }
+        if(this.getTypeOfMemberShip(this.totalSpendingResult).equals(MembershipCategories.PLATINUM.name())){
+            this.totalSpendingResult = (long)(this.totalSpendingResult * (1 - 0.15));
+        }
+
+        BufferedReader br = new BufferedReader(new FileReader(file.getName()));
+
+        while (br.readLine() != null){
+            if(lines == 1){
                 lines++;
-                id = lines;
+                this.id = lines;
             }
             else{
-                ++id;
+                this.id++;
             }
             lines++;
         }
-        StringBuilder orderDetail = detail(this.id, user, product);
-        // Convert to the string
-        String obj = orderDetail.toString();
+
+        String obj = detail(this.id, user, product).toString();
         orderInfo.add(obj);
-        Write.write("orders.txt", ",", attributes, obj);
-
-        System.out.println("Your order id: " + this.id);
+        Write.write("orders.txt", attributes, obj);
     }
 
-    public void searchOrder(){
-        Scanner s = new Scanner(System.in);
-        int value = 0;
+    public void searchOrder() throws IOException {
+        String orderID = this.orderIDInput();
 
-        while (value != 1){
-            System.out.print("Id search: ");
-            int id = s.nextInt();
-            if(id >= orderInfo.size() || id < 0){
-                System.out.println("Invalid id");
-            }else{
-                System.out.println("Your order is: "+ id + " " + orderInfo.get(id));
-                value = 1;
-            }
+        String[] matchingResult = Read.getSpecificLine(orderID, 0, "orders.txt", ",");
+
+        if(Arrays.toString(matchingResult).equals("[]")){
+            System.out.println("Sorry, order was not found");
+            Menu menu  = new Menu();
+            String userName = Read.readAllLine("orders.txt").get(0)[1];
+            menu.viewHomepage(userName);
         }
+
+        System.out.println("\nYour order history: ");
+        System.out.println("\nOrder ID: " + matchingResult[0]);
+        System.out.println("\nUsername: " + matchingResult[1]);
+        System.out.println("\nOrder name: " + matchingResult[2]);
+        System.out.println("\nColor: " + matchingResult[3]);
+        System.out.println("\nPrice: " + matchingResult[4]);
+        System.out.println("\nOrder time: " + matchingResult[5]);
     }
 
-    public void writeFile() throws IOException {
-        FileWriter file = new FileWriter("orders.txt");
-        for (String list : orderInfo) {
-            file.write(list + System.lineSeparator());
+    public String orderIDInput(){
+        Scanner sc = new Scanner(System.in);
+        System.out.print("\nEnter the order ID: ");
+        String orderID = sc.nextLine();
+
+        while(!this.validateNumber(orderID)){
+            System.out.println("Invalid number, try again !!!!");
+            System.out.print("Enter the orderID again: ");
+            orderID = sc.nextLine();
         }
-        file.close();
-
-        // always close the writer
+        return orderID;
     }
 
+    public String getTypeOfMemberShip(long totalSpending){
+        String typeOfMemberShip = "";
+
+        if (totalSpending > 5000000) {
+            typeOfMemberShip = MembershipCategories.SILVER.name();
+        }
+        if(totalSpending > 10000000){
+            typeOfMemberShip = MembershipCategories.GOLD.name();
+        }
+        if(totalSpending > 25000000){
+            typeOfMemberShip = MembershipCategories.PLATINUM.name();
+        }
+        else{
+            typeOfMemberShip = "Member";
+        }
+        return typeOfMemberShip;
+    }
+
+    public boolean validateNumber(final String number) {
+        String CONFIG_RULE = "[0-9]+";
+        Pattern pattern = Pattern.compile(CONFIG_RULE);
+        Matcher matcher = pattern.matcher(number);
+
+        return matcher.matches();
+    }
 
 
     public int getId() {
         return id;
     }
 
-    public Users getUser() {
-        return user;
+    public Customer getUser() {
+        return customer;
     }
 
     public Product getProduct() {
@@ -134,7 +201,7 @@ public class Order {
     public String toString() {
         return "Order_2{" +
                 "id=" + id +
-                ", user=" + user +
+                ", user=" + customer +
                 ", product=" + product +
                 ", date=" + date +
                 ", orderInfo=" + orderInfo +

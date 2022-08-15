@@ -9,17 +9,12 @@ import java.io.*;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Account{
-
-    public enum MembershipCategories{
-        Silver,
-        Gold,
-        Platinum;
-    }
 
     private String userName;
 
@@ -29,24 +24,21 @@ public class Account{
 
     private String phoneNumber;
 
-    private Long totalSpending;
-
-    public Account(String userName, String password, String fullName, String phoneNumber, Long totalSpending) {
+    public Account(String userName, String password, String fullName, String phoneNumber) {
         this.userName = userName;
         this.password = password;
         this.fullName = fullName;
         this.phoneNumber = phoneNumber;
-        this.totalSpending = totalSpending;
     }
 
-    private static int id = 1;
+    private int id = 1;
 
     public Account() {
 
     }
 
     /** This method is to view the register form after receiving the result from model*/
-    public void register(String userName, String password, String fullName, String phoneNumber, Long totalSpending) throws IOException {
+    public void register(String userName, String password, String fullName, String phoneNumber) throws IOException {
         FileWriter csvFile = new FileWriter("users.txt", true);
         int lines = 0;
         BufferedReader reader = new BufferedReader(new FileReader("users.txt"));
@@ -62,7 +54,8 @@ public class Account{
             lines++;
         }
 
-        String typeOfMemberShip = getTypeOfMemberShip(totalSpending);
+        int totalSpending = 0;
+//        String typeOfMemberShip = getTypeOfMemberShip(totalSpending);
         String registerTime = new DateAndTime().getDateAndTime();
 
         StringBuilder data = new StringBuilder("");
@@ -74,11 +67,9 @@ public class Account{
                 .append( ",")
                 .append(fullName)
                 .append(",")
-                .append(phoneNumber)
-                .append(",")
                 .append(totalSpending)
                 .append(",")
-                .append(typeOfMemberShip)
+                .append(phoneNumber)
                 .append(",")
                 .append(registerTime);
         String obj = data.toString();
@@ -112,28 +103,8 @@ public class Account{
         }catch (Exception e){
             e.getStackTrace();
         }
-    }
 
-    public String getTypeOfMemberShip(Long totalSpending){
-        String typeOfMemberShip = "";
-
-        if (totalSpending > 5000000) {
-            typeOfMemberShip = MembershipCategories.Silver.name();
-        }
-        if(totalSpending > 10000000){
-            typeOfMemberShip = MembershipCategories.Gold.name();
-        }
-        if(totalSpending > 25000000){
-            typeOfMemberShip = MembershipCategories.Platinum.name();
-        }
-        else{
-            typeOfMemberShip = "Trial";
-        }
-        return typeOfMemberShip;
-    }
-
-    public void login(String userName, String password) throws IOException {
-
+        this.id = 0;
     }
 
     public boolean verifyLogin(String userName, String password, String filePath, String delimiter){
@@ -154,6 +125,30 @@ public class Account{
             throw new RuntimeException(e);
         }
         return false;
+    }
+
+//    public String adNameLoginInput()throws IOException{
+//        AdminMenu menu = new AdminMenu();
+//        Scanner sc = new Scanner(System.in);
+//        System.out.print("Developer Name: ");
+//        String adName = sc.nextLine();
+//        if (!adName.equals("admin")){
+//            System.out.println("Developer Name is not available, please try again !!!");
+//            menu.adView();
+//        }
+//        return adName;
+//    }
+
+    public boolean verifyAdmin(String admin, String password){
+        String hPassword = this.hashing(password);
+        if (admin.equals("admin") && hPassword.equals("21232f297a57a5a743894a0e4a801fc3")){
+            return true;
+        }
+        return false;
+    }
+
+    public void login(String userName, String password){
+
     }
 
     public String userNameRegisterInput() throws IOException {
@@ -255,18 +250,6 @@ public class Account{
         return phoneNumber;
     }
 
-    public Long totalSpendingInput(){
-        Scanner sc = new Scanner(System.in);
-        System.out.print("Total spending: ");
-        Long totalSpending = sc.nextLong();
-
-        while(!this.validateNumber(totalSpending)){
-            System.out.println("Invalid number, try again !!!!");
-                System.out.print("Total spending: ");
-            totalSpending = sc.nextLong();
-        }
-        return totalSpending;
-    }
 
     public ArrayList<String> getAllUserName() throws IOException {
         File file = new File("users.txt");

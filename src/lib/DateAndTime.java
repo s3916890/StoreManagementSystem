@@ -14,8 +14,6 @@ public class DateAndTime {
 
         String day = formatter.format(today);
 
-        String currentTime = String.format("%s:%s (%s)", hour, minute, day);
-
-        return currentTime;
+        return String.format("%s:%s(%s)", hour, minute, day);
     }
 }

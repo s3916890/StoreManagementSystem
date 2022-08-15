@@ -1,10 +1,10 @@
 package lib.crud;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Read {
     public static ArrayList<String[]> readAllLine(String filePath) throws IOException {
@@ -22,8 +22,6 @@ public class Read {
             data = currentLine.split(",");
             products.add(data);
         }
-
-        products.remove(0);
 
         return products;
     }
@@ -45,8 +43,6 @@ public class Read {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
-        colData.remove(0);
 
         return colData.toArray(new String[0]);
     }
