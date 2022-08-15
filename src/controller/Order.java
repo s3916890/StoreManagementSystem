@@ -116,7 +116,7 @@ public class Order {
         Write.write("orders.txt", attributes, obj);
     }
 
-    public void searchOrder() throws IOException {
+    public void searchOrder() throws IOException, InterruptedException {
         String orderID = this.orderIDInput();
 
         String[] matchingResult = Read.getSpecificLine(orderID, 0, "orders.txt", ",");

@@ -15,10 +15,11 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 public class Menu {
     private boolean cookies = false;
-    public void view() throws IOException {
+    public void view() throws IOException, InterruptedException {
         System.out.println("\n================================================= WELCOME TO APPLE STORE MANAGEMENT SYSTEM !!! =================================================");
         System.out.println("""
                     1. Register
@@ -144,7 +145,7 @@ public class Menu {
         }
     }
 
-    public void viewHomepage(String userName) throws IOException {
+    public void viewHomepage(String userName) throws IOException, InterruptedException {
         System.out.println("\n================================================= Homepage  =================================================");
 
         System.out.println("""
@@ -500,6 +501,11 @@ public class Menu {
             }
             case "7" -> {
                 System.exit(1);
+            }
+            default -> {
+                System.out.println("Sorry, there is no match option. Please enter again");
+                TimeUnit.SECONDS.sleep(1);
+                this.viewHomepage(userName);
             }
         }
     }

@@ -85,7 +85,7 @@ public class Product {
 
     }
 
-    public void view() throws IOException {
+    public void view() throws IOException, InterruptedException {
         ArrayList<String[]> products = Read.readAllLine("products.txt");
 
         System.out.println("\n===================================================================== Available Products !!! =====================================================================");
@@ -110,7 +110,7 @@ public class Product {
         }
     }
 
-    public void viewDetailConfirmation() throws IOException {
+    public void viewDetailConfirmation() throws IOException, InterruptedException {
         System.out.println("\n===================================================================== Wish to show detailed ? !!! =====================================================================");
         System.out.println("""
                     1. Yes
@@ -127,7 +127,7 @@ public class Product {
         }
     }
 
-    public void viewMemberSearchingResult(String userCookies) throws IOException {
+    public void viewMemberSearchingResult(String userCookies) throws IOException, InterruptedException {
         String[] category = Read.readSpecificColumn(1, "products.txt", ",");
         Menu homepage = new Menu();
         category =  Arrays.stream(category).distinct().toArray(String[]::new);
@@ -178,7 +178,7 @@ public class Product {
         }
     }
 
-    public void viewUserSearchingResult() throws IOException {
+    public void viewUserSearchingResult() throws IOException, InterruptedException {
         String[] category = Read.readSpecificColumn(1, "products.txt", ",");
         Menu menu = new Menu();
         category =  Arrays.stream(category).distinct().toArray(String[]::new);

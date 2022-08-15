@@ -5,7 +5,7 @@ import view.Menu;
 import java.io.IOException;
 
 public class CheckVisitStatus {
-    public static void checkVisitOrExit() throws IOException {
+    public static void checkVisitOrExit() throws IOException, InterruptedException {
         System.out.println("\n===================================================================== Keep visiting or exit !!! =====================================================================");
         System.out.println("""
                     1. Visit

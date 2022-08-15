@@ -169,7 +169,7 @@ public class Account{
         return userName;
     }
 
-    public String userNameLoginInput() throws IOException {
+    public String userNameLoginInput() throws IOException, InterruptedException {
         Menu menu = new Menu();
         Scanner sc = new Scanner(System.in);
         System.out.print("Username: ");
@@ -275,7 +275,7 @@ public class Account{
 
     public void appendAttributesTitleToFile() throws IOException {
         File file = new File("users.txt");
-        String attributes = "ID,Username,Password,FullName,PhoneNumber,TotalSpending,TypeOfMemberShip,Date&Time";
+        String attributes = "ID,Username,Password,FullName,TotalSpending,PhoneNumber,TypeOfMemberShip,Date&Time";
         FileWriter csvFile = new FileWriter(file.getName(), true);
         BufferedReader reader = new BufferedReader(new FileReader(file.getName()));
 
