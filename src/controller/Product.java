@@ -183,8 +183,6 @@ public class Product {
         Menu menu = new Menu();
         category =  Arrays.stream(category).distinct().toArray(String[]::new);
 
-        System.out.println(Arrays.toString(category));
-
         String option= OptionInput.input();
 
         ArrayList<String[]> matchResult = new ArrayList<>(this.getMatchResult(category[0]).size());

@@ -118,14 +118,23 @@ public class Order {
 
     public void searchOrder() throws IOException, InterruptedException {
         String orderID = this.orderIDInput();
+        File file = new File("orders.txt");
 
-        String[] matchingResult = Read.getSpecificLine(orderID, 0, "orders.txt", ",");
+        if(!file.exists()){
+            file.createNewFile();
+        }
 
-        if(Arrays.toString(matchingResult).equals("[]")){
+        String[] matchingResult = Read.getSpecificLine(orderID, 0, file.getName(), ",");
+
+        BufferedReader br = new BufferedReader(new FileReader(file));
+
+        while(Arrays.toString(matchingResult).equals("[]")){
             System.out.println("Sorry, order was not found");
-            Menu menu  = new Menu();
-            String userName = Read.readAllLine("orders.txt").get(0)[1];
-            menu.viewHomepage(userName);
+            orderID = this.orderIDInput();
+
+            if(orderID.equals(matchingResult[0])){
+                break;
+            }
         }
 
         System.out.println("\nYour order history: ");

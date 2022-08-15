@@ -44,6 +44,8 @@ public class Read {
             throw new RuntimeException(e);
         }
 
+        colData.remove(0);
+
         return colData.toArray(new String[0]);
     }
 

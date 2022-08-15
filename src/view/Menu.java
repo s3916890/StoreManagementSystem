@@ -40,7 +40,7 @@ public class Menu {
             case "1" -> {
                 System.out.println("\n================================================= User Registration Form ==================================================");
                 user.register(user.userNameRegisterInput(), user.passwordRegisterInput(), user.fullNameInput(), user.phoneNumberInput());
-                System.out.println("Successfully Registering");
+                System.out.println("\nSuccessfully Registering");
                 menu.view();
             }
             case "2" -> {
@@ -61,11 +61,6 @@ public class Menu {
                 }
 
                 this.cookies = true;
-
-                String[] data = Read.getSpecificLine(user.getUserName(), 1, "users.txt", ",");
-                System.out.println("\nUsername: " + data[1] + ", \sFull name: " + data[3] + ", \sPhone-number: " + data[5]);
-                System.out.println("\nCookies (Login Status): "+ this.cookies);
-
                 this.viewHomepage(userName);
             }
             case "3" -> {
@@ -147,9 +142,11 @@ public class Menu {
 
     public void viewHomepage(String userName) throws IOException, InterruptedException {
         System.out.println("\n================================================= Homepage  =================================================");
-
+        System.out.println("\nCookie (Login Status): " + this.cookies);
+        String[] data = Read.getSpecificLine(userName, 1, "users.txt", ",");
+        System.out.println("\nUsername: " + data[1] + ", \sFull name: " + data[3] + ", \sPhone-number: " + data[5]);
         System.out.println("""
-                1. Create new order
+                \n1. Create new order
                 2. Search order
                 3. List all products.
                 4. Search the available product.
@@ -231,6 +228,10 @@ public class Menu {
                                 System.out.println("Order time: " + new DateAndTime().getDateAndTime());
                                 this.viewHomepage(userName);
                             }
+                            default -> {
+                                System.out.println("Sorry, the item was not found");
+                                this.viewHomepage(userName);
+                            }
                         }
                     }
                     case "2" -> {
@@ -273,6 +274,10 @@ public class Menu {
                                 System.out.println("Order time: " + new DateAndTime().getDateAndTime());
                                 this.viewHomepage(userName);
                             }
+                            default -> {
+                                System.out.println("Sorry, the item was not found");
+                                this.viewHomepage(userName);
+                            }
                         }
                     }
                     case "3" -> {
@@ -302,6 +307,10 @@ public class Menu {
                                 System.out.println("Category: " + productOptions.get(8)[1]);
                                 System.out.println("Price: " + productOptions.get(8)[4] + " VND");
                                 System.out.println("Order time: " + new DateAndTime().getDateAndTime());
+                                this.viewHomepage(userName);
+                            }
+                            default -> {
+                                System.out.println("Sorry, the item was not found");
                                 this.viewHomepage(userName);
                             }
                         }
@@ -345,6 +354,10 @@ public class Menu {
                                 System.out.println("Order time: " + new DateAndTime().getDateAndTime());
                                 this.viewHomepage(userName);
                             }
+                            default -> {
+                                System.out.println("Sorry, the item was not found");
+                                this.viewHomepage(userName);
+                            }
                         }
                     }
                     case "5" -> {
@@ -386,6 +399,10 @@ public class Menu {
                                 System.out.println("Order time: " + new DateAndTime().getDateAndTime());
                                 this.viewHomepage(userName);
                             }
+                            default -> {
+                                System.out.println("Sorry, the item was not found");
+                                this.viewHomepage(userName);
+                            }
                         }
                     }
                     case "6" -> {
@@ -416,6 +433,10 @@ public class Menu {
                                 System.out.println("Category: " + productOptions.get(16)[1]);
                                 System.out.println("Price: " + productOptions.get(16)[4] + " VND");
                                 System.out.println("Order time: " + new DateAndTime().getDateAndTime());
+                                this.viewHomepage(userName);
+                            }
+                            default -> {
+                                System.out.println("Sorry, the item was not found");
                                 this.viewHomepage(userName);
                             }
                         }
