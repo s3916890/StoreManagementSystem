@@ -118,7 +118,7 @@ public class Product {
             }
         }
     }
-
+//so does member searching result will differ from foreign user search?
     public void viewMemberSearchingResult(String userCookies) throws IOException, InterruptedException {
         String[] category = Read.readSpecificColumn(1, "products.txt", ",");
         Menu homepage = new Menu();
@@ -169,7 +169,7 @@ public class Product {
             }
         }
     }
-
+//So how does the system validate if a user is alr a member or not?Is there a code for validtiong this
     public void viewUserSearchingResult() throws IOException, InterruptedException {
         String[] category = Read.readSpecificColumn(1, "products.txt", ",");
         Menu menu = new Menu();
@@ -217,7 +217,7 @@ public class Product {
             }
         }
     }
-
+//I think the order of this part of the code should be put before the mebersearh and user search
     public ArrayList<String[]> getMatchResult(String data) throws IOException {
         String[] category = Read.readSpecificColumn(1, "products.txt", ",");
         String[] productsName = Read.readSpecificColumn(2, "products.txt", ",");
