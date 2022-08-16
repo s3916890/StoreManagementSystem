@@ -160,12 +160,12 @@ public class Product {
         }
 
         if(matchResult.size() > 0){
-            System.out.println("\n===================================================================== Available Searching Products !!! =====================================================================");
-            System.out.printf("%30s %30s %40s %25s %40s%n", "Item", "|", "Color", "|", "Price($)");
-            System.out.printf("%s%n", "----------------------------------------------------------------------------------------------------------------------------------------------------------");
+            System.out.println("\n=============================================================== Available Searching Products !!! =====================================================================");
+            System.out.printf("\n%27s %40s %40s", "Item", "Color", "Price($)");
+            System.out.println("\n----------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
 
             for(int i = 0; i < matchResult.size(); i++){
-                System.out.printf("%30s %25s %10s %25s %10s%n",matchResult.get(i)[2], "|", matchResult.get(i)[3], "|",matchResult.get(i)[4]);
+                System.out.printf("\n%30s %40s %36s VND\n",matchResult.get(i)[2], matchResult.get(i)[3], matchResult.get(i)[4]);
             }
         }
     }
