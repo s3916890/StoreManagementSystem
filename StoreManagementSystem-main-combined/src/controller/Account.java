@@ -1,11 +1,8 @@
 package controller;
 
-import lib.crud.CreateFileTxt;
-import lib.crud.Read;
+import  lib.crud.Read;
 import lib.DateAndTime;
 
-import lib.crud.Write;
-import view.AdminMenu;
 import view.Menu;
 
 import java.io.*;
@@ -129,10 +126,7 @@ public class Account{
     }
     public boolean verifyAdmin(String admin, String password){
         String hPassword = this.hashing(password);
-        if (admin.equals("admin") && hPassword.equals("21232f297a57a5a743894a0e4a801fc3")){
-            return true;
-        }
-        return false;
+        return admin.equals("admin") && hPassword.equals("21232f297a57a5a743894a0e4a801fc3");
     }
 
     public boolean verifyLogin(String userName, String password, String filePath, String delimiter){
@@ -172,7 +166,7 @@ public class Account{
     }
 
     public String adNameLoginInput()throws IOException{
-        AdminMenu menu = new AdminMenu();
+        Menu menu = new Menu();
         Scanner sc = new Scanner(System.in);
         System.out.print("Developer Name: ");
         String adName = sc.nextLine();
