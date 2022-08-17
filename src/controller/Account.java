@@ -3,6 +3,7 @@ package controller;
 import lib.crud.Read;
 import lib.DateAndTime;
 
+import view.AdminMenu;
 import view.Menu;
 
 import java.io.*;
@@ -126,17 +127,17 @@ public class Account{
         return false;
     }
 
-//    public String adNameLoginInput()throws IOException{
-//        AdminMenu menu = new AdminMenu();
-//        Scanner sc = new Scanner(System.in);
-//        System.out.print("Developer Name: ");
-//        String adName = sc.nextLine();
-//        if (!adName.equals("admin")){
-//            System.out.println("Developer Name is not available, please try again !!!");
-//            menu.adView();
-//        }
-//        return adName;
-//    }
+    public String adNameLoginInput() throws IOException, InterruptedException {
+        AdminMenu menu = new AdminMenu();
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Developer Name: ");
+        String adName = sc.nextLine();
+        if (!adName.equals("admin")){
+            System.out.println("Developer Name is not available, please try again !!!");
+            menu.adView();
+        }
+        return adName;
+    }
 
     public boolean verifyAdmin(String admin, String password){
         String hPassword = this.hashing(password);
@@ -284,7 +285,7 @@ public class Account{
         csvFile.close();
     }
 
-    public ArrayList<String> getAllFullName(){
+    public ArrayList<String> getAllFullName() throws IOException {
         String[] readFullName = Read.readSpecificColumn(3, "users.txt", ",");
         ArrayList<String> checkFullName = new ArrayList<>();
 
@@ -298,7 +299,7 @@ public class Account{
         return checkFullName;
     }
 
-    public ArrayList<String> getAllPhoneNumber(){
+    public ArrayList<String> getAllPhoneNumber() throws IOException {
         String[] readPhoneNumber = Read.readSpecificColumn(4, "users.txt", ",");
         ArrayList<String> checkPhoneNumber = new ArrayList<>();
 

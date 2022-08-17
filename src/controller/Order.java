@@ -112,21 +112,12 @@ public class Order {
             lines++;
         }
 
+        br.close();
+
         String obj = detail(this.id, user, product).toString();
         String[] castObj = obj.split(",");
         orderInfo.add(obj);
         Write.write("orders.txt", attributes, obj);
-
-//        System.out.println("\n");
-//        System.out.println("\s\s\s\s\s\s\s\s\s\s\s\sOrder Payment Invoice");
-//        System.out.println("Order ID: " + castObj[0]);
-//        System.out.println("Username: " + castObj[1]);
-//        System.out.println("Item: " + castObj[2]);
-//        System.out.println("Color: " + castObj[3]);
-//        System.out.println("Order Price: " + castObj[4] + " VND");
-//        System.out.println("Total Payment: " + castObj[6] + " VND");
-//        System.out.println("Membership: " + castObj[5]);
-//        System.out.println("Order Time: " + castObj[7]);
 
         System.out.println("\n===================================================================== Order Payment Invoice !!! ===========================================================================================");
         System.out. printf("\n%12s %14s %22s %27s %24s %24s %24s %20s", "OrderID", "Username", "Item", "Color", "Price(VND)", "TotalPayment", "Membership", "OrderTime");
