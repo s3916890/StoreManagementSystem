@@ -1,6 +1,7 @@
 package controller;
 
 import lib.DateAndTime;
+import lib.crud.CreateTable;
 import lib.crud.Read;
 import lib.crud.Write;
 import view.Menu;
@@ -16,7 +17,7 @@ public class Order {
     private Product product;
     private Date date;
     private long totalSpendingResult;
-    private ArrayList<String> orderInfo = new ArrayList<>();
+    private ArrayList<String[]> orderInfo = new ArrayList<>();
 
     public enum MembershipCategories{
         MEMBER,
@@ -63,7 +64,7 @@ public class Order {
         if(!file.exists()){
             file.createNewFile();
         }
-        BufferedReader reader = new BufferedReader(new FileReader(file.getName()));
+        BufferedReader reader = new BufferedReader(new FileReader("orders.txt"));
         String attributes = "orderID,userName,order,color,price,membership,totalPayment,orderTime";
         int lines = 0;
 
@@ -83,6 +84,7 @@ public class Order {
             while((currentLine = reader.readLine()) != null){
                 currentData = currentLine;
             }
+            reader.close();
             String[] data = currentData.split(",");
             long totalSpendingHistory = Long.parseLong(data[6]);
             totalSpendingHistory += paymentPrice;
@@ -112,21 +114,33 @@ public class Order {
             lines++;
         }
 
-        br.close();
 
         String obj = detail(this.id, user, product).toString();
-        String[] castObj = obj.split(",");
-        orderInfo.add(obj);
+
         Write.write("orders.txt", attributes, obj);
 
-        System.out.println("\n===================================================================== Order Payment Invoice !!! ===========================================================================================");
-        System.out. printf("\n%12s %14s %22s %27s %24s %24s %24s %20s", "OrderID", "Username", "Item", "Color", "Price(VND)", "TotalPayment", "Membership", "OrderTime");
-        System.out.println();
-        System.out.println("\n============================================================================================================================================================================================");
+        br.close();
+        String[] castObj = obj.split(",");
 
-        System.out.printf("\n%8s %18s %30s %20s %20s VND %21s VND %23s %24s", castObj[0], castObj[1], castObj[2], castObj[3], castObj[4], castObj[6], castObj[5], castObj[7]);
-        System.out.println();
-        System.out.println("\n===========================================================================================================================================================================================");
+        orderHistory.add(castObj);
+
+        System.out.println("\n\s\s\s\s\s\s\s\s\s\s\sOrder Database for username " + user.getName());
+
+        CreateTable.setShowVerticalLines(true);
+        CreateTable.setHeaders("OrderID", "Username", "Item", "Color", "Price(VND)", "TotalPayment", "Membership", "OrderTime");
+
+        for(String[] order: orderHistory){
+            CreateTable.addRow(
+                    order[0],
+                    order[1],
+                    order[2],
+                    order[3],
+                    order[4],
+                    order[6],
+                    order[5],
+                    order[7]);
+        }
+        CreateTable.render();
 
     }
 
@@ -136,6 +150,7 @@ public class Order {
 
         if(!file.exists()){
             file.createNewFile();
+            System.out.println("Sorry, the database was not found");
         }
 
         String[] orderIDs = Read.readSpecificColumn(0, file.getName(), ",");
@@ -154,14 +169,24 @@ public class Order {
         String[] matchingResult = Read.getSpecificLine(orderID, 0, file.getName(), ",");
 
         System.out.println("\n");
-        System.out.println("\s\s\s\s\s\s\s\s\s\s\s\sYour order history");
-        System.out.println("Order ID: " + matchingResult[0]);
-        System.out.println("Username: " + matchingResult[1]);
-        System.out.println("Order name: " + matchingResult[2]);
-        System.out.println("Color: " + matchingResult[3]);
-        System.out.println("Price: " + matchingResult[4] + " VND");
-        System.out.println("Total payment: " + matchingResult[5] + " VND");
-        System.out.println("Order time: " + matchingResult[7]);
+//        System.out.println("\s\s\s\s\s\s\s\s\s\s\s\sYour order history");
+//        System.out.println("Order ID: " + matchingResult[0]);
+//        System.out.println("Username: " + matchingResult[1]);
+//        System.out.println("Order name: " + matchingResult[2]);
+//        System.out.println("Color: " + matchingResult[3]);
+//        System.out.println("Price: " + matchingResult[4] + " VND");
+//        System.out.println("Total payment: " + matchingResult[6] + " VND");
+//        System.out.println("Order time: " + matchingResult[7]);
+
+        System.out.println("\n\s\s\s\s\s\s\s\s\s\s\sSearching Order History");
+
+        CreateTable.setShowVerticalLines(true);
+        // orderID,userName,order,color,price,membership,totalPayment,orderTime
+        CreateTable.setHeaders("OrderID", "Username", "Item", "Color", "Price(VND)", "Membership", "TotalPayment", "OrderTime");
+
+        CreateTable.addRow(matchingResult[0],matchingResult[1], matchingResult[2], matchingResult[3], matchingResult[4], matchingResult[6], matchingResult[5], matchingResult[7]);
+        CreateTable.render();
+
     }
 
     public String orderIDInput(){
@@ -220,7 +245,7 @@ public class Order {
         return date;
     }
 
-    public ArrayList<String> getOrderInfo() {
+    public ArrayList<String[]> getOrderInfo() {
         return orderInfo;
     }
 

@@ -8,6 +8,7 @@ import controller.Product;
 import lib.CheckVisitStatus;
 import lib.OptionInput;
 import lib.algorithm.sort.ArrayListSorting;
+import lib.crud.CreateTable;
 import lib.crud.Read;
 
 import java.io.File;
@@ -97,13 +98,15 @@ public class Menu {
                         ArrayList<Long> priceASC = ArrayListSorting.sortAscending(prices);
                         priceASCLength = priceASC.size();
 
-                        for (int i = 0; i < priceASCLength; i++) {
+                        CreateTable.setShowVerticalLines(true);
+                        CreateTable.setHeaders("productID","Name", "Category", "Color", "Price(VND)");
+
+
+                        for(int i = 0; i < priceASCLength; i++){
                             String[] sortProductsASC = Read.getSpecificLine(Long.toString(priceASC.get(i)), 4, "products.txt", ",");
-                            System.out.println("\nName: " + sortProductsASC[2] +
-                                    ", Category: " + sortProductsASC[1] +
-                                    ", Color: " + sortProductsASC[3] +
-                                    ", Price: " + sortProductsASC[4] + " VND");
+                            CreateTable.addRow(sortProductsASC[0],sortProductsASC[2], sortProductsASC[1], sortProductsASC[3], sortProductsASC[4]);
                         }
+                        CreateTable.render();
 
                         menu.view();
                     }
@@ -112,13 +115,16 @@ public class Menu {
                         ArrayList<Long> priceDSC = ArrayListSorting.sortDescending(prices);
                         priceDSCLength = priceDSC.size();
 
-                        for (int i = 0; i < priceDSCLength; i++) {
+                        CreateTable.setShowVerticalLines(true);
+                        CreateTable.setHeaders("productID", "Name", "Category", "Color", "Price(VND)");
+
+
+                        for(int i = 0; i < priceDSCLength; i++){
                             String[] sortProductsDSC = Read.getSpecificLine(Long.toString(priceDSC.get(i)), 4, "products.txt", ",");
-                            System.out.println("\nName: " + sortProductsDSC[2] +
-                                    ", Category: " + sortProductsDSC[1] +
-                                    ", Color: " + sortProductsDSC[3] +
-                                    ", Price: " + sortProductsDSC[4] + " VND");
+                            CreateTable.addRow(sortProductsDSC[0], sortProductsDSC[2], sortProductsDSC[1], sortProductsDSC[3], sortProductsDSC[4]);
                         }
+
+                        CreateTable.render();
 
                         menu.view();
                     }
@@ -382,25 +388,35 @@ public class Menu {
                     case "1" -> {
                         ArrayList<Long> priceASC = ArrayListSorting.sortAscending(prices);
 
-                        for (int i = 0; i < priceASC.size(); i++) {
+                        int priceASCLength = priceASC.size();
+
+                        CreateTable.setShowVerticalLines(true);
+                        CreateTable.setHeaders("productID","Name", "Category", "Color", "Price(VND)");
+
+
+                        for(int i = 0; i < priceASCLength; i++){
                             String[] sortProductsASC = Read.getSpecificLine(Long.toString(priceASC.get(i)), 4, "products.txt", ",");
-                            System.out.println("\nName: " + sortProductsASC[2] +
-                                    ", Category: " + sortProductsASC[1] +
-                                    ", Color: " + sortProductsASC[3] +
-                                    ", Price: " + sortProductsASC[4] + " VND");
+                            CreateTable.addRow(sortProductsASC[0],sortProductsASC[2], sortProductsASC[1], sortProductsASC[3], sortProductsASC[4]);
                         }
+                        CreateTable.render();
+
                         this.viewHomepage(userName);
                     }
                     case "2" -> {
                         ArrayList<Long> priceDSC = ArrayListSorting.sortDescending(prices);
+                        int priceDSCLength = priceDSC.size();
 
-                        for(int i = 0; i < priceDSC.size(); i++) {
+                        CreateTable.setShowVerticalLines(true);
+                        CreateTable.setHeaders("productID", "Name", "Category", "Color", "Price(VND)");
+
+
+                        for(int i = 0; i < priceDSCLength; i++){
                             String[] sortProductsDSC = Read.getSpecificLine(Long.toString(priceDSC.get(i)), 4, "products.txt", ",");
-                            System.out.println("\nName: " + sortProductsDSC[2] +
-                                    ", Category: " + sortProductsDSC[1] +
-                                    ", Color: " + sortProductsDSC[3] +
-                                    ", Price: " + sortProductsDSC[4] + " VND");
+                            CreateTable.addRow(sortProductsDSC[0], sortProductsDSC[2], sortProductsDSC[1], sortProductsDSC[3], sortProductsDSC[4]);
                         }
+
+                        CreateTable.render();
+
                         this.viewHomepage(userName);
                     }
                     case "3" -> {
@@ -415,6 +431,7 @@ public class Menu {
                 this.cookies = false;
                 File file = new File("orders.txt");
                 file.delete();
+                System.out.println("Cookies (Login Status): " + this.cookies);
                 TimeUnit.SECONDS.sleep(1);
                 menu.view();
             }

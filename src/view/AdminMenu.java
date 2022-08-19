@@ -4,10 +4,14 @@ import controller.Account;
 import controller.AdminProduct;
 import controller.Product;
 import lib.OptionInput;
+import lib.crud.CreateTable;
 import lib.crud.Read;
 
 import java.io.IOException;
+import java.sql.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Scanner;
 
 public class AdminMenu {
     public void view() throws IOException, InterruptedException {
@@ -99,31 +103,59 @@ public class AdminMenu {
         Menu menu = new Menu();
         AdminProduct product = new AdminProduct();
         String option = OptionInput.input();
+        ArrayList<String[]> user = Read.readAllLine("users.txt");
+        ArrayList<String[]> allProducts = Read.readAllLine("products.txt");
 
         switch (option) {
             case "1" -> {
-                ArrayList<String[]> user = Read.readAllLine("users.txt");
-
                 if(user.toString().equals("[]")){
-                    System.out.println("Sorry, the result was not found");
+                    System.out.println("Sorry, the user database does not exist");
                 }
 
                 else{
-                    for (String[] strings : user) {
-                        System.out.println("ID: " + strings[0] + "\nUserName: " + strings[1] + "\nFull name: " + strings[3] + "\nPhone number: " + strings[4] + "\nTotal spending" + strings[5] + "\nType of membership: " + strings[6]);
-                        System.out.println("");
+                    CreateTable.setShowVerticalLines(true);
+                    CreateTable.setHeaders("ID","Username","FullName","TotalSpending","PhoneNumber","registerTime");
+
+                    for (int i = 0; i < user.size(); i++) {
+                        CreateTable.addRow(user.get(i)[0], user.get(i)[1],user.get(i)[3],user.get(i)[4],user.get(i)[5],user.get(i)[6]);
                     }
+
                 }
+                CreateTable.render();
+
+                CreateTable.setHeaders(new String[0]);
+                CreateTable.setRows(new ArrayList<String[]>());
+
+
+                this.adSystem();
             }
             case "2" -> {
-                ArrayList<String[]> allProducts = Read.readAllLine("products.txt");
+                CreateTable.setShowVerticalLines(true);
+                CreateTable.setHeaders("productID","Category","Item","Color","Price");
                 for (String[] strings : allProducts) {
-                    System.out.println("ID: " + strings[0] + "\nCategory: " + strings[1] + "\nName: " + strings[2] + "\nColor: " + strings[3] + "\nPrice" + strings[4]);
-                    System.out.println("");
+                    CreateTable.addRow(strings[0],strings[1],strings[2],strings[3],strings[4]);
                 }
+                CreateTable.render();
+
+                CreateTable.setHeaders(new String[0]);
+                CreateTable.setRows(new ArrayList<String[]>());
+                this.adSystem();
+            }
+            case "3" -> {
+                Scanner sc = new Scanner(System.in);
+                System.out.print("\nEnter the position that you want to update/modify: ");
+                int position = sc.nextInt();
+                System.out.print("\nEnter the new price that you want to update/modify: ");
+                long newPrice = sc.nextLong();
+
+                AdminProduct adminProduct = new AdminProduct();
+
+                adminProduct.updatePrice(position, "products.txt", newPrice);
+                this.adSystem();
             }
             case "4" -> {
                 product.addProduct(product.categoryInput(), product.productNameInput(), product.colorInput(), product.priceInput());
+                this.adSystem();
             }
             case "5" -> {
                 this.adView();

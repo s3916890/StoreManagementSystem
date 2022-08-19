@@ -2,6 +2,7 @@ package controller;
 
 import lib.OptionInput;
 import lib.algorithm.search.BoyerMoore;
+import lib.crud.CreateTable;
 import lib.crud.Read;
 import view.Menu;
 
@@ -81,12 +82,18 @@ public class Product {
         ArrayList<String[]> products = Read.readAllLine("products.txt");
 
         System.out.println("\n===================================================================== Available Products !!! =====================================================================");
-        System.out.printf("\n%30s %65s", "Item", "Price(VND)");
-        System.out.printf("\n%s%n", "-----------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+        CreateTable.setShowVerticalLines(true);
+        CreateTable.setHeaders("Item", "Price(VND)");
 
         for(int i = 0; i < products.size() - 1; i++) {
-            System.out.printf("\n%40s %51s VND",products.get(i)[2], products.get(i)[4]);
+            CreateTable.addRow(products.get(i)[2], products.get(i)[4]);
         }
+
+        System.out.println();
+        CreateTable.render();
+
+        CreateTable.setHeaders(new String[0]);
+        CreateTable.setRows(new ArrayList<String[]>());
 
         this.viewDetailConfirmation();
     }
@@ -94,12 +101,17 @@ public class Product {
     public void viewDetailed() throws IOException {
         ArrayList<String[]> products = Read.readAllLine("products.txt");
         System.out.println("\n===================================================================== Show Detail Available Products !!! =====================================================================");
-        System.out.printf("\n%16s %34s %46s %44s", "ProductID", "Item", "Color", "Price(VND)");
-        System.out.printf("\n%s%n", "-----------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+        CreateTable.setHeaders("ProductID", "Item", "Color", "Price(VND)");
 
         for (int i = 0; i < products.size(); i++) {
-            System.out.printf("\n%12s %50s %34s %40s VND", products.get(i)[0], products.get(i)[2], products.get(i)[3], products.get(i)[4]);
+            CreateTable.addRow(products.get(i)[0], products.get(i)[2], products.get(i)[3], products.get(i)[4]);
         }
+
+        System.out.println();
+        CreateTable.render();
+
+        CreateTable.setHeaders(new String[0]);
+        CreateTable.setRows(new ArrayList<String[]>());
     }
 
     public void viewDetailConfirmation() throws IOException, InterruptedException {
@@ -160,12 +172,17 @@ public class Product {
 
         if(matchResult.size() > 0){
             System.out.println("\n=============================================================== Available Searching Products !!! =====================================================================");
-            System.out.printf("\n%27s %40s %40s", "Item", "Color", "Price($)");
-            System.out.println("\n----------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+            CreateTable.setShowVerticalLines(true);
+            CreateTable.setHeaders("productID","Item","Color","Price(VND)");
 
             for(int i = 0; i < matchResult.size(); i++){
-                System.out.printf("\n%30s %40s %36s VND\n",matchResult.get(i)[2], matchResult.get(i)[3], matchResult.get(i)[4]);
+                CreateTable.addRow(matchResult.get(i)[0],matchResult.get(i)[2],matchResult.get(i)[3],matchResult.get(i)[4]);
             }
+            System.out.println();
+            CreateTable.render();
+
+            CreateTable.setHeaders(new String[0]);
+            CreateTable.setRows(new ArrayList<String[]>());
         }
     }
     public void viewUserSearchingResult() throws IOException, InterruptedException {
@@ -207,12 +224,17 @@ public class Product {
 
         if(matchResult.size() > 0){
             System.out.println("\n===================================================================== Available Searching Products !!! =====================================================================");
-            System.out.printf("%30s %30s %40s %25s %40s%n", "Item", "|", "Color", "|", "Price($)");
-            System.out.printf("%s%n", "----------------------------------------------------------------------------------------------------------------------------------------------------------");
+            CreateTable.setShowVerticalLines(true);
+            CreateTable.setHeaders("productID","Item","Color","Price(VND)");
 
             for(int i = 0; i < matchResult.size(); i++){
-                System.out.printf("%30s %25s %10s %25s %10s%n",matchResult.get(i)[2], "|", matchResult.get(i)[3], "|",matchResult.get(i)[4]);
+                CreateTable.addRow(matchResult.get(i)[0],matchResult.get(i)[2],matchResult.get(i)[3],matchResult.get(i)[4]);
             }
+            System.out.println();
+            CreateTable.render();
+
+            CreateTable.setHeaders(new String[0]);
+            CreateTable.setRows(new ArrayList<String[]>());
         }
     }
     public ArrayList<String[]> getMatchResult(String data) throws IOException {

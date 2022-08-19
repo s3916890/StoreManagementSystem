@@ -63,13 +63,13 @@ public class AdminProduct {
 
         String obj = this.createObj(category, name, color, price);
 
-        Write.write(filePath, "\n", obj);
+        Write.write(filePath, "", obj);
     }
 
-    public void updatePrice(int position, String filePath, String newPrice) throws IOException {
+    public void updatePrice(int position, String filePath, long newPrice) throws IOException {
         ArrayList<String[]> database = Read.readAllLine("products.txt");
 
-        database.get(position - 1)[4] = newPrice;
+        database.get(position - 1)[3] = String.valueOf(newPrice);
 
         File file = new File(filePath);
         PrintWriter pw = new PrintWriter(file);
