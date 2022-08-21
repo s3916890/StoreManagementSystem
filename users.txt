@@ -1,3 +1,4 @@
 ID,Username,Password,FullName,TotalSpending,PhoneNumber,registerTime
 1,40.test,e8997d60e4498dfe198665fe8344abbd,Test,0,0909150472,14:50(19-08-2022)
 2,bourbon2710,e8997d60e4498dfe198665fe8344abbd,Bourbon,0,0909150472,14:51(19-08-2022)
+3,40.karma,e8997d60e4498dfe198665fe8344abbd,Phuc,0,0909150472,13:11(21-08-2022)

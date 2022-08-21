@@ -188,8 +188,8 @@ public class Menu {
                     case "1" -> {
                         System.out.println("\n================================================= Available Products !!! =================================================");
                         System.out.println("""
-                                1. Category: laptop, Name: Macbook Pro 13 inch Retina 2015, Color: silver, Price: 17900000
-                                2. Category: laptop, Name: Macbook Pro 16 inch Late 2013, Color: space gray, Price: 19900000
+                                1. Category: laptop, Name: Macbook Pro 13 inch Retina 2015, Color: silver, Price: 25000000
+                                2. Category: laptop, Name: Macbook Pro 16 inch Late 2013, Color: space gray, Price: 24000000
                                 3. Category: laptop, Name: Macbook Pro 13 inch 2016, Color: gold, Price: 19900000
                                 4. Category: laptop, Name: Macbook Air 13 inch Retina 2020, Color: rose gold, Price: 21900000
                                 """);
@@ -300,7 +300,7 @@ public class Menu {
                         System.out.println("\n================================================= Available Products !!! =================================================");
                         System.out.println("""
                                 1. Category: iPad, Name: iPad Air 4 10 inch 2020 WiFi 256 GB, Color: pink, Price: 15999000
-                                2. Category: iPad, Name: iPad Pro 2021 12 inch Liquid Retina XDR display M1 chip, Color: silver, Price: 41999000
+                                2. Category: iPad, Name: iPad Pro 2021 12 inch Liq uid Retina XDR display M1 chip, Color: silver, Price: 41999000
                                 3. Category: iPad, Name: iPad mini 6 WiFi 64 GB 2020, Color: starlight, Price: 21890000
                                 """);
                         option = OptionInput.input();
@@ -327,7 +327,7 @@ public class Menu {
                         System.out.println("\n================================================= Available Products !!! =================================================");
                         System.out.println("""
                                 1. Category: desktop, Name: Apple iMac 27 inch 2020 Retina Core i7 512GB SSD, Color: silver, Price: 56999000
-                                2. Category: desktop, Name: Apple iMac 24 inch 2021 Retina M1 8 Core CPU 7 Core GPU 8GB 256GB SSD, Color: blue, Price: 56999000
+                                2. Category: desktop, Name: Apple iMac 24 inch 2021 Retina M1 8 Core CPU 7 Core GPU 8GB 256GB SSD, Color: blue, Price: 5000000
                                 """);
 
                         option = OptionInput.input();

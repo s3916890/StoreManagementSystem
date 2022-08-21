@@ -7,6 +7,7 @@ import lib.crud.Write;
 import view.Menu;
 
 import java.io.*;
+import java.lang.reflect.Member;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -16,7 +17,7 @@ public class Order {
     private Customer customer;
     private Product product;
     private Date date;
-    private long totalSpendingResult;
+    private long totalSpendingResult = 0;
     private ArrayList<String[]> orderInfo = new ArrayList<>();
 
     public enum MembershipCategories{
@@ -33,7 +34,7 @@ public class Order {
         this.id = id;
         this.customer = customer;
         this.product = goods;
-        this.totalSpendingResult = 0;
+        this.totalSpendingResult = totalSpendingResult;
 
         orderInfo = new ArrayList<>();
         date = new Date();
@@ -72,32 +73,33 @@ public class Order {
         long paymentPrice = product.getPrice();
 
         if (orderHistory.equals(new ArrayList<String[]>())){
+            System.out.println("Status order: " + orderHistory.equals(new ArrayList<String[]>()));
             String[] userInfo = Read.getSpecificLine(user.getName(), 1, "users.txt", ",");
-            long currentTotalSpending = Long.parseLong(userInfo[4]);
-            currentTotalSpending += paymentPrice;
-            this.totalSpendingResult = currentTotalSpending;
+//            long currentTotalSpending = Long.parseLong(userInfo[4]);
+            System.out.println("Current Total Spending before the first order: " + this.totalSpendingResult);
+            this.totalSpendingResult += paymentPrice;
+            System.out.println("Current Total Spending in the first order: " + this.totalSpendingResult);
+//            this.totalSpendingResult = currentTotalSpending;
+            System.out.println("Total spending result in the first order: " + this.totalSpendingResult);
+            this.setTotalSpendingResult(this.totalSpendingResult);
+            System.out.println("this.getTotalSpendingResult() = " + this.getTotalSpendingResult());
         }
-        else{
-            String currentLine = "";
-            String currentData = "";
-
-            while((currentLine = reader.readLine()) != null){
-                currentData = currentLine;
-            }
-            reader.close();
-            String[] data = currentData.split(",");
-            long totalSpendingHistory = Long.parseLong(data[6]);
-            totalSpendingHistory += paymentPrice;
-            this.totalSpendingResult = totalSpendingHistory;
+        else {
+            System.out.println("Status order: " + orderHistory.equals(new ArrayList<String[]>()));
+            this.setTotalSpendingResult(Long.parseLong(orderHistory.get(orderHistory.size() - 1)[6]));
+            this.totalSpendingResult = this.getTotalSpendingResult() + paymentPrice;
+            this.setTotalSpendingResult(this.totalSpendingResult);
         }
 
-        if(this.getTypeOfMemberShip(this.totalSpendingResult).equals(MembershipCategories.SILVER.name())){
+        System.out.println(this.getTotalSpendingResult());
+        System.out.println(this.getTypeOfMemberShip(this.getTotalSpendingResult()));
+        if(this.getTypeOfMemberShip(this.getTotalSpendingResult()).equals(MembershipCategories.SILVER.name())){
             this.totalSpendingResult = (long)(this.totalSpendingResult * (1 - 0.05));
         }
-        if(this.getTypeOfMemberShip(this.totalSpendingResult).equals(MembershipCategories.GOLD.name())){
+        if(this.getTypeOfMemberShip(this.getTotalSpendingResult()).equals(MembershipCategories.GOLD.name())){
             this.totalSpendingResult = (long)(this.totalSpendingResult * (1 - 0.1));
         }
-        if(this.getTypeOfMemberShip(this.totalSpendingResult).equals(MembershipCategories.PLATINUM.name())){
+        if(this.getTypeOfMemberShip(this.getTotalSpendingResult()).equals(MembershipCategories.PLATINUM.name())){
             this.totalSpendingResult = (long)(this.totalSpendingResult * (1 - 0.15));
         }
 
@@ -142,6 +144,8 @@ public class Order {
         }
         CreateTable.render();
 
+        CreateTable.setHeaders(new String[0]);
+        CreateTable.setRows(new ArrayList<String[]>());
     }
 
     public void searchOrder() throws IOException, InterruptedException {
@@ -169,24 +173,17 @@ public class Order {
         String[] matchingResult = Read.getSpecificLine(orderID, 0, file.getName(), ",");
 
         System.out.println("\n");
-//        System.out.println("\s\s\s\s\s\s\s\s\s\s\s\sYour order history");
-//        System.out.println("Order ID: " + matchingResult[0]);
-//        System.out.println("Username: " + matchingResult[1]);
-//        System.out.println("Order name: " + matchingResult[2]);
-//        System.out.println("Color: " + matchingResult[3]);
-//        System.out.println("Price: " + matchingResult[4] + " VND");
-//        System.out.println("Total payment: " + matchingResult[6] + " VND");
-//        System.out.println("Order time: " + matchingResult[7]);
 
         System.out.println("\n\s\s\s\s\s\s\s\s\s\s\sSearching Order History");
 
         CreateTable.setShowVerticalLines(true);
         // orderID,userName,order,color,price,membership,totalPayment,orderTime
         CreateTable.setHeaders("OrderID", "Username", "Item", "Color", "Price(VND)", "Membership", "TotalPayment", "OrderTime");
-
         CreateTable.addRow(matchingResult[0],matchingResult[1], matchingResult[2], matchingResult[3], matchingResult[4], matchingResult[6], matchingResult[5], matchingResult[7]);
         CreateTable.render();
 
+        CreateTable.setHeaders(new String[0]);
+        CreateTable.setRows(new ArrayList<String[]>());
     }
 
     public String orderIDInput(){
@@ -205,18 +202,24 @@ public class Order {
     public String getTypeOfMemberShip(long totalSpending){
         String typeOfMemberShip = "";
 
-        if (totalSpending > 5000000) {
-            typeOfMemberShip = MembershipCategories.SILVER.name();
+        while(true){
+            if (totalSpending > Long.parseLong("5000000") && totalSpending <= Long.parseLong("10000000")) {
+                typeOfMemberShip = MembershipCategories.SILVER.name();
+                break;
+            }
+            if(totalSpending > Long.parseLong("10000000") && totalSpending <= Long.parseLong("25000000")){
+                typeOfMemberShip = MembershipCategories.GOLD.name();
+                break;
+            }
+            if(totalSpending > Long.parseLong("25000000")){
+                typeOfMemberShip = MembershipCategories.PLATINUM.name();
+            }
+            else{
+                typeOfMemberShip = MembershipCategories.MEMBER.name();
+            }
+            break;
         }
-        if(totalSpending > 10000000){
-            typeOfMemberShip = MembershipCategories.GOLD.name();
-        }
-        if(totalSpending > 25000000){
-            typeOfMemberShip = MembershipCategories.PLATINUM.name();
-        }
-        else{
-            typeOfMemberShip = "Member";
-        }
+
         return typeOfMemberShip;
     }
 
@@ -247,6 +250,14 @@ public class Order {
 
     public ArrayList<String[]> getOrderInfo() {
         return orderInfo;
+    }
+
+    public long getTotalSpendingResult() {
+        return this.totalSpendingResult;
+    }
+
+    public void setTotalSpendingResult(long totalSpendingResult) {
+        this.totalSpendingResult = totalSpendingResult;
     }
 
     @Override

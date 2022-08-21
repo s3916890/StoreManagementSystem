@@ -2,7 +2,7 @@ ID,Category,Name,Color,Price
 1,laptop,Macbook Pro 13 inch Retina 2015,silver,25000000
 2,laptop,Macbook Pro 16 inch Late 2013,space gray,24000000
 3,laptop,Macbook Pro 13 inch 2016,gold,19900000
-4,laptop,Macbook Air 13 inch Retina 2020,rose gold,1999000
+4,laptop,Macbook Air 13 inch Retina 2020,rose gold,21900000
 5,iPhone,iPhone 13 mini 128 GBs,pink,21900000
 6,iPhone,iPhone 12 Pro Max 256 GBs,sky blue,38999000
 7,iPhone,iphone SE 64 GBs,black,18999000
