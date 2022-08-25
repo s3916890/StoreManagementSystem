@@ -18,7 +18,7 @@ public class Main {
         AdminMenu adminMenu = new AdminMenu();
 
 
-//        menu.view();
+        menu.view();
 //        adminMenu.view();
     }
 }
