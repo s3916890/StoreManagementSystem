@@ -3,3 +3,4 @@ orderID,userName,order,color,price,membership,totalPayment,orderTime
 2,40.karma,iPhone 13 mini 128 GBs,pink,21900000,PLATINUM,37740000,12:03(22-08-2022)
 3,40.karma,Apple watch series 3,space gray,5900000,PLATINUM,37094000,12:03(22-08-2022)
 4,40.karma,Macbook Pro 13 inch 2016,gold,19900000,PLATINUM,48444900,12:03(22-08-2022)
+5,40.karma,iPad Air 4,pink,15999000,PLATINUM,54777315,00:57(06-09-2022)
