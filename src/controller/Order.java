@@ -30,16 +30,6 @@ public class Order {
     public Order() {
     }
 
-    public Order(int id, Customer customer, Product goods, long totalSpendingResult) {
-        this.id = id;
-        this.customer = customer;
-        this.product = goods;
-        this.totalSpendingResult = totalSpendingResult;
-
-        orderInfo = new ArrayList<>();
-        date = new Date();
-    }
-
     public StringBuilder detail(int id, Customer customer, Product product) {
         return new StringBuilder()
                 .append(this.id)
@@ -74,15 +64,11 @@ public class Order {
 
         if (orderHistory.equals(new ArrayList<String[]>())){
             System.out.println("Status order: " + orderHistory.equals(new ArrayList<String[]>()));
-            String[] userInfo = Read.getSpecificLine(user.getName(), 1, "users.txt", ",");
-//            long currentTotalSpending = Long.parseLong(userInfo[4]);
             System.out.println("Current Total Spending before the first order: " + this.totalSpendingResult);
             this.totalSpendingResult += paymentPrice;
             System.out.println("Current Total Spending in the first order: " + this.totalSpendingResult);
-//            this.totalSpendingResult = currentTotalSpending;
             System.out.println("Total spending result in the first order: " + this.totalSpendingResult);
             this.setTotalSpendingResult(this.totalSpendingResult);
-            System.out.println("this.getTotalSpendingResult() = " + this.getTotalSpendingResult());
         }
         else {
             System.out.println("Status order: " + orderHistory.equals(new ArrayList<String[]>()));
@@ -91,8 +77,6 @@ public class Order {
             this.setTotalSpendingResult(this.totalSpendingResult);
         }
 
-        System.out.println(this.getTotalSpendingResult());
-        System.out.println(this.getTypeOfMemberShip(this.getTotalSpendingResult()));
         if(this.getTypeOfMemberShip(this.getTotalSpendingResult()).equals(MembershipCategories.SILVER.name())){
             this.totalSpendingResult = (long)(this.totalSpendingResult * (1 - 0.05));
         }
