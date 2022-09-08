@@ -39,7 +39,7 @@ public class AdminMenu {
                     isLogged = true;
                 } else {
                     System.out.println("Wrong password, try again bro !!!!");
-                    user.login(user.userNameLoginInput(), user.passwordLoginInput());
+                    user.loginAgain(user.userNameLoginInput(), user.passwordLoginInput());
                 }
                 System.out.println("Login Status: " + isLogged);
             }
@@ -78,7 +78,7 @@ public class AdminMenu {
                     this.adSystem();
                 } else {
                     System.out.println("The developer name is not available, please try again !!!");
-                    admin.login(admin.adNameLoginInput(), admin.passwordLoginInput());
+                    admin.loginAgain(admin.adNameLoginInput(), admin.passwordLoginInput());
                 }
                 System.out.println("Login Status: " + isLogged);
             }
