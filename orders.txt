@@ -1,3 +1,0 @@
-orderID,userName,order,color,price,membership,totalPayment,orderTime
-1,40.karma,Macbook Air 13 inch Retina 2020,rose gold,21900000,GOLD,19710000,14:08(06-09-2022)
-2,40.karma,Macbook Air 13 inch Retina 2020,rose gold,21900000,PLATINUM,35368500,14:08(06-09-2022)

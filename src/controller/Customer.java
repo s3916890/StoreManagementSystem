@@ -1,6 +1,6 @@
 package controller;
 
-public class Customer {
+public class Customer extends Account{
     private int id;
     private String name;
     private String phone;

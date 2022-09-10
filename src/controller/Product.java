@@ -83,7 +83,7 @@ public class Product {
 
         System.out.println("\n===================================================================== Available Products !!! =====================================================================");
         CreateTable.setShowVerticalLines(true);
-        CreateTable.setHeaders("Item", "Price(VND)");
+        CreateTable.setHeaders("ITEM", "PRICE(VND)");
 
         for(int i = 0; i < products.size() - 1; i++) {
             CreateTable.addRow(products.get(i)[2], products.get(i)[4]);
@@ -101,7 +101,7 @@ public class Product {
     public void viewDetailed() throws IOException {
         ArrayList<String[]> products = Read.readAllLine("products.txt");
         System.out.println("\n===================================================================== Show Detail Available Products !!! =====================================================================");
-        CreateTable.setHeaders("ProductID", "Item", "Color", "Price(VND)");
+        CreateTable.setHeaders("PRODUCT_ID", "ITEM", "COLOR", "PRICE(VND)");
 
         for (int i = 0; i < products.size(); i++) {
             CreateTable.addRow(products.get(i)[0], products.get(i)[2], products.get(i)[3], products.get(i)[4]);
@@ -173,7 +173,7 @@ public class Product {
         if(matchResult.size() > 0){
             System.out.println("\n=============================================================== Available Searching Products !!! =====================================================================");
             CreateTable.setShowVerticalLines(true);
-            CreateTable.setHeaders("productID","Item","Color","Price(VND)");
+            CreateTable.setHeaders("PRODUCT_ID","ITEM","COLOR","PRICE(VND)");
 
             for(int i = 0; i < matchResult.size(); i++){
                 CreateTable.addRow(matchResult.get(i)[0],matchResult.get(i)[2],matchResult.get(i)[3],matchResult.get(i)[4]);
@@ -225,7 +225,7 @@ public class Product {
         if(matchResult.size() > 0){
             System.out.println("\n===================================================================== Available Searching Products !!! =====================================================================");
             CreateTable.setShowVerticalLines(true);
-            CreateTable.setHeaders("productID","Item","Color","Price(VND)");
+            CreateTable.setHeaders("PRODUCT_ID","ITEM","COLOR","PRICE(VND)");
 
             for(int i = 0; i < matchResult.size(); i++){
                 CreateTable.addRow(matchResult.get(i)[0],matchResult.get(i)[2],matchResult.get(i)[3],matchResult.get(i)[4]);

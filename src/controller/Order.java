@@ -16,9 +16,7 @@ public class Order {
     private int id = 1;
     private Customer customer;
     private Product product;
-    private Date date;
     private long totalSpendingResult = 0;
-    private ArrayList<String[]> orderInfo = new ArrayList<>();
 
     public enum MembershipCategories{
         MEMBER,
@@ -34,36 +32,41 @@ public class Order {
         return new StringBuilder()
                 .append(this.id)
                 .append(",")
-                .append(customer.getName())
+                .append(customer.getId())
                 .append(",")
-                .append(product.getName())
-                .append(",")
-                .append(product.getColor())
-                .append(",")
-                .append(product.getPrice())
+                .append(product.getId())
                 .append(",")
                 .append(this.getTypeOfMemberShip(this.totalSpendingResult))
                 .append(",")
                 .append(this.totalSpendingResult)
                 .append(",")
-                .append(new DateAndTime().getDateAndTime());
+                .append(DateAndTime.getDateAndTime())
+                .append(",")
+                .append("SUCCESSFUL")
+                .append(",")
+                .append("DELIVERING");
     }
 
     public void createNewOrder(Customer user, Product product) throws IOException {
-        File file = new File("orders.txt");
+        File orderSession = new File("orderSession.txt");
+        File orderHistory = new File("ordersHistory.txt");
 
-        if(!file.exists()){
-            file.createNewFile();
+        if(!orderSession.exists()){
+            orderSession.createNewFile();
         }
-        BufferedReader reader = new BufferedReader(new FileReader("orders.txt"));
-        String attributes = "orderID,userName,order,color,price,membership,totalPayment,orderTime";
+
+        if(!orderHistory.exists()){
+            orderHistory.createNewFile();
+        }
+
+        String attributes = "ORDER_ID,CUSTOMER_ID, PRODUCT_ID,MEMBERSHIP,TOTAL_PAYMENT,TIMESTAMP,ORDER_STATUS,DELIVERY_STATUS";
         int lines = 0;
 
-        ArrayList<String[]> orderHistory = Read.readAllLine("orders.txt");
+        ArrayList<String[]> orderFetch = Read.readAllLine(orderSession.getName());
         long paymentPrice = product.getPrice();
 
-        if (orderHistory.equals(new ArrayList<String[]>())){
-            System.out.println("Status order: " + orderHistory.equals(new ArrayList<String[]>()));
+        if (orderFetch.equals(new ArrayList<String[]>())){
+            System.out.println("Status order: " + orderFetch.equals(new ArrayList<String[]>()));
             System.out.println("Current Total Spending before the first order: " + this.totalSpendingResult);
             this.totalSpendingResult += paymentPrice;
             System.out.println("Current Total Spending in the first order: " + this.totalSpendingResult);
@@ -71,8 +74,8 @@ public class Order {
             this.setTotalSpendingResult(this.totalSpendingResult);
         }
         else {
-            System.out.println("Status order: " + orderHistory.equals(new ArrayList<String[]>()));
-            this.setTotalSpendingResult(Long.parseLong(orderHistory.get(orderHistory.size() - 1)[6]));
+            System.out.println("Status order: " + orderFetch.equals(new ArrayList<String[]>()));
+            this.setTotalSpendingResult(Long.parseLong(orderFetch.get(orderFetch.size() - 1)[4]));
             this.totalSpendingResult = this.getTotalSpendingResult() + paymentPrice;
             this.setTotalSpendingResult(this.totalSpendingResult);
         }
@@ -87,7 +90,7 @@ public class Order {
             this.totalSpendingResult = (long)(this.totalSpendingResult * (1 - 0.15));
         }
 
-        BufferedReader br = new BufferedReader(new FileReader(file.getName()));
+        BufferedReader br = new BufferedReader(new FileReader(orderSession.getName()));
 
         while (br.readLine() != null){
             if(lines == 1){
@@ -103,33 +106,54 @@ public class Order {
 
         String obj = detail(this.id, user, product).toString();
 
-        Write.write("orders.txt", attributes, obj);
+        Write.write(orderSession.getName(), attributes, obj);
 
-        br.close();
         String[] castObj = obj.split(",");
 
-        orderHistory.add(castObj);
+        orderFetch.add(castObj);
 
         System.out.println("\n\s\s\s\s\s\s\s\s\s\s\sOrder Database for username " + user.getName());
 
         CreateTable.setShowVerticalLines(true);
-        CreateTable.setHeaders("OrderID", "Username", "Item", "Color", "Price(VND)", "TotalPayment", "Membership", "OrderTime");
+        CreateTable.setHeaders("ORDER_ID", "USER_ID", "PRODUCT_ID", "TOTAL_PAYMENT", "MEMBERSHIP", "TIMESTAMP", "ORDER_STATUS", "DELIVERY_STATUS");
 
-        for(String[] order: orderHistory){
+        for(String[] order: orderFetch){
             CreateTable.addRow(
                     order[0],
                     order[1],
                     order[2],
-                    order[3],
                     order[4],
-                    order[6],
+                    order[3],
                     order[5],
+                    order[6],
                     order[7]);
         }
         CreateTable.render();
 
         CreateTable.setHeaders(new String[0]);
         CreateTable.setRows(new ArrayList<String[]>());
+
+        this.id = 1;
+        lines = 0;
+
+        BufferedReader readOrdHistory = new BufferedReader(new FileReader(orderHistory.getName()));
+
+        while (readOrdHistory.readLine() != null){
+            if(lines == 1){
+                lines++;
+                this.id = lines;
+            }
+            else{
+                this.id++;
+            }
+            lines++;
+        }
+        String objOrderHistory = detail(this.id, user, product).toString();
+
+        Write.write(orderHistory.getName(), attributes, objOrderHistory);
+
+        br.close();
+
     }
 
     public void searchOrder() throws IOException, InterruptedException {
@@ -158,12 +182,11 @@ public class Order {
 
         System.out.println("\n");
 
-        System.out.println("\n\s\s\s\s\s\s\s\s\s\s\sSearching Order History");
+        System.out.println("\n\s\s\s\s\s\s\s\s\s\s\sOrder Searching");
 
         CreateTable.setShowVerticalLines(true);
-        // orderID,userName,order,color,price,membership,totalPayment,orderTime
-        CreateTable.setHeaders("OrderID", "Username", "Item", "Color", "Price(VND)", "Membership", "TotalPayment", "OrderTime");
-        CreateTable.addRow(matchingResult[0],matchingResult[1], matchingResult[2], matchingResult[3], matchingResult[4], matchingResult[6], matchingResult[5], matchingResult[7]);
+        CreateTable.setHeaders("ORDER_IO", "CUSTOMER_ID", "PRODUCT_ID", "TOTAL_PAYMENT", "MEMBERSHIP", "TIMESTAMP", "ORDER_STATUS", "DELIVERY_STATUS");
+        CreateTable.addRow(matchingResult[0],matchingResult[1], matchingResult[2], matchingResult[4], matchingResult[3], matchingResult[5], matchingResult[6]);
         CreateTable.render();
 
         CreateTable.setHeaders(new String[0]);
@@ -216,7 +239,7 @@ public class Order {
     }
 
 
-    public int getId() {
+    public int getID() {
         return id;
     }
 
@@ -228,14 +251,6 @@ public class Order {
         return product;
     }
 
-    public Date getDate() {
-        return date;
-    }
-
-    public ArrayList<String[]> getOrderInfo() {
-        return orderInfo;
-    }
-
     public long getTotalSpendingResult() {
         return this.totalSpendingResult;
     }
@@ -244,14 +259,7 @@ public class Order {
         this.totalSpendingResult = totalSpendingResult;
     }
 
-    @Override
-    public String toString() {
-        return "Order_2{" +
-                "id=" + id +
-                ", user=" + customer +
-                ", product=" + product +
-                ", date=" + date +
-                ", orderInfo=" + orderInfo +
-                '}';
+    public ArrayList<String[]> getAllOrders() throws IOException {
+        return Read.readAllLine("ordersHistory.txt");
     }
 }

@@ -63,13 +63,17 @@ public class AdminProduct {
 
         String obj = this.createObj(category, name, color, price);
 
-        Write.write(filePath, "", obj);
+        File file = new File(filePath);
+        FileWriter csvFile = new FileWriter(file, true);
+        csvFile.write(obj);
+        csvFile.flush();
+        csvFile.close();
     }
 
-    public void updatePrice(int position, String filePath, long newPrice) throws IOException {
+    public void updateProductPrice(int position, String filePath, long newPrice) throws IOException {
         ArrayList<String[]> database = Read.readAllLine("products.txt");
 
-        database.get(position - 1)[3] = String.valueOf(newPrice);
+        database.get(position - 1)[4] = String.valueOf(newPrice);
 
         File file = new File(filePath);
         PrintWriter pw = new PrintWriter(file);
@@ -80,7 +84,7 @@ public class AdminProduct {
         ArrayList<String[]> newDatabase = database;
 
         for(String[] obj : newDatabase){
-            Write.write(filePath, "ID,Category,Name,Color,Price", String.join(",", obj));
+            Write.write(filePath, "ID,CATEGORY,NAME,COLOR,PRICE", String.join(",", obj));
         }
     }
 
@@ -169,8 +173,8 @@ public class AdminProduct {
     }
 
     public void appendAttributesToFile() throws IOException {
-        File file = new File("products.txt.txt");
-        String attributes = "ID,Category,Name,Color,Price";
+        File file = new File("products.txt");
+        String attributes = "ID,CATEGORY,NAME,COLOR,PRICE";
         FileWriter csvFile = new FileWriter(file.getName(), true);
         BufferedReader reader = new BufferedReader(new FileReader(file.getName()));
 

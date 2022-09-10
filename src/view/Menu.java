@@ -6,6 +6,7 @@ import controller.Order;
 import controller.Product;
 
 import lib.CheckVisitStatus;
+import lib.DateAndTime;
 import lib.OptionInput;
 import lib.algorithm.sort.ArrayListSorting;
 import lib.crud.CreateTable;
@@ -38,11 +39,16 @@ public class Menu {
         switch (option) {
             case "1" -> {
                 System.out.println("\n================================================= User Registration Form ==================================================");
-                user.register(user.userNameRegisterInput(), user.passwordRegisterInput(), user.fullNameInput(), user.phoneNumberInput());
+                String userName = user.userNameRegisterInput(),
+                        password = user.passwordRegisterInput(),
+                        fullName = user.fullNameInput(),
+                        phoneNumber = user.phoneNumberInput();
+
+                user.register(userName, password, fullName, phoneNumber);
                 System.out.println("\nSuccessfully Registering");
-                menu.view();
+                this.viewHomepage(userName);
             }
-                                                                                // SIGN IN
+            // SIGN IN
             case "2" -> {
                 System.out.println("\n================================================= Member Login Form =================================================");
                 this.cookies = false;
@@ -68,7 +74,7 @@ public class Menu {
                 System.out.println("""
                     1. Laptop
                     2. Iphone
-                    3. Watch 
+                    3. Watch
                     4. Airpods
                     5. Ipad
                     6. Desktop
@@ -108,6 +114,9 @@ public class Menu {
                         }
                         CreateTable.render();
 
+                        CreateTable.setHeaders(new String[0]);
+                        CreateTable.setRows(new ArrayList<String[]>());
+
                         menu.view();
                     }
 
@@ -125,6 +134,9 @@ public class Menu {
                         }
 
                         CreateTable.render();
+
+                        CreateTable.setHeaders(new String[0]);
+                        CreateTable.setRows(new ArrayList<String[]>());
 
                         menu.view();
                     }
@@ -400,6 +412,9 @@ public class Menu {
                         }
                         CreateTable.render();
 
+                        CreateTable.setHeaders(new String[0]);
+                        CreateTable.setRows(new ArrayList<String[]>());
+
                         this.viewHomepage(userName);
                     }
                     case "2" -> {
@@ -417,6 +432,9 @@ public class Menu {
 
                         CreateTable.render();
 
+                        CreateTable.setHeaders(new String[0]);
+                        CreateTable.setRows(new ArrayList<String[]>());
+
                         this.viewHomepage(userName);
                     }
                     case "3" -> {
@@ -429,13 +447,17 @@ public class Menu {
             }
             case "6" -> {
                 this.cookies = false;
-                File file = new File("orders.txt");
-                file.delete();
+                System.out.println("Your order session is finished at " + DateAndTime.getDateAndTime());
+                File orderSession = new File("orderSession.txt");
+                orderSession.delete();
                 System.out.println("Cookies (Login Status): " + this.cookies);
                 TimeUnit.SECONDS.sleep(1);
                 menu.view();
             }
             case "7" -> {
+                System.out.println("Your order session is interrupted at " + DateAndTime.getDateAndTime() + ", the order transaction is stored in history");
+                File orderSession = new File("orderSession.txt");
+                orderSession.delete();
                 System.exit(1);
             }
             default -> {

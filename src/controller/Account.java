@@ -55,8 +55,8 @@ public class Account{
         }
 
         int totalSpending = 0;
-//        String typeOfMemberShip = getTypeOfMemberShip(totalSpending);
-        String registerTime = new DateAndTime().getDateAndTime();
+
+        String registerTime = DateAndTime.getDateAndTime();
 
         StringBuilder data = new StringBuilder("");
         data.append(Integer.toString(id))
@@ -92,6 +92,7 @@ public class Account{
 
             int dbLength = db.size();
 
+
             for(int i = 0; i < dbLength; i++){
                 // Check the duplicated of userName
                 if(!readUserNames.contains(userName)){
@@ -125,30 +126,6 @@ public class Account{
             throw new RuntimeException(e);
         }
         return false;
-    }
-
-    public String adNameLoginInput() throws IOException, InterruptedException {
-        AdminMenu menu = new AdminMenu();
-        Scanner sc = new Scanner(System.in);
-        System.out.print("Developer Name: ");
-        String adName = sc.nextLine();
-        if (!adName.equals("admin")){
-            System.out.println("Developer Name is not available, please try again !!!");
-            menu.adView();
-        }
-        return adName;
-    }
-
-    public boolean verifyAdmin(String admin, String password){
-        String hPassword = this.hashing(password);
-        if (admin.equals("admin") && hPassword.equals("21232f297a57a5a743894a0e4a801fc3")){
-            return true;
-        }
-        return false;
-    }
-
-    public void loginAgain(String userName, String password){
-
     }
 
     public String userNameRegisterInput() throws IOException {
@@ -273,7 +250,7 @@ public class Account{
 
     public void appendAttributesTitleToFile() throws IOException {
         File file = new File("users.txt");
-        String attributes = "ID,Username,Password,FullName,TotalSpending,PhoneNumber,registerTime";
+        String attributes = "ID,USERNAME,PASSWORD,FULL_NAME,INITIAL_SPENDING,PHONE_NUMBER,REGISTER_TIME";
         FileWriter csvFile = new FileWriter(file.getName(), true);
         BufferedReader reader = new BufferedReader(new FileReader(file.getName()));
 
@@ -357,3 +334,4 @@ public class Account{
         this.password = password;
     }
 }
+
