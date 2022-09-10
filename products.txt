@@ -1,5 +1,5 @@
 ID,CATEGORY,NAME,COLOR,PRICE
-1,laptop,Macbook Pro 13 inch Retina 2015,silver,23000000
+1,laptop,Macbook Pro 13 inch Retina 2015,silver,22000000
 2,laptop,Macbook Pro 16 inch Late 2013,space gray,24000000
 3,laptop,Macbook Pro 13 inch 2016,gold,19900000
 4,laptop,Macbook Air 13 inch Retina 2020,rose gold,21900000
@@ -16,3 +16,4 @@ ID,CATEGORY,NAME,COLOR,PRICE
 15,iPad,iPad mini 6,starlight,21890000
 16,desktop,Apple iMac 27 inch 2020 Retina core i7,silver,56999000
 17,desktop,Apple iMac 24 inch 2021 Retina M1,blue,5699900018,laptop,Macbook Pro 2090,silver,5000000
+18,haha,haha,haha,123456

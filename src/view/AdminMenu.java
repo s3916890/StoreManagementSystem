@@ -89,7 +89,6 @@ public class AdminMenu {
                 6. Change Order Status
                 7. Sign out""");
         Menu menu = new Menu();
-        AdminProduct product = new AdminProduct();
         Order allOrders = new Order();
         String option = OptionInput.input();
         ArrayList<String[]> user = Read.readAllLine("users.txt");
@@ -152,13 +151,11 @@ public class AdminMenu {
                 System.out.print("\nEnter the new order status that you want to update/modify: ");
                 long newPrice = sc.nextLong();
 
-                AdminProduct adminProduct = new AdminProduct();
-
-                adminProduct.updateProductPrice(position, "products.txt", newPrice);
+                new Admin().updateProductPrice(position, "products.txt", newPrice);
                 this.adSystem();
             }
             case "5" -> {
-                product.addProduct(product.categoryInput(), product.productNameInput(), product.colorInput(), product.priceInput());
+                new Admin().addProduct(new Admin().categoryInput(), new Admin().productNameInput(), new Admin().colorInput(), new Admin().priceInput());
                 this.adSystem();
             }
             case "6" -> {
@@ -169,9 +166,7 @@ public class AdminMenu {
                 sc.nextLine();
                 String newStatus = sc.nextLine();
 
-                AdminOrder adminOrder = new AdminOrder();
-
-                adminOrder.updateOrderStatus(position, "ordersHistory.txt", newStatus);
+                new Admin().updateOrderStatus(position, "ordersHistory.txt", newStatus);
                 this.adSystem();
             }
             case "7" -> {
