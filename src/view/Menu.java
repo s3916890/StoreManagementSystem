@@ -451,7 +451,6 @@ public class Menu {
                 File orderSession = new File("orderSession.txt");
                 orderSession.delete();
                 System.out.println("Cookies (Login Status): " + this.cookies);
-                TimeUnit.SECONDS.sleep(1);
                 menu.view();
             }
             case "7" -> {
