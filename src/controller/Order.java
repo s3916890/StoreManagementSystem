@@ -4,10 +4,8 @@ import lib.DateAndTime;
 import lib.crud.CreateTable;
 import lib.crud.Read;
 import lib.crud.Write;
-import view.Menu;
 
 import java.io.*;
-import java.lang.reflect.Member;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -29,6 +27,7 @@ public class Order {
     }
 
     public StringBuilder detail(int id, Customer customer, Product product) throws IOException {
+        // Access the userID by index and convert to integer
         customer.setId(Integer.parseInt(Read.getSpecificUserInfo(customer.getUserName(), 1, "users.txt", ",")[0]));
         return new StringBuilder()
                 .append(this.id)

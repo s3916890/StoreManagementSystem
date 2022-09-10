@@ -9,7 +9,11 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class AdminOrder {
+public class AdminOrder extends Order{
+    public AdminOrder() {
+        super();
+    }
+
     public void updateOrderStatus(int position, String filePath, String newStatus) throws IOException {
         ArrayList<String[]> database = Read.readAllLine("ordersHistory.txt");
         System.out.println(database.get(position - 1)[7]);

@@ -13,17 +13,9 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class AdminProduct {
-    private String category;
-    private String name;
-    private String color;
-    private Long price;
-
-    public AdminProduct(String category, String name, String color, Long price) {
-        this.category = category;
-        this.name = name;
-        this.color = color;
-        this.price = price;
+public class AdminProduct extends Product{
+    public AdminProduct(int id, String category, String name, String color, Long price) {
+        super(id, category, name, color, price);
     }
 
     private static int id  = 1;

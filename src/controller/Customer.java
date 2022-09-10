@@ -1,6 +1,8 @@
 package controller;
 
-public class Customer extends Account{
+import controller.Account;
+
+public class Customer extends Account {
 
     public Customer(){
     }
