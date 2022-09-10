@@ -308,7 +308,7 @@ public class Account{
 
     public boolean validateFullName(String fullName) {
         String CONFIG_RULE =
-                "^[A-Z][a-zA-Z]{3,}(?: [A-Z][a-zA-Z]*){0,2}$";
+                "^[a-zA-Z]{3,}(?: [a-zA-Z]+){0,2}$";
         Pattern pattern = Pattern.compile(CONFIG_RULE);
         Matcher matcher = pattern.matcher(fullName);
         return matcher.matches();
@@ -332,6 +332,14 @@ public class Account{
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }
 

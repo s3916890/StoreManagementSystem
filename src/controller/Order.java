@@ -28,7 +28,8 @@ public class Order {
     public Order() {
     }
 
-    public StringBuilder detail(int id, Customer customer, Product product) {
+    public StringBuilder detail(int id, Customer customer, Product product) throws IOException {
+        customer.setId(Integer.parseInt(Read.getSpecificUserInfo(customer.getUserName(), 1, "users.txt", ",")[0]));
         return new StringBuilder()
                 .append(this.id)
                 .append(",")
@@ -103,7 +104,6 @@ public class Order {
             lines++;
         }
 
-
         String obj = detail(this.id, user, product).toString();
 
         Write.write(orderSession.getName(), attributes, obj);
@@ -112,7 +112,7 @@ public class Order {
 
         orderFetch.add(castObj);
 
-        System.out.println("\n\s\s\s\s\s\s\s\s\s\s\sOrder Database for username " + user.getName());
+        System.out.println("\n\s\s\s\s\s\s\s\s\s\s\sOrder Database for username " + user.getUserName());
 
         CreateTable.setShowVerticalLines(true);
         CreateTable.setHeaders("ORDER_ID", "USER_ID", "PRODUCT_ID", "TOTAL_PAYMENT", "MEMBERSHIP", "TIMESTAMP", "ORDER_STATUS", "DELIVERY_STATUS");
@@ -158,7 +158,7 @@ public class Order {
 
     public void searchOrder() throws IOException, InterruptedException {
         String orderID = this.orderIDInput();
-        File file = new File("orders.txt");
+        File file = new File("ordersHistory.txt");
 
         if(!file.exists()){
             file.createNewFile();
@@ -186,7 +186,7 @@ public class Order {
 
         CreateTable.setShowVerticalLines(true);
         CreateTable.setHeaders("ORDER_IO", "CUSTOMER_ID", "PRODUCT_ID", "TOTAL_PAYMENT", "MEMBERSHIP", "TIMESTAMP", "ORDER_STATUS", "DELIVERY_STATUS");
-        CreateTable.addRow(matchingResult[0],matchingResult[1], matchingResult[2], matchingResult[4], matchingResult[3], matchingResult[5], matchingResult[6]);
+        CreateTable.addRow(matchingResult[0],matchingResult[1], matchingResult[2], matchingResult[4], matchingResult[3], matchingResult[5], matchingResult[6], matchingResult[7]);
         CreateTable.render();
 
         CreateTable.setHeaders(new String[0]);

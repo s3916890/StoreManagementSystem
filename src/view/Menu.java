@@ -105,7 +105,7 @@ public class Menu {
                         priceASCLength = priceASC.size();
 
                         CreateTable.setShowVerticalLines(true);
-                        CreateTable.setHeaders("productID","Name", "Category", "Color", "Price(VND)");
+                        CreateTable.setHeaders("PRODUCT_ID","NAME", "CATEGORY", "COLOR", "PRICE(VND)");
 
 
                         for(int i = 0; i < priceASCLength; i++){
@@ -125,7 +125,7 @@ public class Menu {
                         priceDSCLength = priceDSC.size();
 
                         CreateTable.setShowVerticalLines(true);
-                        CreateTable.setHeaders("productID", "Name", "Category", "Color", "Price(VND)");
+                        CreateTable.setHeaders("PRODUCT_ID", "NAME", "CATEGORY", "COLOR", "PRICE(VND)");
 
 
                         for(int i = 0; i < priceDSCLength; i++){
@@ -178,7 +178,7 @@ public class Menu {
         String option = OptionInput.input();
         String[] obj = Read.getSpecificUserInfo(userName, 1, "users.txt", ",");
         String[] productInfo = Read.getSpecificLine("Macbook Pro 13 inch Retina 2015", 2, "products.txt", ",");
-        Customer member = new Customer(Integer.parseInt(obj[0]), obj[1], obj[5]);
+        Customer member = new Customer(obj[1], obj[2], obj[3], obj[5]);
         Product product = new Product(Integer.parseInt(productInfo[0]), productInfo[1], productInfo[2], productInfo[3], Long.parseLong(productInfo[4]));;
         Menu menu = new Menu();
 
@@ -403,7 +403,7 @@ public class Menu {
                         int priceASCLength = priceASC.size();
 
                         CreateTable.setShowVerticalLines(true);
-                        CreateTable.setHeaders("productID","Name", "Category", "Color", "Price(VND)");
+                        CreateTable.setHeaders("PRODUCT_ID","NAME", "CATEGORY", "COLOR", "PRICE(VND)");
 
 
                         for(int i = 0; i < priceASCLength; i++){
@@ -422,7 +422,7 @@ public class Menu {
                         int priceDSCLength = priceDSC.size();
 
                         CreateTable.setShowVerticalLines(true);
-                        CreateTable.setHeaders("productID", "Name", "Category", "Color", "Price(VND)");
+                        CreateTable.setHeaders("PRODUCT_ID", "NAME", "CATEGORY", "COLOR", "PRICE(VND)");
 
 
                         for(int i = 0; i < priceDSCLength; i++){
