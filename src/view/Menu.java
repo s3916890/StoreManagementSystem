@@ -46,7 +46,7 @@ public class Menu {
 
                 user.register(userName, password, fullName, phoneNumber);
                 System.out.println("\nSuccessfully Registering");
-                this.viewHomepage(userName);
+                menu.view();
             }
             // SIGN IN
             case "2" -> {
