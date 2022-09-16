@@ -27,8 +27,10 @@ public class Menu {
                     3. List all products.
                     4. Search the available product.
                     5. Sort Products
-                    6. Exit""");
+                    6. Move back to authentication system.
+                    7. Exit""");
 
+        Authentication authentication = new Authentication();
         Menu menu = new Menu();
         String option = OptionInput.input();
         Account user = new Account();
@@ -148,8 +150,29 @@ public class Menu {
                     }
                 }
             }
-            case "6" -> {
+
+            case "6" -> authentication.view();
+
+            case "7" -> {
                 System.out.println("Thank you so much for using our system. See you soon !!!!");
+                System.out.println("""
+                        COSC2081 GROUP ASSIGNMENT\s
+                        STORE ORDER MANAGEMENT SYSTEM\s
+                        Instructor: Mr. Minh Vu\s
+                        Group: Group Name\s                           
+                        """);
+                CreateTable.setShowVerticalLines(true);
+                CreateTable.setHeaders("STUDENT_ID", "NAME");
+                CreateTable.addRow("s3916890", "Nguyen Phuc Loi");
+                CreateTable.addRow("s3916890", "Duong Tran My Linh");
+                CreateTable.addRow("s3916890", "Dang Hoang Anh Khoa");
+                CreateTable.addRow("s3916890", "Vu Quoc Gia Quan");
+
+                CreateTable.render();
+
+                CreateTable.setHeaders(new String[0]);
+                CreateTable.setRows(new ArrayList<String[]>());
+
                 System.exit(1);
             }
             default -> {

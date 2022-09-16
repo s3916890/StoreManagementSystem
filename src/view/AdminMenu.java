@@ -17,11 +17,12 @@ public class AdminMenu {
         System.out.println("""
                 1. Register
                 2. Developer only
-                3. Exit""");
+                3. Move back to the authentication system.
+                4. Exit""");
 
         Account user = new Account();
-        Menu menu = new Menu();
         String option = OptionInput.input();
+        Authentication authentication = new Authentication();
 
         switch (option) {
             case "1" -> {
@@ -31,7 +32,8 @@ public class AdminMenu {
             case "2" -> {
                 this.adView();
             }
-            case "3" -> {
+            case "3" -> authentication.view();
+            case "4" -> {
                 System.out.println("Thank you so much for using our system. See you soon !!!!");
                 System.exit(1);
             }
