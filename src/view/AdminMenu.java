@@ -88,7 +88,6 @@ public class AdminMenu {
                 5. Add new product
                 6. Change Order Status
                 7. Sign out""");
-        Menu menu = new Menu();
         Order allOrders = new Order();
         String option = OptionInput.input();
         ArrayList<String[]> user = Read.readAllLine("users.txt");
