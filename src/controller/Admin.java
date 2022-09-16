@@ -36,8 +36,6 @@ public class Admin extends Account {
 
     public void updateOrderStatus(int position, String filePath, String newStatus) throws IOException {
         ArrayList<String[]> database = Read.readAllLine("ordersHistory.txt");
-        System.out.println(database.get(position - 1)[7]);
-        System.out.println(newStatus);
         database.get(position - 1)[7] = String.valueOf(newStatus);
 
         File file = new File(filePath);
