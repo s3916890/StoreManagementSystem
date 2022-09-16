@@ -12,8 +12,6 @@ import java.util.regex.Pattern;
 
 public class Order {
     private int id = 1;
-    private Customer customer;
-    private Product product;
     private long totalSpendingResult = 0;
 
     public enum MembershipCategories{
@@ -66,11 +64,7 @@ public class Order {
         long paymentPrice = product.getPrice();
 
         if (orderFetch.equals(new ArrayList<String[]>())){
-            System.out.println("Status order: " + orderFetch.equals(new ArrayList<String[]>()));
-            System.out.println("Current Total Spending before the first order: " + this.totalSpendingResult);
             this.totalSpendingResult += paymentPrice;
-            System.out.println("Current Total Spending in the first order: " + this.totalSpendingResult);
-            System.out.println("Total spending result in the first order: " + this.totalSpendingResult);
             this.setTotalSpendingResult(this.totalSpendingResult);
         }
         else {
@@ -235,19 +229,6 @@ public class Order {
         Matcher matcher = pattern.matcher(number);
 
         return matcher.matches();
-    }
-
-
-    public int getID() {
-        return id;
-    }
-
-    public Customer getUser() {
-        return customer;
-    }
-
-    public Product getProduct() {
-        return product;
     }
 
     public long getTotalSpendingResult() {
