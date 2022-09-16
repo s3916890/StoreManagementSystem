@@ -30,7 +30,7 @@ public class Menu {
                     6. Move back to authentication system.
                     7. Exit""");
 
-        Authentication authentication = new Authentication();
+        Authentication authenticationComponent = new Authentication();
         Menu menu = new Menu();
         String option = OptionInput.input();
         Account user = new Account();
@@ -151,7 +151,7 @@ public class Menu {
                 }
             }
 
-            case "6" -> authentication.view();
+            case "6" -> authenticationComponent.view();
 
             case "7" -> {
                 System.out.println("Thank you so much for using our system. See you soon !!!!");

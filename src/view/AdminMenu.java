@@ -22,7 +22,7 @@ public class AdminMenu {
 
         Account user = new Account();
         String option = OptionInput.input();
-        Authentication authentication = new Authentication();
+        Authentication authenticationComponent = new Authentication();
 
         switch (option) {
             case "1" -> {
@@ -32,7 +32,7 @@ public class AdminMenu {
             case "2" -> {
                 this.adView();
             }
-            case "3" -> authentication.view();
+            case "3" -> authenticationComponent.view();
             case "4" -> {
                 System.out.println("Thank you so much for using our system. See you soon !!!!");
                 System.exit(1);
