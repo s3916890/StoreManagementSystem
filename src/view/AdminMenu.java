@@ -15,10 +15,9 @@ public class AdminMenu {
     public void view() throws IOException, InterruptedException {
         System.out.println("\n===================================================================== WELCOME TO APPLE STORE MANAGEMENT SYSTEM !!! =====================================================================");
         System.out.println("""
-                1. Register
-                2. Developer only
-                3. Move back to the authentication system.
-                4. Exit""");
+                1. Developer only
+                2. Move back to the authentication system.
+                3. Exit""");
 
         Account user = new Account();
         String option = OptionInput.input();
@@ -26,14 +25,10 @@ public class AdminMenu {
 
         switch (option) {
             case "1" -> {
-                user.register(user.userNameRegisterInput(), user.passwordRegisterInput(), user.fullNameInput(), user.phoneNumberInput());
-                this.view();
-            }
-            case "2" -> {
                 this.adView();
             }
-            case "3" -> authenticationComponent.view();
-            case "4" -> {
+            case "2" -> authenticationComponent.view();
+            case "3" -> {
                 System.out.println("Thank you so much for using our system. See you soon !!!!");
                 System.exit(1);
             }

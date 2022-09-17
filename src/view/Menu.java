@@ -166,8 +166,8 @@ public class Menu {
                 CreateTable.setHeaders("STUDENT_ID", "NAME");
                 CreateTable.addRow("s3916890", "Nguyen Phuc Loi");
                 CreateTable.addRow("s3916890", "Duong Tran My Linh");
-                CreateTable.addRow("s3916890", "Dang Hoang Anh Khoa");
-                CreateTable.addRow("s3916890", "Vu Quoc Gia Quan");
+                CreateTable.addRow("s3836606", "Dang Hoang Anh Khoa");
+                CreateTable.addRow("s3927120", "Vu Quoc Gia Quan");
 
                 CreateTable.render();
 
