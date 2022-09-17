@@ -168,14 +168,13 @@ public class Account{
         Scanner sc = new Scanner(System.in);
         System.out.print("Password (Must include 1 number, 1 uppercase, 1 lowercase, 8 to 20 character): ");
         String password = sc.nextLine();
-        String hashingPassword = this.hashing(password);
 
-        while(!this.validatePassword(password)){
+        while(!this.validatePassword(password)) {
             System.out.println("Invalid password, try again !!!!");
             System.out.print("Password: ");
             password = sc.nextLine();
         }
-        return hashingPassword;
+        return this.hashing(password);
     }
 
     public String passwordLoginInput(){
