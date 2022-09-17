@@ -105,7 +105,6 @@ public class Product {
             CreateTable.addRow(products.get(i)[0], products.get(i)[2], products.get(i)[3], products.get(i)[4]);
         }
 
-        System.out.println();
         CreateTable.render();
 
         CreateTable.setHeaders(new String[0]);
@@ -212,7 +211,6 @@ public class Product {
             for(int i = 0; i < matchResult.size(); i++){
                 CreateTable.addRow(matchResult.get(i)[0],matchResult.get(i)[2],matchResult.get(i)[3],matchResult.get(i)[4]);
             }
-            System.out.println();
             CreateTable.render();
 
             CreateTable.setHeaders(new String[0]);
