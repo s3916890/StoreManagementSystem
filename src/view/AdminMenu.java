@@ -103,10 +103,10 @@ public class AdminMenu {
 
                 else{
                     CreateTable.setShowVerticalLines(true);
-                    CreateTable.setHeaders("ID","USERNAME","FULL_NAME","INITIAL_SPENDING","PHONE_NUMBER","REGISTER_TIME");
+                    CreateTable.setHeaders("ID","USERNAME","FULL_NAME","INITIAL_SPENDING","PHONE_NUMBER","REGISTER_TIME","INITIAL_MEMBERSHIP");
 
                     for (int i = 0; i < user.size(); i++) {
-                        CreateTable.addRow(user.get(i)[0], user.get(i)[1],user.get(i)[3],user.get(i)[4],user.get(i)[5],user.get(i)[6]);
+                        CreateTable.addRow(user.get(i)[0], user.get(i)[1],user.get(i)[3],user.get(i)[4],user.get(i)[5],user.get(i)[6],user.get(i)[7]);
                     }
 
                 }

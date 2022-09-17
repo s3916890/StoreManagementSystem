@@ -393,7 +393,20 @@ public class Menu {
             }
             case "3" -> {
                 product.view();
-                this.viewHomepage(userName);
+                System.out.println("\n===================================================================== Wish to show detailed ? !!! =====================================================================");
+                System.out.println("""
+                    1. Yes
+                    2. No""");
+               option = OptionInput.input();
+                switch (option){
+                    case "1" -> {
+                        product.viewDetailed();
+                        this.viewHomepage(userName);
+                    }
+                    case "2" -> {
+                        this.viewHomepage(userName);
+                    }
+                }
             }
             case "4" -> {
                 System.out.println("\n================================================= Category Searching !!! =================================================");
@@ -490,4 +503,6 @@ public class Menu {
             }
         }
     }
+
+
 }

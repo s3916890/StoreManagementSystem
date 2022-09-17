@@ -71,7 +71,9 @@ public class Account{
                 .append(",")
                 .append(phoneNumber)
                 .append(",")
-                .append(registerTime);
+                .append(registerTime)
+                .append(",")
+                .append("MEMBER");
         String obj = data.toString();
         reader.close();
 
@@ -178,7 +180,7 @@ public class Account{
 
     public String passwordLoginInput(){
         Scanner sc = new Scanner(System.in);
-        System.out.print("Password: ");
+        System.out.print("Password (Must include 1 number, 1 uppercase, 1 lowercase, 8 to 20 character): ");
         String password = sc.nextLine();
         this.setPassword(password);
         return password;
@@ -250,7 +252,7 @@ public class Account{
 
     public void appendAttributesTitleToFile() throws IOException {
         File file = new File("users.txt");
-        String attributes = "ID,USERNAME,PASSWORD,FULL_NAME,INITIAL_SPENDING,PHONE_NUMBER,REGISTER_TIME";
+        String attributes = "ID,USERNAME,PASSWORD,FULL_NAME,INITIAL_SPENDING,PHONE_NUMBER,REGISTER_TIME, INITIAL_MEMBERSHIP";
         FileWriter csvFile = new FileWriter(file.getName(), true);
         BufferedReader reader = new BufferedReader(new FileReader(file.getName()));
 

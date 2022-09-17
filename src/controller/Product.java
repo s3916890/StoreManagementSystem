@@ -94,8 +94,6 @@ public class Product {
 
         CreateTable.setHeaders(new String[0]);
         CreateTable.setRows(new ArrayList<String[]>());
-
-        this.viewDetailConfirmation();
     }
 
     public void viewDetailed() throws IOException {
@@ -114,22 +112,6 @@ public class Product {
         CreateTable.setRows(new ArrayList<String[]>());
     }
 
-    public void viewDetailConfirmation() throws IOException, InterruptedException {
-        System.out.println("\n===================================================================== Wish to show detailed ? !!! =====================================================================");
-        System.out.println("""
-                    1. Yes
-                    2. No""");
-        String option = OptionInput.input();
-        switch (option){
-            case "1" -> {
-                this.viewDetailed();
-            }
-            case "2" -> {
-                Menu menu = new Menu();
-                menu.viewHomepage(new Customer().getUserName());
-            }
-        }
-    }
     public void viewMemberSearchingResult(String userCookies) throws IOException, InterruptedException {
         String[] category = Read.readSpecificColumn(1, "products.txt", ",");
         Menu homepage = new Menu();
