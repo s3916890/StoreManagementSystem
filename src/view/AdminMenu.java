@@ -120,7 +120,7 @@ public class AdminMenu {
             }
             case "2" -> {
                 CreateTable.setShowVerticalLines(true);
-                CreateTable.setHeaders("PRODUCT_ID","CATEGORY","ITEM","COLOR","PRICE");
+                CreateTable.setHeaders("PRODUCT_ID","CATEGORY","ITEM","COLOR","PRICE(VND)");
                 for (String[] strings : allProducts) {
                     CreateTable.addRow(strings[0],strings[1],strings[2],strings[3],strings[4]);
                 }

@@ -164,7 +164,7 @@ public class Account{
 
     public String passwordRegisterInput(){
         Scanner sc = new Scanner(System.in);
-        System.out.print("Password (At least 1 number, 1 uppercase, at least 8 to 20 character): ");
+        System.out.print("Password (Must include 1 number, 1 uppercase, 1 lowercase, 8 to 20 character): ");
         String password = sc.nextLine();
         String hashingPassword = this.hashing(password);
 

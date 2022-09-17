@@ -83,10 +83,10 @@ public class Product {
 
         System.out.println("\n===================================================================== Available Products !!! =====================================================================");
         CreateTable.setShowVerticalLines(true);
-        CreateTable.setHeaders("ITEM", "PRICE(VND)");
+        CreateTable.setHeaders("ITEM", "COLOR", "PRICE(VND)");
 
         for(int i = 0; i < products.size() - 1; i++) {
-            CreateTable.addRow(products.get(i)[2], products.get(i)[4]);
+            CreateTable.addRow(products.get(i)[2], products.get(i)[3], products.get(i)[4]);
         }
 
         System.out.println();
@@ -126,7 +126,7 @@ public class Product {
             }
             case "2" -> {
                 Menu menu = new Menu();
-                menu.view();
+                menu.viewHomepage(new Customer().getUserName());
             }
         }
     }

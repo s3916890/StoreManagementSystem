@@ -70,6 +70,7 @@ public class Menu {
                 Product products = new Product();
                 products.view();
                 CheckVisitStatus.checkVisitOrExit();
+
             }
             case "4" -> {
                 System.out.println("\n================================================= Category Searching !!! =================================================");
