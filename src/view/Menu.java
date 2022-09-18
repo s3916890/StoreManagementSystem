@@ -147,6 +147,25 @@ public class Menu {
                         menu.view();
                     }
                     case "4" -> {
+                        System.out.println("Thank you so much for using our system. See you soon !!!!");
+                        System.out.println("""
+                        \nCOSC2081 GROUP ASSIGNMENT\s
+                        STORE ORDER MANAGEMENT SYSTEM\s
+                        Instructor: Mr. Minh Vu\s
+                        Group: Group Name\s                           
+                        """);
+                        CreateTable.setShowVerticalLines(true);
+                        CreateTable.setHeaders("STUDENT_ID", "NAME");
+                        CreateTable.addRow("s3916890", "Nguyen Phuc Loi");
+                        CreateTable.addRow("s3938101", "Duong Tran My Linh");
+                        CreateTable.addRow("s3836606", "Dang Hoang Anh Khoa");
+                        CreateTable.addRow("s3927120", "Vu Quoc Gia Quan");
+
+                        CreateTable.render();
+
+                        CreateTable.setHeaders(new String[0]);
+                        CreateTable.setRows(new ArrayList<String[]>());
+
                         System.exit(1);
                     }
                 }
@@ -157,7 +176,7 @@ public class Menu {
             case "7" -> {
                 System.out.println("Thank you so much for using our system. See you soon !!!!");
                 System.out.println("""
-                        COSC2081 GROUP ASSIGNMENT\s
+                        \nCOSC2081 GROUP ASSIGNMENT\s
                         STORE ORDER MANAGEMENT SYSTEM\s
                         Instructor: Mr. Minh Vu\s
                         Group: Group Name\s                           
@@ -165,7 +184,7 @@ public class Menu {
                 CreateTable.setShowVerticalLines(true);
                 CreateTable.setHeaders("STUDENT_ID", "NAME");
                 CreateTable.addRow("s3916890", "Nguyen Phuc Loi");
-                CreateTable.addRow("s3916890", "Duong Tran My Linh");
+                CreateTable.addRow("s3938101", "Duong Tran My Linh");
                 CreateTable.addRow("s3836606", "Dang Hoang Anh Khoa");
                 CreateTable.addRow("s3927120", "Vu Quoc Gia Quan");
 
@@ -478,6 +497,25 @@ public class Menu {
                         menu.view();
                     }
                     case "4" -> {
+                        System.out.println("Thank you so much for using our system. See you soon !!!!");
+                        System.out.println("""
+                        \nCOSC2081 GROUP ASSIGNMENT\s
+                        STORE ORDER MANAGEMENT SYSTEM\s
+                        Instructor: Mr. Minh Vu\s
+                        Group: Group Name\s                           
+                        """);
+                        CreateTable.setShowVerticalLines(true);
+                        CreateTable.setHeaders("STUDENT_ID", "NAME");
+                        CreateTable.addRow("s3916890", "Nguyen Phuc Loi");
+                        CreateTable.addRow("s3938101", "Duong Tran My Linh");
+                        CreateTable.addRow("s3836606", "Dang Hoang Anh Khoa");
+                        CreateTable.addRow("s3927120", "Vu Quoc Gia Quan");
+
+                        CreateTable.render();
+
+                        CreateTable.setHeaders(new String[0]);
+                        CreateTable.setRows(new ArrayList<String[]>());
+
                         System.exit(1);
                     }
                 }
@@ -494,6 +532,25 @@ public class Menu {
                 System.out.println("Your order session is interrupted at " + DateAndTime.getDateAndTime() + ", the order transaction is stored in history");
                 File orderSession = new File("orderSession.txt");
                 orderSession.delete();
+                System.out.println("Thank you so much for using our system. See you soon !!!!");
+                System.out.println("""
+                        \nCOSC2081 GROUP ASSIGNMENT\s
+                        STORE ORDER MANAGEMENT SYSTEM\s
+                        Instructor: Mr. Minh Vu\s
+                        Group: Group Name\s                           
+                        """);
+                CreateTable.setShowVerticalLines(true);
+                CreateTable.setHeaders("STUDENT_ID", "NAME");
+                CreateTable.addRow("s3916890", "Nguyen Phuc Loi");
+                CreateTable.addRow("s3938101", "Duong Tran My Linh");
+                CreateTable.addRow("s3836606", "Dang Hoang Anh Khoa");
+                CreateTable.addRow("s3927120", "Vu Quoc Gia Quan");
+
+                CreateTable.render();
+
+                CreateTable.setHeaders(new String[0]);
+                CreateTable.setRows(new ArrayList<String[]>());
+
                 System.exit(1);
             }
             default -> {

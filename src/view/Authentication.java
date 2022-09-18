@@ -23,7 +23,7 @@ public class Authentication {
             case "3" -> {
                 System.out.println("Thank you so much for using our system. See you soon !!!!");
                 System.out.println("""
-                        COSC2081 GROUP ASSIGNMENT\s
+                        \nCOSC2081 GROUP ASSIGNMENT\s
                         STORE ORDER MANAGEMENT SYSTEM\s
                         Instructor: Mr. Minh Vu\s
                         Group: Group Name\s                           
@@ -31,9 +31,9 @@ public class Authentication {
                 CreateTable.setShowVerticalLines(true);
                 CreateTable.setHeaders("STUDENT_ID", "NAME");
                 CreateTable.addRow("s3916890", "Nguyen Phuc Loi");
-                CreateTable.addRow("s3916890", "Duong Tran My Linh");
-                CreateTable.addRow("s3916890", "Dang Hoang Anh Khoa");
-                CreateTable.addRow("s3916890", "Vu Quoc Gia Quan");
+                CreateTable.addRow("s3938101", "Duong Tran My Linh");
+                CreateTable.addRow("s3836606", "Dang Hoang Anh Khoa");
+                CreateTable.addRow("s3927120", "Vu Quoc Gia Quan");
 
                 CreateTable.render();
 
